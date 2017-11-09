@@ -1,7 +1,7 @@
 # Личный проект «YetiCave» 
 
 * Студент: [Вадим Корабельник](https://up.htmlacademy.ru/php/3/user/20008).
-* Наставник: `Неизвестно`.
+* Наставник: [Андрей Ратушный](https://htmlacademy.ru/profile/id446525).
 
 ---
 
