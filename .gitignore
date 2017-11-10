@@ -1,3 +1,7 @@
+# Deployment path
+deploy/
+
+# Other
 .DS_Store
 .idea
 Thumbs.db
