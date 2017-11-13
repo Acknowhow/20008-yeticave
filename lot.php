@@ -33,10 +33,10 @@ $bets = [
         <nav class="user-menu">
             <ul class="user-menu__list">
                 <li class="user-menu__item">
-                    <a href="">Регистрация</a>
+                    <a href="">регистрация</a>
                 </li>
                 <li class="user-menu__item">
-                    <a href="#">Вход</a>
+                    <a href="#">вход</a>
                 </li>
             </ul>
         </nav>
@@ -111,11 +111,13 @@ $bets = [
                     <h3>История ставок (<span>4</span>)</h3>
                     <!-- заполните эту таблицу данными из массива $bets-->
                     <table class="history__list">
+                      <? foreach ($bets as $bet => $value) :?>
                         <tr class="history__item">
-                            <td class="history__name"><!-- имя автора--></td>
-                            <td class="history__price"><!-- цена--> р</td>
-                            <td class="history__time"><!-- дата в человеческом формате--></td>
+                            <td class="history__name"><?=$value['name'] ?></td>
+                            <td class="history__price"><?=$value['price'] ?> р</td>
+                            <td class="history__time"><?=$value['ts'] ?></td>
                         </tr>
+                      <? endforeach; ?>
                     </table>
                 </div>
             </div>
