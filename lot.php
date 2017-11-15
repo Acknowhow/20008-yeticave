@@ -1,4 +1,5 @@
 <?php
+require 'functions.php';
 
 // ставки пользователей, которыми надо заполнить таблицу
 $bets = [
@@ -115,7 +116,7 @@ $bets = [
                         <tr class="history__item">
                             <td class="history__name"><?=$value['name'] ?></td>
                             <td class="history__price"><?=$value['price'] ?> р</td>
-                            <td class="history__time"><?=$value['ts'] ?></td>
+                            <td class="history__time"><?print(convertTimeStamp($value['ts'])) ?></td>
                         </tr>
                       <? endforeach; ?>
                     </table>
