@@ -2,9 +2,9 @@
 function convertTimeStamp($timeStamp) {
 
 // Elapsed timestamp
-$timeLapseStamp = floor(strtotime('now') - $timeStamp);
+$timeLapseStamp = strtotime('now') - $timeStamp;
 // Elapsed time in hours
-$timeLapseHours = $timeLapseStamp/3600;
+$timeLapseHours = round($timeLapseStamp/3600, 2);
 
 
 if($timeLapseHours < 1) {
