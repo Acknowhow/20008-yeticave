@@ -19,7 +19,7 @@ if($timeLapseHours < 1) {
 
 }
 
-function render($templatePath, $templateData){
+function include_template($templatePath, $templateData){
   if(!file_exists($templatePath)) {
     return '';
   }

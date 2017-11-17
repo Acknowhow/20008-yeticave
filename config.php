@@ -16,5 +16,9 @@ $tomorrow = strtotime('tomorrow midnight');
 // временная метка для настоящего времени
 $now = strtotime('now');
 
+// Current year
+
+$year_now = date('Y', $now);
+
 // далее нужно вычислить оставшееся время до начала следующих суток и записать его в переменную $lot_time_remaining
 $lot_time_remaining = date('H:i', $tomorrow - $now);
