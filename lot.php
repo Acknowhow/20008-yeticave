@@ -1,6 +1,10 @@
 <?php
 require 'functions.php';
 
+if(isset($_GET['id'])) {
+  var_dump($_GET['id']);
+}
+
 // ставки пользователей, которыми надо заполнить таблицу
 $bets = [
     ['name' => 'Иван', 'price' => 11500, 'ts' => strtotime('-' . rand(1, 50) .' minute')],

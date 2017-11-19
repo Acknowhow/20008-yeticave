@@ -3,6 +3,7 @@ require 'functions.php';
 require 'config.php';
 require 'data.php';
 
+
 $content = include_template('templates/index.php', [
   'categories' => $categories, 'items' => $items, 'lot_time_remaining' => $lot_time_remaining]);
 
