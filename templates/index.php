@@ -1,7 +1,7 @@
 <section class="promo">
   <h2 class="promo__title">Нужен стафф для катки?</h2>
   <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
-  <ul class="promo__list"><? foreach ($templateData['categories'] as $title => $name) : ?>
+  <ul class="promo__list"><? foreach ($categories as $title => $name) : ?>
       <li class="promo__item promo__item--<?=$title?>">
         <a class="promo__link" href="all-lots.html"><?=$name ?></a>
       </li>
@@ -13,7 +13,7 @@
     <h2>Открытые лоты</h2>
   </div>
   <ul class="lots__list">
-    <? foreach ($templateData['items'] as $item => $value) :?>
+    <? foreach ($items as $item => $value) :?>
       <li class="lots__item lot">
       <div class="lot__image">
         <img src="<?=$value['img_url'] ?>" width="350" height="260" alt="<?=$value['img_alt']?>">
@@ -27,7 +27,7 @@
             <span class="lot__cost"><?=$value['price'] ?><b class="rub">р</b></span>
           </div>
           <div class="lot__timer timer">
-            <?=$templateData['lot_time_remaining'];?>
+            <?=$lot_time_remaining;?>
           </div>
         </div>
       </div>
