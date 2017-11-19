@@ -3,6 +3,9 @@ require 'functions.php';
 require 'config.php';
 require 'data.php';
 
+if(isset($_GET['id'])){
+  var_dump($_GET);
+}
 
 $content = include_template('templates/index.php', [
   'categories' => $categories, 'items' => $items, 'lot_time_remaining' => $lot_time_remaining]);
