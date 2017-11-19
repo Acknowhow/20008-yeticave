@@ -42,7 +42,7 @@
   </div>
 </header>
 
-<main class="container"><?=$content ?></main>
+<main class="container"><?if(!$lot) : ?><?=$index ?><?endif;?><?=$lot ?></main>
 
 <footer class="main-footer">
   <nav class="nav">
