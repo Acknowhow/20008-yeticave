@@ -5,6 +5,8 @@ require 'config.php';
 require 'data/data.php';
 require 'data/lot.php';
 
+error_reporting(-1);
+
 $index = true;
 
 if(isset($_GET['id'])){
