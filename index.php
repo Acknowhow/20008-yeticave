@@ -7,18 +7,12 @@ require 'data/lot.php';
 
 $index = true;
 
-$lot_selected= null;
-
-
 if(isset($_GET['id'])){
+  $index = null;
   $id = $_GET['id'];
 
   $lot = $items[$id];
-  $lot_title = $lot['name'];
-
-  // If lot is not in the database
   if(!$lot['name']) {
-    $index = null;
     $title = $error_title;
 
     http_response_code(404);
@@ -27,10 +21,9 @@ if(isset($_GET['id'])){
       'container' => $container
     ]);
   } else {
-    $index = null;
 
-    $title = $lot_title;
-    $content = include_template('templates/index.php', [
+    $title = $lot['name'];
+    $content = include_template('templates/lot.php', [
 
       'categories' => $categories, 'lot' => $lot
     ]);
@@ -43,7 +36,6 @@ if(isset($index)) {
     'categories' => $categories, 'items' => $items, 'lot_time_remaining' => $lot_time_remaining
   ]);
 }
-
 
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content,
