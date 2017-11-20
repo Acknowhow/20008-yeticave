@@ -6,6 +6,7 @@ require 'data/data.php';
 require 'data/lot.php';
 
 error_reporting(-1);
+ini_set("display_errors", 1);
 
 $index = true;
 
@@ -27,7 +28,7 @@ if(isset($_GET['id'])){
     $title = $lot['name'];
     $content = include_template('templates/lot.php', [
 
-      'categories' => $categories, 'lot' => $lot
+      'categories' => $categories, 'lot' => $lot, 'lot_text' => $lot_text, 'bets' => $bets
     ]);
   }
 }

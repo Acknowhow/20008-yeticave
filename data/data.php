@@ -1,5 +1,5 @@
 <?php
-$index_title = 'Главная';
+$title = 'Главная';
 $error_title = 'This page is lost';
 
 $container = 'main';
