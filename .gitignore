@@ -1,6 +1,9 @@
 # Deployment path
 deploy/
 
+# Materials
+materials/
+
 # Other
 .DS_Store
 .idea

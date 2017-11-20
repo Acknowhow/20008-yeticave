@@ -18,3 +18,17 @@ if($timeLapseHours < 1) {
 }
 
 }
+
+function include_template($templatePath, $templateData){
+  if(!file_exists($templatePath)) {
+    return '';
+  }
+  if($templateData) {
+    extract($templateData);
+  }
+  ob_start();
+  require_once $templatePath;
+  $tpl = ob_get_contents();
+  ob_clean();
+  return $tpl;
+}
