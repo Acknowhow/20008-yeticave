@@ -5,10 +5,18 @@ require 'data.php';
 
 if(isset($_GET['id'])){
   $id = $_GET['id'];
+
+  if(!$items[$id]['name']) {
+
+    print_r('Wrong page');
+    http_response_code(404);
+  }
   $lot_title = $items[$id]['name'];
 
   $lot = include_template('lot.php', [
-    'bets' => $bets
+    'categories' => $categories, 'bets' => $bets,
+
+    'items' => $items, 'id' => $id
   ]);
 }
 

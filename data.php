@@ -23,7 +23,8 @@ $categories = ['boards' => 'Доски и лыжи', 'attachment' => 'Крепл
 'clothing' => 'Одежда', 'tools' => 'Инструменты', 'other' => 'Разное'];
 
 $items = [
-['name' => '2014 Rossignol District Snowboard', 'category_name' =>	'Доски и лыжи', 'price' =>	10999, 'img_url' =>	'img/lot-1.jpg', 'img_alt' => 'Сноуборд'],
+['name' => '2014 Rossignol District Snowboard', 'category_name' =>	'Доски и лыжи',
+  'price' =>	10999, 'img_url' =>	'img/lot-1.jpg', 'img_alt' => 'Сноуборд'],
 
 ['name' => 'DC Ply Mens 2016/2017 Snowboard',  'category_name' => 'Доски и лыжи',
 'price' => 159999, 'img_url' => 'img/lot-2.jpg', 'img_alt' => 'Сноуборд'],
