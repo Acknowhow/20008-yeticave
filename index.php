@@ -15,7 +15,7 @@ if(isset($_GET['id'])){
   }
   $lot_title = $items[$id]['name'];
 
-  $lot = include_template('lot.php', [
+  $lot = include_template('templates/lot.php', [
     'categories' => $categories, 'bets' => $bets,
 
     'items' => $items, 'id' => $id, 'lot_text' => $lot_text
