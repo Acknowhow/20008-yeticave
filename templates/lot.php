@@ -8,13 +8,13 @@
   </ul>
 </nav>
 <section class="lot-item container">
-  <h2><?=$items[$id]['name']?></h2>
+  <h2><?=$lot['name']?></h2>
   <div class="lot-item__content">
     <div class="lot-item__left">
       <div class="lot-item__image">
-        <img src="<?=$items[$id]['img_url']?>" width="730" height="548" alt="<?=$items[$id]['img_alt']?>">
+        <img src="<?=$lot['img_url']?>" width="730" height="548" alt="<?=$lot['img_alt']?>">
       </div>
-      <p class="lot-item__category">Категория: <span><?=$items[$id]['category_name']?></span></p>
+      <p class="lot-item__category">Категория: <span><?=$lot['category_name']?></span></p>
       <p class="lot-item__description"><?=$lot_SAMPLE_text[0]?></p>
     </div>
     <div class="lot-item__right">

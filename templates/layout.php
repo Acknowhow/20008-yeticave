@@ -41,9 +41,7 @@
   </div>
 </header>
 
-<main <?if(!$lot) :?>class="container"<?endif; ?>>
-  <?if(!$error) :?><?=$lot ? $lot : $index?><?endif; ?><?=$error?>
-</main>
+<main <?if($index) :?>class="container"<?endif; ?>><?=$content;?></main>
 
 <footer class="main-footer">
   <nav class="nav">
