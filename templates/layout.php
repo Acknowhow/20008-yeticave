@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title><?=$title?></title>
+  <title><?if(!$lot) :?><?=$index_title?><?endif; ?><?=$lot_title?></title>
   <link href="css/normalize.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
@@ -21,7 +21,7 @@
     <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
 
     <nav class="user-menu">
-      <? if($is_auth === true) :?>
+      <?if($is_auth === true) :?>
         <div class="user-menu__image">
           <img src="<?=$user_avatar?>" width="40" height="40" alt="Пользователь">
         </div>
@@ -29,7 +29,7 @@
         <p><?=$user_name?></p>
         </div><? endif; ?>
 
-      <? if($is_auth !== true) :?><ul class="user-menu__list">
+      <?if($is_auth !== true) :?><ul class="user-menu__list">
         <li class="user-menu__item">
           <a href="#">Регистрация</a>
         </li>
@@ -37,20 +37,19 @@
           <a href="#">Вход</a>
         </li>
       </ul><? endif; ?>
-
     </nav>
   </div>
 </header>
 
-<main class="container"><?if(!$lot) : ?><?=$index ?><?endif;?><?=$lot ?></main>
+<main class="container"><?if(!$lot) :?><?=$index?><?endif;?><?=$lot?></main>
 
 <footer class="main-footer">
   <nav class="nav">
     <ul class="nav__list container">
-      <? foreach ($categories as $category => $value) : ?>
+      <? foreach ($categories as $category => $value) :?>
         <li class="nav__item">
         <a href="all-lots.html"><?=$value?></a>
-        </li><? endforeach; ?>
+        </li><?endforeach;?>
     </ul>
   </nav>
   <div class="main-footer__bottom container">

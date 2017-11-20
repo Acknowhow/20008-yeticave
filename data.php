@@ -1,4 +1,6 @@
 <?php
+$index_title = 'Главная';
+
 $users = [
   [
     'email' => 'ignat.v@gmail.com',
@@ -16,6 +18,7 @@ $users = [
     'password' => '$2y$10$2OxpEH7narYpkOT1H5cApezuzh10tZEEQ2axgFOaKW.55LxIJBgWW'
   ]
 ];
+
 $categories = ['boards' => 'Доски и лыжи', 'attachment' => 'Крепления', 'boots' => 'Ботинки',
 'clothing' => 'Одежда', 'tools' => 'Инструменты', 'other' => 'Разное'];
 
@@ -38,7 +41,6 @@ $items = [
 'price' => 5400, 'img_url' => 'img/lot-6.jpg', 'img_alt' => 'Маска']
 ];
 
-// ставки пользователей, которыми надо заполнить таблицу
 $bets = [
   ['name' => 'Иван', 'price' => 11500, 'ts' => strtotime('-' . rand(1, 50) .' minute')],
   ['name' => 'Константин', 'price' => 11000, 'ts' => strtotime('-' . rand(1, 18) .' hour')],
@@ -46,4 +48,4 @@ $bets = [
   ['name' => 'Семён', 'price' => 10000, 'ts' => strtotime('last week')]
 ];
 
-$title = 'Главная';
+
