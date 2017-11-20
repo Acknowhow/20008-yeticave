@@ -2,7 +2,11 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title><?if(!$lot) :?><?=$index_title?><?endif; ?><?=$lot_title?></title>
+  <title>
+    <?if($error) :?><?=$error_title?><?endif; ?>
+    <?if($lot) :?><?=$lot_title?><?endif; ?>
+    <?=$index_title?>
+  </title>
   <link href="css/normalize.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
@@ -11,7 +15,7 @@
 <header class="main-header">
   <div class="main-header__container container">
     <h1 class="visually-hidden">YetiCave</h1>
-    <a class="main-header__logo">
+    <a class="main-header__logo" <?if($lot) :?>href="index.php"<?endif; ?>>
       <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
     </a>
     <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
@@ -27,7 +31,7 @@
         </div>
         <div class="user-menu__logged">
         <p><?=$user_name?></p>
-        </div><? endif; ?>
+        </div><?endif; ?>
 
       <?if($is_auth !== true) :?><ul class="user-menu__list">
         <li class="user-menu__item">
@@ -41,7 +45,9 @@
   </div>
 </header>
 
-<main class="container"><?if(!$lot) :?><?=$index?><?endif;?><?=$lot?></main>
+<main <?if(!$lot) :?>class="container"<?endif; ?>>
+  <?if(!$error) :?><?=$lot ? $lot : $index?><?endif; ?><?=$error?>
+</main>
 
 <footer class="main-footer">
   <nav class="nav">
