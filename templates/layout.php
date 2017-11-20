@@ -2,11 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>
-    <?if($error) :?><?=$error_title?><?endif; ?>
-    <?if($lot) :?><?=$lot_title?><?endif; ?>
-    <?=$index_title?>
-  </title>
+  <title><?=$title?></title>
   <link href="css/normalize.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
