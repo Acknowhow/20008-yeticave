@@ -3,6 +3,7 @@ session_start();
 require 'functions.php';
 
 $error_messages = [];
+$form_data = [];
 
 $lot_name = htmlspecialchars($_POST['lot-name']) ?? '';
 $category_name = $_POST['category'] ?? '';
@@ -39,10 +40,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 if($lot_step > $lot_rate){
   $error_messages[$lot_step] = 'Ставка превышает цену';
-
 }
 if(!count($error_messages)){
-  $_SESSION['form-data'] = $_POST;
+  $to_push = extract([
+    'lot-name' => $lot_name, 'category' => $category_name, 'message' => $message,
+    'lot-rate' => $lot_rate, 'lot-step' => $lot_step, 'lot-date' => $lot_date
+    ]);
+
+  array_push(
+    $form_data, $lot_name, $category_name,
+    $message, $lot_rate, $lot_step, $lot_date
+  );
+
+  $_SESSION['form-data'] = $form_data;
 
   header('Location: index.php?success=true');
 }

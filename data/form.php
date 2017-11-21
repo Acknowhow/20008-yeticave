@@ -1,5 +1,5 @@
 <?php
-$error_messages_empty = [
+$form_initial = [
   'lot-name' => ['title' => 'Наименование', 'error-empty' => 'Введите наименование лота'],
   'category' => ['title' => 'Категория', 'category-initial' => 'Выберите категорию', 'error-empty' => 'Выберите категорию'],
 
