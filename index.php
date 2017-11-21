@@ -30,7 +30,7 @@ if(isset($_GET['id'])){
   $id = $_GET['id'];
 
   $lot = $items[$id];
-  if(!$lot['name']) {
+  if(!isset($lot)) {
     $title = $error_title;
 
     http_response_code(404);

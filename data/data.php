@@ -5,7 +5,6 @@ $error_title = 'This page is lost';
 $add_lot_title = 'Добавление лота';
 $container = 'main';
 
-$post_data = [];
 
 $users = [
   [
