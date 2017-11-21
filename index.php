@@ -29,8 +29,7 @@ if(isset($_GET['id'])){
   $index = null;
   $id = $_GET['id'];
 
-  $lot = $items[$id];
-  if(!isset($lot)) {
+  if(!isset($items[$id])) {
     $title = $error_title;
 
     http_response_code(404);
@@ -39,6 +38,7 @@ if(isset($_GET['id'])){
       'container' => $container
     ]);
   } else {
+    $lot = $items[$id];
 
     $title = $lot['name'];
     $content = include_template('templates/lot.php', [

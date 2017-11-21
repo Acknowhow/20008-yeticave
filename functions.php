@@ -33,6 +33,3 @@ function include_template($templatePath, $templateData){
   return $tpl;
 }
 
-function validateEmail($value){
-  return filter_var($value, FILTER_VALIDATE_EMAIL);
-}
