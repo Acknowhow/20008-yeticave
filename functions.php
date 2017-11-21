@@ -32,3 +32,7 @@ function include_template($templatePath, $templateData){
   ob_clean();
   return $tpl;
 }
+
+function validateEmail($value){
+  return filter_var($value, FILTER_VALIDATE_EMAIL);
+}

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'functions.php';
 require 'config.php';
 
@@ -10,6 +11,12 @@ ini_set("display_errors", 1);
 
 $index = true;
 $nav = null;
+
+if(isset($_GET['success'])) {
+
+  var_dump($_SESSION['form-data']);
+}
+
 
 if(isset($_GET['id']) || isset($_GET['add'])) {
   $nav = include_template('templates/nav.php', [
