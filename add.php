@@ -43,8 +43,8 @@ if($lot_step > $lot_rate){
 }
 if(!count($error_messages)){
   $to_push = extract([
-    'lot-name' => $lot_name, 'category' => $category_name, 'message' => $message,
-    'lot-rate' => $lot_rate, 'lot-step' => $lot_step, 'lot-date' => $lot_date
+    'lot_name' => $lot_name, 'category' => $category_name, 'message' => $message,
+    'lot_rate' => $lot_rate, 'lot_step' => $lot_step, 'lot_date' => $lot_date
     ]);
 
   array_push(
