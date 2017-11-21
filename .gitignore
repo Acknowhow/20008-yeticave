@@ -1,11 +1,13 @@
 # Deployment path
-deploy/
+deploy
 
 # Materials
-materials/
+materials
 
 # Other
 .DS_Store
 .idea
 Thumbs.db
 vendor
+test.php
+ZendDebugger.so
