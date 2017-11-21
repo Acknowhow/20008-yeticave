@@ -9,6 +9,14 @@ error_reporting(-1);
 ini_set("display_errors", 1);
 
 $index = true;
+$nav = null;
+
+if(isset($_GET['id']) || isset($_GET['add'])) {
+  $nav = include_template('templates/nav.php', [
+
+    'categories' => $categories
+  ]);
+}
 
 if(isset($_GET['id'])){
   $index = null;
@@ -28,7 +36,8 @@ if(isset($_GET['id'])){
     $title = $lot['name'];
     $content = include_template('templates/lot.php', [
 
-      'categories' => $categories, 'lot' => $lot, 'lot_text' => $lot_text, 'bets' => $bets
+      'nav' => $nav, 'categories' => $categories, 'lot' => $lot,
+      'lot_text' => $lot_text, 'bets' => $bets
     ]);
   }
 }

@@ -1,12 +1,4 @@
-<nav class="nav">
-  <ul class="nav__list container">
-    <?foreach ($categories as $category => $value) :?>
-      <li class="nav__item">
-        <a href=""><?=$value;?></a>
-      </li>
-    <?endforeach;?>
-  </ul>
-</nav>
+<?=$nav?>
 <section class="lot-item container">
   <h2><?=$lot['name']?></h2>
   <div class="lot-item__content">
