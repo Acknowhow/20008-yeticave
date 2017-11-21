@@ -33,3 +33,42 @@ function include_template($templatePath, $templateData){
   return $tpl;
 }
 
+
+function validateDate($date, $format = 'd.m.Y') {
+  $_date = DateTime::createFromFormat($format, $date);
+
+  return $_date && $_date->format($format) == $date;
+}
+
+$errors = [];
+$a = -4;
+
+$b = 6.4;
+
+function validateNumericValue($lotValue) {
+
+  $is_int = is_int($lotValue);
+  $is_positive = $lotValue > 0;
+  $is_prudent = $lotValue <= 10000000;
+
+  if(!$is_int) {
+    return 'wrong number format';
+
+  } elseif (!$is_positive) {
+    return 'must be positive value';
+
+  } elseif (!$is_prudent) {
+    return 'this is filth';
+  }
+  return $lotValue;
+}
+
+
+if (is_string(validateLotRate($a))) {
+  $errors['lot_rate'] = validateLotRate($a);
+}
+
+$extracted = extract($errors);
+var_dump($lot_rate);
+
+
