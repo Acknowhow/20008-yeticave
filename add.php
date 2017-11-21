@@ -14,15 +14,15 @@ $lot_step = $_POST['lot-step'] ?? '';
 $lot_date = $_POST['lot-date'] ?? '';
 
 $required = [
-  'lot_name', 'category_name', 'message',
-  'lot_rate', 'lot_step', 'lot_date'
+  'lot-name', 'category', 'message',
+  'lot-rate', 'lot-step', 'lot-date'
 ];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $required) && $value == '') {
-      $error_messages[] = $key;
+      $error_messages[$key] = '';
 
       break;
     }
