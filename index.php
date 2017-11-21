@@ -42,6 +42,16 @@ if(isset($_GET['id'])){
   }
 }
 
+if(isset($_GET['add'])){
+  $index = null;
+
+  $title = $add_lot_title;
+  $content = include_template('templates/add-lot.php', [
+
+    'categories' => $categories, 'nav' => $nav
+  ]);
+}
+
 if(isset($index)) {
 
   $content = include_template('templates/index.php', [
