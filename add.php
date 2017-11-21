@@ -30,7 +30,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (array_key_exists($key, $rules)) {
       $result = call_user_func($rules[$key], $value);
 
-
       if (is_string($result)) { // is string or numeric
         $error_messages[$key] = $result;
       }
@@ -39,13 +38,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 if($lot_step > $lot_rate){
-  $error_messages[$lot_step] = 'Ставка больше цены';
+  $error_messages[$lot_step] = 'Ставка превышает цену';
 
 }
-
 if(!count($error_messages)){
   $_SESSION['form-data'] = $_POST;
 
   header('Location: index.php?success=true');
 }
+if(count($error_messages)){
+  $_SESSION['error-messages'] = $error_messages;
+}
+header('Location: index.php?success=false');
 

@@ -65,7 +65,7 @@ function validateNumericValue($lotValue) {
 
 
 if (is_string(validateLotRate($a))) {
-  $errors['lot_rate'] = validateLotRate($a);
+  $error_messages['lot-rate'] = validateLotRate($a);
 }
 
 $extracted = extract($errors);

@@ -4,10 +4,10 @@
   <div class="lot-item__content">
     <div class="lot-item__left">
       <div class="lot-item__image">
-        <img src="<?=$lot['img_url']?>" width="730" height="548" alt="<?=$lot['img_alt']?>">
+        <img src="<?=$lot['img-url']?>" width="730" height="548" alt="<?=$lot['img-alt']?>">
       </div>
-      <p class="lot-item__category">Категория: <span><?=$lot['category_name']?></span></p>
-      <p class="lot-item__description"><?=$lot_text[0]?></p>
+      <p class="lot-item__category">Категория: <span><?=$lot['category-name']?></span></p>
+      <p class="lot-item__description"><?=$lot-text[0]?></p>
     </div>
     <div class="lot-item__right">
       <div class="lot-item__state">

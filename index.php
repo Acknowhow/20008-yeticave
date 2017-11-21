@@ -4,6 +4,7 @@ require 'functions.php';
 require 'config.php';
 
 require 'data/data.php';
+require 'data/form.php';
 require 'data/lot.php';
 
 error_reporting(-1);
@@ -12,9 +13,12 @@ ini_set("display_errors", 1);
 $index = true;
 $nav = null;
 
-if(isset($_GET['success'])) {
-
+if($_GET['success'] === true) {
   var_dump($_SESSION['form-data']);
+}
+
+if($_GET['success'] === false) {
+  var_dump($_SESSION['error']);
 }
 
 
@@ -44,7 +48,7 @@ if(isset($_GET['id'])){
     $content = include_template('templates/lot.php', [
 
       'nav' => $nav, 'categories' => $categories, 'lot' => $lot,
-      'lot_text' => $lot_text, 'bets' => $bets
+      'lot-text' => $lot_text, 'bets' => $bets
     ]);
   }
 }
@@ -62,14 +66,14 @@ if(isset($_GET['add'])){
 if(isset($index)) {
 
   $content = include_template('templates/index.php', [
-    'categories' => $categories, 'items' => $items, 'lot_time_remaining' => $lot_time_remaining
+    'categories' => $categories, 'items' => $items, 'lot-time-remaining' => $lot_time_remaining
   ]);
 }
 
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content,
-  'is_auth' => $is_auth, 'user_avatar' => $user_avatar,
+  'is-auth' => $is_auth, 'user-avatar' => $user_avatar,
 
-  'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
+  'user-name' => $user_name, 'categories' => $categories, 'year-now' => $year_now
 ]);
 
