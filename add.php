@@ -40,9 +40,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
-if($lot_step > $lot_rate){
-  $error_messages[$lot_step] = 'Ставка превышает цену';
-}
+//if($lot_step > $lot_rate){
+//  $error_messages[$lot_step] = 'Ставка превышает цену';
+//}
+
 if(!count($error_messages)){
 
   array_push(
@@ -52,11 +53,12 @@ if(!count($error_messages)){
   );
 
   $_SESSION['form-data'] = $form_data;
-
   header('Location: index.php?success=true');
 }
 if(count($error_messages)){
   $_SESSION['error-messages'] = $error_messages;
+
+  header('Location: index.php?success=false');
 }
-header('Location: index.php?success=false');
+
 
