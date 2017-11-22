@@ -30,6 +30,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       break;
     }
 
+    // If the date is in wrong format need to figure
+    // out which string message to return
+
     if (array_key_exists($key, $rules)) {
       $result = call_user_func($rules[$key], $value);
 
@@ -40,12 +43,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
-//if($lot_step > $lot_rate){
-//  $error_messages[$lot_step] = 'Ставка превышает цену';
-//}
+if($lot_step > $lot_rate){
+  $error_messages['lot-step'] = 'Ставка превышает цену';
+}
 
 if(!count($error_messages)){
-
   array_push(
     $form_data, $lot_name, $category_name,
 
