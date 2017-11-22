@@ -1,7 +1,7 @@
 <?php
-$form_initial = [
+$form = [
   'lot-name' => ['name' => 'lot-name', 'title' => 'Наименование', 'error-message' => 'Введите наименование лота'],
-  'category' => ['name' => 'category', 'title' => 'Категория', 'category-initial' => 'Выберите категорию', 'error-message' => 'Выберите категорию'],
+  'category' => ['name' => 'category', 'title' => 'Категория', 'option-initial' => 'Выберите категорию', 'error-message' => 'Выберите категорию'],
 
   'message' => ['name' => 'message', 'title' => 'Описание', 'error-message' => 'Напишите описание лота'],
   'file' => ['name' => 'file', 'title' => 'Изображение', 'alt' => 'Изображение лота'],

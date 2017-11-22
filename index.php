@@ -59,11 +59,12 @@ if(isset($_GET['add'])){
   $title = $add_lot_title;
   $content = include_template('templates/add-lot.php', [
 
-    'categories' => $categories, 'nav' => $nav, 'lot_name' => $form_initial['lot-name'],
-    'category' => $form_initial['category'], 'message' => $form_initial['message'],
-
-    'file' => $form_initial['file'], 'lot_rate' => $form_initial['lot-rate'],
-    'lot_step' => $form_initial['lot-step'], 'lot_date' => $form_initial['lot-date'], 'all' => $form_initial['all']
+    'categories' => $categories, 'nav' => $nav
+//    'lot_name' => $form['lot-name'],
+//    'category' => $form['category'], 'message' => $form['message'],
+//
+//    'file' => $form['file'], 'lot_rate' => $form['lot-rate'],
+//    'lot_step' => $form['lot-step'], 'lot_date' => $form['lot-date'], 'all' => $form['all']
   ]);
 }
 
