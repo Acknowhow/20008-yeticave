@@ -42,21 +42,31 @@ function validateDate($date, $format = 'd.m.Y') {
 }
 
 
-function validateNumericValue($lotValue) {
+function validateNumericValue($lotValue, $lotValueCompare) {
 
   $is_int = is_int($lotValue);
   $is_positive = $lotValue > 0;
   $is_prudent = $lotValue <= 10000000;
 
   if(!$is_int) {
-    return 'wrong number format';
+    return 'error-integer';
 
   } elseif (!$is_positive) {
-    return 'must be positive value';
+    return 'error-negative';
 
   } elseif (!$is_prudent) {
-    return 'this is filth';
+    return 'error-value';
   }
+
+  elseif ($lotValueCompare) {
+    if($lotValueCompare > $lotValue) {
+
+      return 'error-compare';
+    }
+
+    return $lotValue;
+  }
+
   return $lotValue;
 }
 

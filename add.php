@@ -19,7 +19,7 @@ $required = [
   'lot-rate', 'lot-step', 'lot-date'
 ];
 
-$rules = ['lot-rate' => 'validateNumericValue'];
+$rules = ['lot-rate' => 'validateNumericValue', 'lot-date' => 'validateDate'];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
   foreach ($_POST as $key => $value) {
@@ -27,7 +27,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (in_array($key, $required) && $value == '') {
       $error_messages[$key] = '';
 
-      break;
+      break; // Only one message if several errors
     }
 
     // If the date is in wrong format need to figure
@@ -36,9 +36,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (array_key_exists($key, $rules)) {
       $result = call_user_func($rules[$key], $value);
 
-//      if (is_string($result)) { // is string or numeric
-//        $error_messages[$key] = $result;
-//      }
+      if (is_string($result)) { // is string or numeric
+        $error_messages[$key] = $result;
+      }
     }
   }
 }

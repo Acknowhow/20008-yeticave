@@ -12,3 +12,13 @@ $form = [
   'lot-date' => ['name' => 'lot-date', 'title' => 'Дата окончания торгов', 'error-message' => 'Введите дату завершения торгов'],
   'all' => ['name' => 'all', 'title' => 'Пожалуйста, исправьте ошибки в форме.']
 ];
+// Отсюда можно доставать сообщение об ошибке на основании переданной переменной
+$form_errors = [
+  'lot-name' => ['error-empty' => 'Введите наименование лота', 'error-format' => ''],
+  'category' => ['error-empty' => 'Выберите категорию', 'error-format' => ''],
+
+  'message' => ['error-message' => 'Напишите описание лота', 'error-format' => ''],
+  'file' => ['error-message' => '', 'error-format' => ''],
+
+  'lot-rate' => ['error-message' => '']
+];

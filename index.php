@@ -18,7 +18,23 @@ if(isset($_GET['success']) && $_GET['success'] === 'true') {
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
+
+  // First must check if the key value in the array is null,
+  // If so, display the default message from form data for that key
+
+  // Best option is to make one function for filtering array keys.
+  // 1.) If the key is null, then display message for that
+  // Key from form data array
+  // 2.) Else return key and its value to pick out item from lot array,
+  // and display that error from error-messages array
+
+  // 3.) The only thing to keep in mind is whether several messages should
+  // be displayed, or only the first one which is wrong. Since function which
+  // was offered on lecture checks error messages sequentially, it is probably
+  // preferred to be implemented that way
   var_dump($_SESSION['error-messages']);
+
+  session_abort();
 }
 
 
