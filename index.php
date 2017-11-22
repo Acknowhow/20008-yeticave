@@ -13,11 +13,11 @@ ini_set("display_errors", 1);
 $index = true;
 $nav = null;
 
-if(isset($_GET['success']) && $_GET['success'] === true) {
+if(isset($_GET['success']) && $_GET['success'] === 'true') {
   var_dump($_SESSION['form-data']);
 }
 
-if(isset($_GET['success']) && $_GET['success'] === false) {
+if(isset($_GET['success']) && $_GET['success'] === 'false') {
   var_dump($_SESSION['error-messages']);
 }
 
