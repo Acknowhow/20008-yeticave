@@ -29,6 +29,7 @@ function include_template($templatePath, $templateData){
   ob_start();
   require_once $templatePath;
   $tpl = ob_get_contents();
+
   ob_clean();
   return $tpl;
 }
@@ -40,10 +41,6 @@ function validateDate($date, $format = 'd.m.Y') {
   return $_date && $_date->format($format) == $date;
 }
 
-$errors = [];
-$a = -4;
-
-$b = 6.4;
 
 function validateNumericValue($lotValue) {
 
@@ -64,11 +61,11 @@ function validateNumericValue($lotValue) {
 }
 
 
-if (is_string(validateLotRate($a))) {
-  $error_messages['lot-rate'] = validateLotRate($a);
-}
-
-$extracted = extract($errors);
-var_dump($lot_rate);
+//if (is_string(validateLotRate($a))) {
+//  $error_messages['lot-rate'] = validateLotRate($a);
+//}
+//
+//$extracted = extract($errors);
+//var_dump($lot_rate);
 
 

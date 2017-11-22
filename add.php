@@ -19,7 +19,7 @@ $required = [
   'lot-rate', 'lot-step', 'lot-date'
 ];
 
-$rules = [];
+$rules = ['lot-rate' => 'validateNumericValue'];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
   foreach ($_POST as $key => $value) {
@@ -33,9 +33,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (array_key_exists($key, $rules)) {
       $result = call_user_func($rules[$key], $value);
 
-      if (is_string($result)) { // is string or numeric
-        $error_messages[$key] = $result;
-      }
+//      if (is_string($result)) { // is string or numeric
+//        $error_messages[$key] = $result;
+//      }
     }
   }
 }
@@ -44,13 +44,11 @@ if($lot_step > $lot_rate){
   $error_messages[$lot_step] = 'Ставка превышает цену';
 }
 if(!count($error_messages)){
-  $to_push = [
-    'lot_name' => $lot_name, 'category' => $category_name, 'message' => $message,
-    'lot_rate' => $lot_rate, 'lot_step' => $lot_step, 'lot_date' => $lot_date
-    ];
 
   array_push(
-    $form_data, $to_push
+    $form_data, $lot_name, $category_name,
+
+    $message, $lot_rate, $lot_step, $lot_date
   );
 
   $_SESSION['form-data'] = $form_data;
