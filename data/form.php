@@ -1,18 +1,13 @@
 <?php
 $form = [
-  'lot_name' => ['name' => 'lot-name', 'title' => 'Наименование',
-    'error-message' => 'Введите наименование лота', 'input-data' => ''
+  'lot_name' => ['title' => 'Наименование', 'error-message' => 'Введите наименование лота', 'input-data' => ''
   ],
-  'category_name' => ['name' => 'category-name', 'title' => 'Категория',
-    'option-default' => 'Выберите категорию',
-
-    'error-message' => 'Выберите категорию', 'input-data' => ''
+  'category_name' => ['title' => 'Категория', 'option-default' => 'Выберите категорию',
+      'error-message' => 'Выберите категорию', 'input-data' => ''
   ],
-  'message' => ['name' => 'message', 'title' => 'Описание',
-    'error-message' => 'Напишите описание лота', 'input-data' => ''
+  'message' => ['title' => 'Описание', 'error-message' => 'Напишите описание лота', 'input-data' => ''
   ],
-  'file' => ['name' => 'file', 'title' => 'Изображение',
-    'alt' => 'Изображение лота', 'input-data' => ''
+  'file' => ['title' => 'Изображение', 'alt' => 'Изображение лота', 'input-data' => ''
   ],
   'lot_rate' => ['name' => 'lot-rate', 'title' => 'Начальная цена',
     'error-message' => 'Введите начальную цену', 'input-data' => ''
@@ -20,11 +15,10 @@ $form = [
   'lot_step' => ['name' => 'lot-step', 'title' => 'Шаг ставки',
     'error-message' => 'Введите шаг ставки', 'input-data' => ''
   ],
-  'lot_date' => ['name' => 'lot-date', 'title' => 'Дата окончания торгов',
+  'lot_date' => ['title' => 'Дата окончания торгов',
     'error-message' => 'Введите дату завершения торгов', 'input-data' => ''
   ],
-  'all' => [
-    'error-message' => 'Пожалуйста, исправьте ошибки в форме.', 'input-data' => ''
+  'all' => ['error-message' => 'Пожалуйста, исправьте ошибки в форме.', 'input-data' => ''
   ]
 ];
 
