@@ -14,11 +14,6 @@ ini_set("display_errors", 1);
 $index = true;
 $nav = null;
 
-$lot_name = '';
-$message = '';
-
-$lot_rate = '';
-$lot_step = '';
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
   var_dump($_SESSION['form-data']);
@@ -39,9 +34,6 @@ if(isset($_GET['success']) && $_GET['success'] === 'false') {
   // was offered on lecture checks error messages sequentially, it is probably
   // preferred to be implemented that way
   var_dump($_SESSION['error-messages']);
-
-
-  session_abort();
 }
 
 
@@ -83,10 +75,7 @@ if(isset($_GET['add'])){
   $title = $add_lot_title;
   $content = include_template('templates/add-lot.php', [
 
-    'categories' => $categories, 'nav' => $nav, 'lot_name' => $lot_name,
-    'message' => $message, 'lot_rate' => $lot_rate, 'lot_step' => $lot_step,
-
-    'form' => $form
+    'form' => $form, 'categories' => $categories, 'nav' => $nav
   ]);
 }
 
