@@ -12,9 +12,11 @@ ini_set("display_errors", 1);
 
 $index = true;
 $nav = null;
+$lot_name = $_POST['lot-name'] ?? '';
+$lot_name = htmlspecialchars($lot_name, ENT_QUOTES);
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
-  var_dump($_SESSION['form-data'][0]);
+  var_dump($_SESSION['form-data']);
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
@@ -75,7 +77,7 @@ if(isset($_GET['add'])){
   $title = $add_lot_title;
   $content = include_template('templates/add-lot.php', [
 
-    'categories' => $categories, 'nav' => $nav
+    'categories' => $categories, 'nav' => $nav, 'lot_name' => $lot_name
 //    'lot_name' => $form['lot-name'],
 //    'category' => $form['category'], 'message' => $form['message'],
 //

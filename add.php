@@ -1,11 +1,12 @@
 <?php
+header('Content-Type: text/html; charset=utf8');
 session_start();
 require 'functions.php';
 
 $error_messages = [];
 $form_data = [];
 
-$lot_name = htmlspecialchars($_POST['lot-name']) ?? '';
+$lot_name = $_POST['lot-name'] ?? '';
 
 $category_name = $_POST['category'] ?? '';
 $message = htmlspecialchars($_POST['message']) ?? '';
@@ -25,8 +26,12 @@ $rules = [
   'lot-date' => 'validateDate'
 ];
 
+
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+
   foreach ($_POST as $key => $value) {
+
 
     if (in_array($key, $required) && $value == '') {
       $error_messages[$key] = '';
@@ -49,6 +54,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 if(!count($error_messages)){
   // Better to use for cycle or for.. of
   // Or maybe use array map
+
   array_push(
     $form_data, $lot_name, $category_name,
     $message, $lot_rate, $lot_step, $lot_date
