@@ -1,6 +1,5 @@
 <?php
 function convertTimeStamp($timeStamp) {
-
 // Elapsed timestamp
 $timeLapseStamp = strtotime('now') - $timeStamp;
 // Elapsed time in hours
@@ -34,17 +33,18 @@ function include_template($templatePath, $templateData){
   return $tpl;
 }
 
-
 function validateDate($date, $format = 'd.m.Y') {
   $_date = DateTime::createFromFormat($format, $date);
 
-  return $_date && $_date->format($format) == $date;
+  $_date && $_date->format($format) == $date ? $s_date = true :
+    $s_date = 'error-date';
+
+  return $s_date;
 }
 
-
-function validateNumericValue($lotValue, $lotValueCompare) {
-
+function validateNumericValue($lotValue) {
   $is_int = is_int($lotValue);
+
   $is_positive = $lotValue > 0;
   $is_prudent = $lotValue <= 10000000;
 
@@ -58,16 +58,7 @@ function validateNumericValue($lotValue, $lotValueCompare) {
     return 'error-value';
   }
 
-  elseif ($lotValueCompare) {
-    if($lotValueCompare > $lotValue) {
-
-      return 'error-compare';
-    }
-
-    return $lotValue;
-  }
-
-  return $lotValue;
+  return true;
 }
 
 

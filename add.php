@@ -12,8 +12,8 @@ $message = htmlspecialchars($_POST['message']) ?? '';
 // Start price
 $lot_rate = $_POST['lot-rate'] ?? '';
 $lot_step = $_POST['lot-step'] ?? '';
-$lot_date = $_POST['lot-date'] ?? '';
 
+$lot_date = $_POST['lot-date'] ?? '';
 $required = [
   'lot-name', 'category', 'message',
   'lot-rate', 'lot-step', 'lot-date'
@@ -36,18 +36,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (array_key_exists($key, $rules)) {
       $result = call_user_func($rules[$key], $value);
 
-      if (is_string($result)) { // is string or numeric
+      if (is_string($result)) { // if the result is string or not
         $error_messages[$key] = $result;
       }
     }
   }
 }
 
-if($lot_step > $lot_rate){
-  $error_messages['lot-step'] = 'Ставка превышает цену';
-}
 
 if(!count($error_messages)){
+  // Better to use for cycle or for.. of
+  // Or maybe use array map
   array_push(
     $form_data, $lot_name, $category_name,
 
