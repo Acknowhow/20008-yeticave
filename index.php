@@ -86,7 +86,7 @@ if(isset($_GET['add'])){
     'categories' => $categories, 'nav' => $nav, 'lot_name' => $lot_name,
     'message' => $message, 'lot_rate' => $lot_rate, 'lot_step' => $lot_step,
 
-    'form_errors' => $form_errors
+    'form' => $form
   ]);
 }
 

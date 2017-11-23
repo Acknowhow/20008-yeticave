@@ -2,7 +2,7 @@
 $form = [
   'lot-name' => ['title' => 'Наименование', 'error-message' => 'Введите наименование лота'],
 
-  'category' => ['title' => 'Категория', 'option-initial' => 'Выберите категорию',
+  'category' => ['title' => 'Категория', 'option-default' => 'Выберите категорию',
     'error-message' => 'Выберите категорию'],
 
   'message' => ['title' => 'Описание', 'error-message' => 'Напишите описание лота'],
