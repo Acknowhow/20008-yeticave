@@ -71,22 +71,21 @@ if(isset($_GET['id'])){
 
 if(isset($_GET['add'])){
   $index = null;
-
   $title = $add_lot_title;
+
   $content = include_template('templates/add-lot.php', [
     'categories' => $categories, 'nav' => $nav, 'lot_name' => $form['lot_name'],
 
     'category_name' => $form['category_name'], 'message' => $form['message'],
     'file' => $form['file'], 'lot_rate' => $form['lot_rate'],
 
-    'lot_step' => $form['lot_step'], 'lot_date' => $form['lot_date'], 'all' => $form['all']
+'lot_step' => $form['lot_step'], 'lot_date' => $form['lot_date'], 'all' => $form['all']
   ]);
 }
 
 
 if(isset($index)) {
   $content = include_template('templates/index.php', [
-
     'categories' => $categories,
     'items' => $items, 'lot_time_remaining' => $lot_time_remaining
   ]);
