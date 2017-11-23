@@ -4,7 +4,7 @@
   <div class="form__container-two">
     <div class="form__item form__item--invalid"> <!-- form__item--invalid -->
       <label for="lot-name">Наименование</label>
-      <input id="lot-name" type="text" name="lot-name" placeholder="Введите наименование лота" required value="<? echo $lot_name?>;">
+      <input id="lot-name" type="text" name="lot-name" placeholder="Введите наименование лота" required value="<?=htmlspecialchars($lot_name)?>">
       <span class="form__error">Введите наименование лота</span>
     </div>
     <div class="form__item">

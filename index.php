@@ -12,8 +12,8 @@ ini_set("display_errors", 1);
 
 $index = true;
 $nav = null;
-$lot_name = $_POST['lot-name'] ?? '';
-$lot_name = htmlspecialchars($lot_name, ENT_QUOTES);
+
+$lot_name = '';
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
   var_dump($_SESSION['form-data']);
@@ -85,6 +85,7 @@ if(isset($_GET['add'])){
 //    'lot_step' => $form['lot-step'], 'lot_date' => $form['lot-date'], 'all' => $form['all']
   ]);
 }
+
 
 if(isset($index)) {
   $content = include_template('templates/index.php', [
