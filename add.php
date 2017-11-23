@@ -1,10 +1,17 @@
 <?php
-header('Content-Type: text/html; charset=utf8');
+// header('Content-Type: text/html; charset=utf8');
 session_start();
 require 'functions.php';
 
-$lot_name = $category_name = $message
-  = $lot_rate = $lot_step = $lot_date = '';
+$lot_name = $_POST['lot-name'] ?? '';
+$category = $_POST['category'] ?? '';
+
+$message = $_POST['message'] ?? '';
+$lot_rate = $_POST['lot-rate'] ?? '';
+
+$lot_step = $_POST['lot-step'] ?? '';
+$lot_date = $_POST['lot-date'] ?? '';
+
 
 $error_messages = [];
 $form_data = [];
@@ -19,16 +26,8 @@ $rules = [
   'lot-date' => 'validateDate'
 ];
 
-function test_input($field) {
-  $field = htmlspecialchars($field);
-
-  return $field;
-}
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-  $lot_name = test_input($_POST['lot-name']);
-
-  echo(htmlspecialchars($lot_name));
   foreach ($_POST as $key => $value) {
 
 
@@ -50,22 +49,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
-//if(!count($error_messages)){
-//  // Better to use for cycle or for.. of
-//  // Or maybe use array map
-//
-//  array_push(
-//    $form_data, $lot_name, $category_name,
-//    $message, $lot_rate, $lot_step, $lot_date
-//  );
-//
-//  $_SESSION['form-data'] = $form_data;
-//  header('Location: index.php?success=true');
-//}
-//if(count($error_messages)){
-//  $_SESSION['error-messages'] = $error_messages;
-//
-//  header('Location: index.php?success=false');
-//}
-//
-//
+if(!count($error_messages)){
+  foreach ($_POST as $key => $value){
+
+    $form_data[$key] = $value;
+  }
+
+  $_SESSION['form-data'] = $form_data;
+  header('Location: index.php?success=true');
+}
+if(count($error_messages)){
+  $_SESSION['error-messages'] = $error_messages;
+
+  header('Location: index.php?success=false');
+}
+
+
