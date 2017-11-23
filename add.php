@@ -28,6 +28,7 @@ $rules = [
 
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
+  print_r($message);
   foreach ($_POST as $key => $value) {
 
 

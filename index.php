@@ -1,9 +1,10 @@
 <?php
 session_start();
 require 'functions.php';
-require 'config.php';
 
+require 'config.php';
 require 'data/data.php';
+
 require 'data/form.php';
 require 'data/lot.php';
 
@@ -14,6 +15,10 @@ $index = true;
 $nav = null;
 
 $lot_name = '';
+$message = '';
+
+$lot_rate = '';
+$lot_step = '';
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
   var_dump($_SESSION['form-data']);
@@ -35,7 +40,7 @@ if(isset($_GET['success']) && $_GET['success'] === 'false') {
   // preferred to be implemented that way
   var_dump($_SESSION['error-messages']);
 
-  // Included temporary for debugging purposes
+
   session_abort();
 }
 
@@ -59,6 +64,7 @@ if(isset($_GET['id'])){
 
       'container' => $container
     ]);
+
   } else {
     $lot = $items[$id];
 
@@ -77,12 +83,10 @@ if(isset($_GET['add'])){
   $title = $add_lot_title;
   $content = include_template('templates/add-lot.php', [
 
-    'categories' => $categories, 'nav' => $nav, 'lot_name' => $lot_name
-//    'lot_name' => $form['lot-name'],
-//    'category' => $form['category'], 'message' => $form['message'],
-//
-//    'file' => $form['file'], 'lot_rate' => $form['lot-rate'],
-//    'lot_step' => $form['lot-step'], 'lot_date' => $form['lot-date'], 'all' => $form['all']
+    'categories' => $categories, 'nav' => $nav, 'lot_name' => $lot_name,
+    'message' => $message, 'lot_rate' => $lot_rate, 'lot_step' => $lot_step,
+
+    'form_errors' => $form_errors
   ]);
 }
 
