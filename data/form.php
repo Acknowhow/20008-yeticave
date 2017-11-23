@@ -10,15 +10,19 @@ $form = [
   'lot-step' => ['name' => 'lot-step', 'title' => 'Шаг ставки', 'error-message' => 'Введите шаг ставки'],
 
   'lot-date' => ['name' => 'lot-date', 'title' => 'Дата окончания торгов', 'error-message' => 'Введите дату завершения торгов'],
-  'all' => ['name' => 'all', 'title' => 'Пожалуйста, исправьте ошибки в форме.']
+  'all' => ['name' => 'all', 'error-message' => 'Пожалуйста, исправьте ошибки в форме.']
 ];
 // Отсюда можно доставать сообщение об ошибке на основании переданной переменной
 $form_errors = [
   'lot-name' => ['error-empty' => 'Введите наименование лота', 'error-format' => ''],
   'category' => ['error-empty' => 'Выберите категорию', 'error-format' => ''],
 
-  'message' => ['error-message' => 'Напишите описание лота', 'error-format' => ''],
-  'file' => ['error-message' => '', 'error-format' => ''],
+  'message' => ['error-empty' => 'Напишите описание лота', 'error-format' => ''],
+  'file' => ['error-empty' => '', 'error-format' => ''],
 
-  'lot-rate' => ['error-message' => '']
+  'lot-rate' => ['error-empty' => 'Введите начальную цену', 'error-format' => ''],
+  'lot-step' => ['error-empty' => 'Введите шаг ставки', 'error-format' => ''],
+
+  'lot-date' => ['error-empty' => 'Шаг ставки', 'error-format' => '', 'error-date' => ''],
+  'all' => ['error-empty' => 'Пожалуйста, исправьте ошибки в форме.']
 ];

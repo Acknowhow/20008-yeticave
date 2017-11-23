@@ -1,7 +1,4 @@
 <?php
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
 session_start();
 require 'functions.php';
 require 'config.php';
@@ -17,7 +14,7 @@ $index = true;
 $nav = null;
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
-  var_dump($_SESSION['form-data']);
+  var_dump($_SESSION['form-data'][0]);
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
@@ -67,7 +64,7 @@ if(isset($_GET['id'])){
     $content = include_template('templates/lot.php', [
 
       'nav' => $nav, 'categories' => $categories, 'lot' => $lot,
-      'lot-text' => $lot_text, 'bets' => $bets
+      'lot_text' => $lot_text, 'bets' => $bets
     ]);
   }
 }
@@ -89,7 +86,9 @@ if(isset($_GET['add'])){
 
 if(isset($index)) {
   $content = include_template('templates/index.php', [
-    'categories' => $categories, 'items' => $items, 'lot_time_remaining' => $lot_time_remaining
+
+    'categories' => $categories,
+    'items' => $items, 'lot_time_remaining' => $lot_time_remaining
   ]);
 }
 

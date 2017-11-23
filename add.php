@@ -26,7 +26,6 @@ $rules = [
 ];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
-
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $required) && $value == '') {
