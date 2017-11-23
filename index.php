@@ -1,4 +1,7 @@
 <?php
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 session_start();
 require 'functions.php';
 require 'config.php';
@@ -18,7 +21,6 @@ if(isset($_GET['success']) && $_GET['success'] === 'true') {
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
-
   // First must check if the key value in the array is null,
   // If so, display the default message from form data for that key
 
@@ -34,6 +36,7 @@ if(isset($_GET['success']) && $_GET['success'] === 'false') {
   // preferred to be implemented that way
   var_dump($_SESSION['error-messages']);
 
+  // Included temporary for debugging purposes
   session_abort();
 }
 
@@ -85,7 +88,6 @@ if(isset($_GET['add'])){
 }
 
 if(isset($index)) {
-
   $content = include_template('templates/index.php', [
     'categories' => $categories, 'items' => $items, 'lot_time_remaining' => $lot_time_remaining
   ]);
@@ -93,8 +95,8 @@ if(isset($index)) {
 
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content,
-  'is_auth' => $is_auth, 'user_avatar' => $user_avatar,
 
+  'is_auth' => $is_auth, 'user_avatar' => $user_avatar,
   'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
 

@@ -33,21 +33,22 @@ function include_template($templatePath, $templateData){
   return $tpl;
 }
 
-function validateDate($date, $format = 'd.m.Y') {
+function validateDate($date, $format = 'Y-m-d') {
   $_date = DateTime::createFromFormat($format, $date);
 
-  $_date && $_date->format($format) == $date ? $s_date = true :
-    $s_date = 'error-date';
+  $_date && $_date->format($format) == $date ?
+    $_date = '' : $_date = 'error-date';
 
-  return $s_date;
+  return $_date;
 }
 
 function validateNumericValue($lotValue) {
-  $is_int = is_int($lotValue);
+  $_lotValue = intval($lotValue);
 
-  $is_positive = $lotValue > 0;
-  $is_prudent = $lotValue <= 10000000;
+  $is_int = is_int($_lotValue);
+  $is_positive = $_lotValue > 0;
 
+  $is_prudent = $_lotValue <= 10000000;
   if(!$is_int) {
     return 'error-integer';
 
@@ -58,7 +59,7 @@ function validateNumericValue($lotValue) {
     return 'error-value';
   }
 
-  return true;
+  return '';
 }
 
 
