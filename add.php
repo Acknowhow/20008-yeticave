@@ -30,11 +30,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (in_array($key, $required) && $value == '') {
       $error_messages[$key] = '';
 
-      break; // Only one message if several errors
+      $_SESSION['error-empty'] = $key;
+      break;
     }
 
-    // If the date is in wrong format need to figure
-    // out which string message to return
     if (array_key_exists($key, $rules)) {
       $result = call_user_func($rules[$key], $value);
 

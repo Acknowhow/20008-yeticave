@@ -15,6 +15,7 @@ $index = true;
 $nav = null;
 
 $errors = null;
+$error_empty = [];
 
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
@@ -24,6 +25,15 @@ if(isset($_GET['success']) && $_GET['success'] === 'true') {
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
   // If there are errors array simply
   $errors = true;
+  $error_messages = $_SESSION['error-messages'];
+
+  if(isset($_SESSION['error-empty'])) {
+
+    $error_empty_key = $_SESSION['error-empty'];
+
+    $error_empty_message = $form[$error_empty_key]['error-empty'];
+    $error_empty[$error_empty_key] = $error_empty_message;
+  }
 
 
   // First must check if the key value in the array is null,

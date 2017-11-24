@@ -18,6 +18,27 @@ if($timeLapseHours < 1) {
 
 }
 
+function validateNumericValue($lotValue) {
+  $_lotValue = intval($lotValue);
+
+  $is_int = is_int($_lotValue);
+  $is_positive = $_lotValue > 0;
+
+  $is_prudent = $_lotValue <= 10000000;
+  if(!$is_int) {
+    return 'error-integer';
+
+  } elseif (!$is_positive) {
+    return 'error-negative';
+
+  } elseif (!$is_prudent) {
+    return 'error-value';
+  }
+
+  return '';
+}
+
+
 function include_template($templatePath, $templateData){
   if(!file_exists($templatePath)) {
     return '';
@@ -42,25 +63,13 @@ function validateDate($date, $format = 'Y-m-d') {
   return $_date;
 }
 
-function validateNumericValue($lotValue) {
-  $_lotValue = intval($lotValue);
+function getEmptyErrorMessage($array, $key) {
+  return array_filter($array, function($key){
 
-  $is_int = is_int($_lotValue);
-  $is_positive = $_lotValue > 0;
-
-  $is_prudent = $_lotValue <= 10000000;
-  if(!$is_int) {
-    return 'error-integer';
-
-  } elseif (!$is_positive) {
-    return 'error-negative';
-
-  } elseif (!$is_prudent) {
-    return 'error-value';
-  }
-
-  return '';
+    return $key === '';
+  }, ARRAY_FILTER_USE_KEY);
 }
+
 
 
 //if (is_string(validateLotRate($a))) {
