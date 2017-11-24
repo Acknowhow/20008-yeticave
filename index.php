@@ -20,6 +20,9 @@ if(isset($_GET['success']) && $_GET['success'] === 'true') {
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
+  // If there are errors array simply
+  $_GET['add'] = true;
+
 
   // First must check if the key value in the array is null,
   // If so, display the default message from form data for that key
@@ -34,7 +37,6 @@ if(isset($_GET['success']) && $_GET['success'] === 'false') {
   // be displayed, or only the first one which is wrong. Since function which
   // was offered on lecture checks error messages sequentially, it is probably
   // preferred to be implemented that way
-  var_dump($_SESSION['error-messages']);
 }
 
 
@@ -91,6 +93,7 @@ if(isset($index)) {
   ]);
 }
 
+ob_end_clean();
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content,
 

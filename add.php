@@ -45,6 +45,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
+ob_start();
 if(!count($error_messages)){
   foreach ($_POST as $key => $value){
 
