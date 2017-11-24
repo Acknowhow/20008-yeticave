@@ -20,6 +20,7 @@ if(isset($_GET['success']) && $_GET['success'] === 'true') {
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
+
   // First must check if the key value in the array is null,
   // If so, display the default message from form data for that key
 
