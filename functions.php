@@ -38,7 +38,6 @@ function validateNumericValue($lotValue) {
   return '';
 }
 
-
 function include_template($templatePath, $templateData){
   if(!file_exists($templatePath)) {
     return '';
@@ -63,20 +62,13 @@ function validateDate($date, $format = 'Y-m-d') {
   return $_date;
 }
 
-function getEmptyErrorMessage($array, $key) {
-  return array_filter($array, function($key){
+// Use this function to return
+function getErrorMessage($arr, $key){
+  return array_filter($arr, function($_key) use ($key) {
 
-    return $key === '';
+    return $_key === $key;
   }, ARRAY_FILTER_USE_KEY);
 }
 
-
-
-//if (is_string(validateLotRate($a))) {
-//  $error_messages['lot-rate'] = validateLotRate($a);
-//}
-//
-//$extracted = extract($errors);
-//var_dump($lot_rate);
 
 

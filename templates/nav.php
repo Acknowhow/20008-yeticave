@@ -1,9 +1,9 @@
 <nav class="nav">
   <ul class="nav__list container">
-    <?foreach ($categories as $category => $value) :?>
+    <?foreach ($categories as $category => $value) : ?>
       <li class="nav__item">
-        <a href=""><?=$value;?></a>
+        <a href=""><?=$value; ?></a>
       </li>
-    <?endforeach;?>
+    <?endforeach; ?>
   </ul>
 </nav>

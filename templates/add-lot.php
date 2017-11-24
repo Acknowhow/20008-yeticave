@@ -1,5 +1,5 @@
 <?=$nav?>
-<form class="form form--add-lot container form--invalid"
+<form class="form form--add-lot container <?if($errors) : ?>form--invalid<?endif; ?>"
       action="/add.php" method="POST" enctype="multipart/form-data"> <!-- form--invalid -->
   <h2>Добавление лота</h2>
 
@@ -11,13 +11,13 @@
              name="<?=$lot_name['name']; ?>"
              placeholder="<?=$lot_name['error-message']; ?>"
              value="<?=htmlspecialchars($lot_name['input-data']); ?>">
-      <span class="form__error"><?=$lot_name['error-message']; ?></span>
+      <span class="form__error"><?=$lot_name[$error_empty_key]['error-message']; ?></span>
     </div>
 
     <div class="form__item">
-      <label for="<?=$category['name'];?>"><?=$category['title']; ?></label>
-      <select id="<?=$category['name'];?>"
-              name="<?=$category['name'];?>" required>
+      <label for="<?=$category['name']; ?>"><?=$category['title']; ?></label>
+      <select id="<?=$category['name']; ?>"
+              name="<?=$category['name']; ?>" required>
         <option><?=$category['option-default']; ?></option>
 
         <? foreach ($categories as $category => $value) :?>
@@ -55,7 +55,7 @@
 
   <div class="form__container-three">
     <div class="form__item form__item--small">
-      <label for="<?=$lot_rate['name']; ?>"><?=$lot_rate['title'] ?></label>
+      <label for="<?=$lot_rate['name']; ?>"><?=$lot_rate['title']; ?></label>
       <input id="<?=$lot_rate['name']; ?>"
              type="number"
              name="<?=$lot_rate['name']; ?>"
@@ -65,7 +65,7 @@
     </div>
 
     <div class="form__item form__item--small">
-      <label for="<?=$lot_step['name']; ?>"><?=$lot_step['error-message']; ?></label>
+      <label for="<?=$lot_step['name']; ?>"><?=$lot_step['title']; ?></label>
       <input id="<?=$lot_step['name']; ?>"
              type="number"
              name="<?=$lot_step['name']; ?>"
@@ -80,10 +80,10 @@
              id="<?=$lot_date['name']; ?>"
              type="date"
              name="<?=$lot_date['name']; ?>" required>
-      <span class="form__error"><?=$lot_date['error-message'] ?></span>
+      <span class="form__error"><?=$lot_date['error-message']; ?></span>
     </div>
   </div>
 
-  <span class="form__error form__error--bottom"><?=$all['error-message'] ?></span>
+  <span class="form__error form__error--bottom"><?=$all['error-message']; ?></span>
   <button type="submit" class="button">Добавить лот</button>
 </form>

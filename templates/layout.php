@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title><?=$title?></title>
+  <title><?=$title; ?></title>
   <link href="css/normalize.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
@@ -21,15 +21,15 @@
     <a class="main-header__add-lot button" href="index.php?add=true">Добавить лот</a>
 
     <nav class="user-menu">
-      <?if($is_auth === true) :?>
+      <?if($is_auth === true) : ?>
         <div class="user-menu__image">
-          <img src="<?=$user_avatar?>" width="40" height="40" alt="Пользователь">
+          <img src="<?=$user_avatar; ?>" width="40" height="40" alt="Пользователь">
         </div>
         <div class="user-menu__logged">
-        <p><?=$user_name?></p>
+        <p><?=$user_name; ?></p>
         </div><?endif; ?>
 
-      <?if($is_auth !== true) :?><ul class="user-menu__list">
+      <?if($is_auth !== true) : ?><ul class="user-menu__list">
         <li class="user-menu__item">
           <a href="#">Регистрация</a>
         </li>
@@ -41,20 +41,20 @@
   </div>
 </header>
 
-<main <?if(isset($index)) :?>class="container"<?endif; ?>><?=$content;?></main>
+<main <?if(isset($index)) : ?>class="container"<?endif; ?>><?=$content; ?></main>
 
 <footer class="main-footer">
   <nav class="nav">
     <ul class="nav__list container">
-      <? foreach ($categories as $category => $value) :?>
+      <? foreach ($categories as $category => $value) : ?>
         <li class="nav__item">
-        <a href="all-lots.html"><?=$value?></a>
-        </li><?endforeach;?>
+        <a href="all-lots.html"><?=$value; ?></a>
+        </li><?endforeach; ?>
     </ul>
   </nav>
   <div class="main-footer__bottom container">
     <div class="main-footer__copyright">
-      <p>© <?=$year_now?>, YetiCave</p>
+      <p>© <?=$year_now; ?>, YetiCave</p>
       <p>Интернет-аукцион сноубордического и горнолыжного снаряжения</p>
     </div>
     <div class="main-footer__social social">

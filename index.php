@@ -1,4 +1,6 @@
 <?php
+header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 session_start();
 require 'functions.php';
 
@@ -15,7 +17,8 @@ $index = true;
 $nav = null;
 
 $errors = null;
-$error_empty = [];
+$error_empty_key = null;
+$empty_error = null;
 
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
@@ -23,18 +26,8 @@ if(isset($_GET['success']) && $_GET['success'] === 'true') {
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
-  // If there are errors array simply
   $errors = true;
-  $error_messages = $_SESSION['error-messages'];
-
-  if(isset($_SESSION['error-empty'])) {
-
-    $error_empty_key = $_SESSION['error-empty'];
-
-    $error_empty_message = $form[$error_empty_key]['error-empty'];
-    $error_empty[$error_empty_key] = $error_empty_message;
-  }
-
+  $error_empty_key = $_SESSION['error-empty'];
 
   // First must check if the key value in the array is null,
   // If so, display the default message from form data for that key
@@ -78,8 +71,8 @@ if(isset($_GET['id'])){
     $title = $lot['name'];
     $content = include_template('templates/lot.php', [
 
-      'nav' => $nav, 'categories' => $categories, 'lot' => $lot,
-      'lot_text' => $lot_text, 'bets' => $bets
+      'nav' => $nav, 'categories' => $categories,
+      'lot' => $lot, 'lot_text' => $lot_text, 'bets' => $bets
     ]);
   }
 }
@@ -90,11 +83,12 @@ if(isset($_GET['add']) || $errors === true){
   $title = $add_lot_title;
   $content = include_template('templates/add-lot.php', [
 
-    'categories' => $categories, 'nav' => $nav, 'lot_name' => $form['lot_name'],
-    'category' => $form['category'], 'message' => $form['message'],
-
+    'categories' => $categories, 'nav' => $nav,
+    'lot_name' => $form['lot_name'], 'category' => $form['category'],
     'file' => $form['file'], 'lot_rate' => $form['lot_rate'],
-    'lot_step' => $form['lot_step'], 'lot_date' => $form['lot_date'], 'all' => $form['all']
+
+    'lot_step' => $form['lot_step'], 'lot_date' => $form['lot_date'], 'all' => $form['all'],
+    'message' => $form['message'], 'errors' => $errors, 'error_empty_key' => $error_empty_key
   ]);
 }
 
@@ -107,6 +101,7 @@ if(isset($index)) {
 
 ob_end_clean();
 print include_template('templates/layout.php', [
+
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
