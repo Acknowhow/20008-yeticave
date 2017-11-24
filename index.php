@@ -1,6 +1,4 @@
 <?php
-header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 session_start();
 require 'functions.php';
 
@@ -16,19 +14,23 @@ ini_set("display_errors", 1);
 $index = true;
 $nav = null;
 
-$errors = null;
-$error_empty_key = null;
-$empty_error = null;
-
+$errors = false;
+$error_key = null;
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
-  var_dump($_SESSION['form-data']);
+  var_dump($_SESSION['form_data']);
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
   $errors = true;
-  $error_empty_key = $_SESSION['error-empty'];
+  $error_key = $_SESSION['error_key'];
 
+  $error_message = $form_errors[$error_key]['error_empty'];
+  $form[$error_key]['error_message'] = $error_message;
+
+  foreach ($_SESSION['form_data'] as $key => $value) {
+    //
+  }
   // First must check if the key value in the array is null,
   // If so, display the default message from form data for that key
 
@@ -88,7 +90,7 @@ if(isset($_GET['add']) || $errors === true){
     'file' => $form['file'], 'lot_rate' => $form['lot_rate'],
 
     'lot_step' => $form['lot_step'], 'lot_date' => $form['lot_date'], 'all' => $form['all'],
-    'message' => $form['message'], 'errors' => $errors, 'error_empty_key' => $error_empty_key
+    'message' => $form['message'], 'errors' => $errors, 'error_key' => $error_key
   ]);
 }
 

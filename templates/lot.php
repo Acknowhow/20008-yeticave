@@ -4,7 +4,7 @@
   <div class="lot-item__content">
     <div class="lot-item__left">
       <div class="lot-item__image">
-        <img src="<?=$lot['img-url']; ?>" width="730" height="548" alt="<?=$lot['img-alt']; ?>">
+        <img src="<?=$lot['img_url']; ?>" width="730" height="548" alt="<?=$lot['img_alt']; ?>">
       </div>
       <p class="lot-item__category">Категория: <span><?=$lot['category']; ?></span></p>
       <p class="lot-item__description"><?=$lot_text[0]; ?></p>

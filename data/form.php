@@ -2,69 +2,69 @@
 // Main data with current error message from $form_errors
 $form = [
   'lot_name' => [
-    'name' => 'lot-name', 'title' => 'Наименование',
-    'error-message' => '', 'input-data' => ''
+    'name' => 'lot_name', 'title' => 'Наименование',
+    'error_message' => '', 'input_data' => ''
   ],
   'category' => [
     'name' => 'category',
     'title' => 'Категория',
-    'option-default' => 'Выберите категорию',
-    'error-message' => '', 'input-data' => ''
+    'option_default' => 'Выберите категорию',
+    'error_message' => '', 'input_data' => ''
   ],
   'message' => [
     'name' => 'message', 'title' => 'Описание',
-    'error-message' => '', 'input-data' => ''
+    'error_message' => '', 'input_data' => ''
   ],
   'file' => [
     'name' => 'file', 'title' => 'Изображение',
-    'alt' => 'Изображение лота', 'input-data' => ''
+    'alt' => 'Изображение лота', 'input_data' => ''
   ],
   'lot_rate' => [
-    'name' => 'lot-rate', 'title' => 'Начальная цена',
-    'error-message' => '', 'input-data' => ''
+    'name' => 'lot_rate', 'title' => 'Начальная цена',
+    'error_message' => '', 'input_data' => ''
   ],
   'lot_step' => [
-    'name' => 'lot-step', 'title' => 'Шаг ставки',
-    'error-message' => '', 'input-data' => ''
+    'name' => 'lot_step', 'title' => 'Шаг ставки',
+    'error_message' => '', 'input_data' => ''
   ],
   'lot_date' => [
-    'name' => 'lot-date',
-    'title' => 'Дата окончания торгов', 'error-message' => '', 'input-data' => ''
+    'name' => 'lot_date',
+    'title' => 'Дата окончания торгов', 'error_message' => '', 'input_data' => ''
   ],
   'all' => [
-    'name' => 'all', 'error-message' => '', 'input-data' => ''
+    'name' => 'all', 'error_message' => '', 'input_data' => ''
   ]
 ];
 
 $form_errors = [
   'lot_name' => [
-    'name' => 'lot-name',
-    'error-empty' => 'Введите наименование лота', 'error-format' => ''
+    'name' => 'lot_name',
+    'error_empty' => 'Введите наименование лота', 'error_format' => ''
   ],
   'category' => [
     'name' => 'category',
-    'error-empty' => 'Выберите категорию', 'error-format' => ''
+    'error_empty' => 'Выберите категорию', 'error_format' => ''
   ],
   'message' => [
     'name' => 'message',
-    'error-empty' => 'Напишите описание лота', 'error-format' => ''
+    'error_empty' => 'Напишите описание лота', 'error_format' => ''
   ],
   'file' => [
-    'name' => 'file', 'error-empty' => '', 'error-format' => ''
+    'name' => 'file', 'error_empty' => '', 'error_format' => ''
   ],
   'lot_rate' => [
-    'name' => 'lot-rate',
-    'error-empty' => 'Введите начальную цену', 'error-format' => ''
+    'name' => 'lot_rate',
+    'error_empty' => 'Введите начальную цену', 'error_format' => ''
   ],
   'lot_step' => [
-    'name' => 'lot-step',
-    'error-empty' => 'Введите шаг ставки', 'error-format' => 'Неправильный формат ставки',
+    'name' => 'lot_step',
+    'error_empty' => 'Введите шаг ставки', 'error_format' => 'Неправильный формат ставки',
     'error-negative' => 'Значение меньше нуля', 'error-value' => 'Цена выше максимального значения'
   ],
 
   'lot_date' => [
-    'name' => 'lot-date', 'error-empty' => 'Введите дату завершения торгов',
-    'error-format' => 'Неправильный формат даты', 'error-date' => 'Дата меньше текущего значения'
+    'name' => 'lot_date', 'error_empty' => 'Введите дату завершения торгов',
+    'error_format' => 'Неправильный формат даты', 'error-date' => 'Дата меньше текущего значения'
   ],
-  'all' => ['name' => 'all', 'error-empty' => 'Пожалуйста, исправьте ошибки в форме.'],
+  'all' => ['name' => 'all', 'error_empty' => 'Пожалуйста, исправьте ошибки в форме.'],
 ];

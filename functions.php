@@ -26,13 +26,13 @@ function validateNumericValue($lotValue) {
 
   $is_prudent = $_lotValue <= 10000000;
   if(!$is_int) {
-    return 'error-integer';
+    return 'error_integer';
 
   } elseif (!$is_positive) {
-    return 'error-negative';
+    return 'error_negative';
 
   } elseif (!$is_prudent) {
-    return 'error-value';
+    return 'error_value';
   }
 
   return '';
@@ -57,7 +57,7 @@ function validateDate($date, $format = 'Y-m-d') {
   $_date = DateTime::createFromFormat($format, $date);
 
   $_date && $_date->format($format) == $date ?
-    $_date = '' : $_date = 'error-date';
+    $_date = '' : $_date = 'error_date';
 
   return $_date;
 }

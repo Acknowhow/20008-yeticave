@@ -16,7 +16,7 @@
     <? foreach ($items as $item => $value) :?>
       <li class="lots__item lot">
       <div class="lot__image">
-        <img src="<?=$value['img-url']; ?>" width="350" height="260" alt="<?=$value['img-alt']; ?>">
+        <img src="<?=$value['img_url']; ?>" width="350" height="260" alt="<?=$value['img_alt']; ?>">
       </div>
       <div class="lot__info">
         <span class="lot__category"><?=$value['category']; ?></span>
