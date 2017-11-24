@@ -14,6 +14,8 @@ ini_set("display_errors", 1);
 $index = true;
 $nav = null;
 
+$errors = null;
+
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
   var_dump($_SESSION['form-data']);
@@ -21,7 +23,7 @@ if(isset($_GET['success']) && $_GET['success'] === 'true') {
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
   // If there are errors array simply
-  $_GET['add'] = true;
+  $errors = true;
 
 
   // First must check if the key value in the array is null,
@@ -72,7 +74,7 @@ if(isset($_GET['id'])){
   }
 }
 
-if(isset($_GET['add'])){
+if(isset($_GET['add']) || $errors === true){
   $index = null;
   $title = $add_lot_title;
 
