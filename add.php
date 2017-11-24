@@ -1,5 +1,4 @@
 <?php
-// header('Content-Type: text/html; charset=utf8');
 session_start();
 require 'functions.php';
 
@@ -12,10 +11,8 @@ $lot_rate = $_POST['lot-rate'] ?? '';
 $lot_step = $_POST['lot-step'] ?? '';
 $lot_date = $_POST['lot-date'] ?? '';
 
-
 $error_messages = [];
 $form_data = [];
-
 $required = [
   'lot-name', 'category', 'message',
   'lot-rate', 'lot-step', 'lot-date'
@@ -26,11 +23,9 @@ $rules = [
   'lot-date' => 'validateDate'
 ];
 
-
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
   print_r($message);
   foreach ($_POST as $key => $value) {
-
 
     if (in_array($key, $required) && $value == '') {
       $error_messages[$key] = '';

@@ -5,43 +5,44 @@
 
   <div class="form__container-two">
     <div class="form__item form__item--invalid"> <!-- form__item--invalid -->
-      <label for="<?=$lot_name['name'] ?>"><?=$lot_name['title'] ?></label>
-      <input id="<?=$lot_name['name'] ?>"
+      <label for="<?=$lot_name['name']; ?>"><?=$lot_name['title']; ?></label>
+      <input id="<?=$lot_name['name']; ?>"
              type="text"
-             name="<?=$lot_name['name'] ?>"
-             placeholder="<?=$lot_name['error-message'] ?>"
+             name="<?=$lot_name['name']; ?>"
+             placeholder="<?=$lot_name['error-message']; ?>"
              value="<?=htmlspecialchars($lot_name['input-data']); ?>">
-      <span class="form__error"><?=$lot_name['error-message'] ?></span>
+      <span class="form__error"><?=$lot_name['error-message']; ?></span>
     </div>
 
     <div class="form__item">
-      <label for="<?=$category_name['name'] ?>"><?=$category_name['title'] ?></label>
-      <select id="<?=$category_name['name'] ?>"
-              name="<?=$category_name['name']?>" required>
-        <option><?=$category_name['option-default'] ?></option>
-        <?foreach ($categories as $category => $value) :?>
-        <option><?=$value?></option>
-        <?endforeach;?>
+      <label for="<?=$category['name'];?>"><?=$category['title']; ?></label>
+      <select id="<?=$category['name'];?>"
+              name="<?=$category['name'];?>" required>
+        <option><?=$category['option-default']; ?></option>
+
+        <? foreach ($categories as $category => $value) :?>
+        <option><?=$value; ?></option>
+        <? endforeach; ?>
       </select>
-      <span class="form__error"><?=$category_name['error-message'] ?></span>
+      <span class="form__error"><?=$category['error-message']; ?></span>
     </div>
   </div>
 
   <div class="form__item form__item--wide">
-    <label for="<?=$message['name'] ?>"><?=$message['title'] ?></label>
-    <textarea id="<?=$message['name']?>"
-              name="<?=$message['name']?>"
-              placeholder="<?=$message['error-message']?>"
-              required><?=htmlspecialchars($message['input-data']);?></textarea>
-    <span class="form__error"><?=$message['error-message'] ?></span>
+    <label for="<?=$message['name']; ?>"><?=$message['title']; ?></label>
+    <textarea id="<?=$message['name']; ?>"
+              name="<?=$message['name']; ?>"
+              placeholder="<?=$message['error-message']; ?>"
+              required><?=htmlspecialchars($message['input-data']); ?></textarea>
+    <span class="form__error"><?=$message['error-message']; ?></span>
   </div>
 
   <div class="form__item form__item--file"> <!-- form__item--uploaded -->
-    <label><?=$file['title'] ?></label>
+    <label><?=$file['name']; ?></label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
       <div class="preview__img">
-        <img src="img/avatar.jpg" width="113" height="113" alt="<?=$file['alt'] ?>">
+        <img src="img/avatar.jpg" width="113" height="113" alt="">
       </div>
     </div>
     <div class="form__input-file">
@@ -54,31 +55,31 @@
 
   <div class="form__container-three">
     <div class="form__item form__item--small">
-      <label for="<?=$lot_rate; ?>"><?=$lot_rate['title'] ?></label>
-      <input id="<?=$lot_rate ?>"
+      <label for="<?=$lot_rate['name']; ?>"><?=$lot_rate['title'] ?></label>
+      <input id="<?=$lot_rate['name']; ?>"
              type="number"
-             name="<?=$lot_rate ?>"
+             name="<?=$lot_rate['name']; ?>"
              placeholder="0"
              required value="<?=htmlspecialchars($lot_rate['input-data']); ?>">
-      <span class="form__error"><?=$lot_rate['error-message'] ?></span>
+      <span class="form__error"><?=$lot_rate['error-message']; ?></span>
     </div>
 
     <div class="form__item form__item--small">
-      <label for="<?=$lot_step ?>"><?=$lot_step['error-message'] ?></label>
-      <input id="<?=$lot_step ?>"
+      <label for="<?=$lot_step['name']; ?>"><?=$lot_step['error-message']; ?></label>
+      <input id="<?=$lot_step['name']; ?>"
              type="number"
-             name="<?=$lot_step ?>"
+             name="<?=$lot_step['name']; ?>"
              placeholder="0"
              required value="<?=htmlspecialchars($lot_step['input-data']); ?>">
-      <span class="form__error"><?=$lot_step['error-message'] ?></span>
+      <span class="form__error"><?=$lot_step['error-message']; ?></span>
     </div>
 
     <div class="form__item">
-      <label for="<?=$lot_date ?>"><?=$lot_date['title'] ?></label>
+      <label for="<?=$lot_date['name']; ?>"><?=$lot_date['title']; ?></label>
       <input class="form__input-date"
-             id="<?=$lot_date ?>"
+             id="<?=$lot_date['name']; ?>"
              type="date"
-             name="<?=$lot_date ?>" required>
+             name="<?=$lot_date['name']; ?>" required>
       <span class="form__error"><?=$lot_date['error-message'] ?></span>
     </div>
   </div>

@@ -76,9 +76,8 @@ if(isset($_GET['add'])){
   $content = include_template('templates/add-lot.php', [
     'categories' => $categories, 'nav' => $nav, 'lot_name' => $form['lot_name'],
 
-    'category_name' => $form['category_name'], 'message' => $form['message'],
+    'category' => $form['category'], 'message' => $form['message'],
     'file' => $form['file'], 'lot_rate' => $form['lot_rate'],
-
 'lot_step' => $form['lot_step'], 'lot_date' => $form['lot_date'], 'all' => $form['all']
   ]);
 }
