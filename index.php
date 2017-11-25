@@ -15,12 +15,9 @@ $index = true;
 $nav = null;
 
 $errors = false;
-$error_key = null;
-
-$error_empty = null;
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
-  var_dump($_SESSION['form_data']['lot_date ']);
+  var_dump($_SESSION['form_data']);
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {

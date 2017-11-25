@@ -24,15 +24,11 @@ function validateNumericValue($lotValue) {
   $is_int = is_int($_lotValue);
   $is_positive = $_lotValue > 0;
 
-  $is_prudent = $_lotValue <= 10000000;
   if(!$is_int) {
     return 'error_integer';
 
   } elseif (!$is_positive) {
     return 'error_negative';
-
-  } elseif (!$is_prudent) {
-    return 'error_value';
   }
 
   return '';

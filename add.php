@@ -13,7 +13,7 @@ $lot_rate = $_POST['lot_rate'] ?? '';
 $lot_step = $_POST['lot_step'] ?? '';
 $lot_date = $_POST['lot_date'] ?? '';
 
-$error_messages = [];
+$error_state = [];
 $form_data = [];
 
 $required = [
@@ -30,24 +30,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $required) && $value == '') {
-      $error_messages[$key] = '';
-
-      $_SESSION['error_key'] = $key;
-      break;
+      $error_state[$key] = 'error_empty';
     }
 
     if (array_key_exists($key, $rules)) {
       $result = call_user_func($rules[$key], $value);
 
       if (!empty($result)) {
-        $error_messages[$key] = $result;
+        $error_state[$key] = $result;
       }
     }
   }
 }
 
 ob_start();
-if(!count($error_messages)){
+if(!count($error_state)){
   foreach ($_POST as $key => $value){
 
     $form_data[$key] = $value;
@@ -56,8 +53,8 @@ if(!count($error_messages)){
   $_SESSION['form_data'] = $form_data;
   header('Location: index.php?success=true');
 }
-if(count($error_messages)){
-  $_SESSION['error_messages'] = $error_messages;
+if(count($error_state)){
+  $_SESSION['error_state'] = $error_state;
 
   header('Location: index.php?success=false');
 }
