@@ -18,10 +18,25 @@ if($timeLapseHours < 1) {
 
 }
 
-function validateNumericValue($lotValue) {
-  $_lotValue = intval($lotValue);
+function validateLotRate($lotValue) {
+  $_lotValue = $lotValue;
+  $is_numeric = intval($_lotValue);
 
-  $is_int = is_int($_lotValue);
+  $is_positive = $_lotValue > 0;
+  if(!$is_numeric) {
+
+    return 'error_numeric';
+  } elseif (!$is_positive) {
+
+    return 'error_negative';
+  }
+  return '';
+}
+
+function validateLotStep($lotValue) {
+  $_lotValue = $lotValue;
+
+  $is_int = ctype_digit($_lotValue);
   $is_positive = $_lotValue > 0;
 
   if(!$is_int) {
@@ -30,7 +45,6 @@ function validateNumericValue($lotValue) {
   } elseif (!$is_positive) {
     return 'error_negative';
   }
-
   return '';
 }
 

@@ -22,7 +22,9 @@ $required = [
 ];
 
 $rules = [
-  'lot_rate' => 'validateNumericValue',
+  'lot_rate' => 'validateLotRate',
+
+  'lot_step' => 'validateLotStep',
   'lot_date' => 'validateDate'
 ];
 
