@@ -4,7 +4,7 @@
   <h2>Добавление лота</h2>
 
   <div class="form__container-two">
-    <div class="form__item <?if (!empty($lot_name['error_message'])) : ?>form__item--invalid<?endif; ?>"> <!-- form__item--invalid -->
+    <div class="form__item <?if (!empty($lot_name['error_message'])) : ?>form__item--invalid<?endif; ?>">
       <label for="<?=$lot_name['name']; ?>"><?=$lot_name['title']; ?></label>
       <input id="<?=$lot_name['name']; ?>"
              type="text"
@@ -14,7 +14,7 @@
       <span class="form__error"><?if (isset($lot_name['error_message'])) : ?><?=$lot_name['error_message']; ?><?endif; ?></span>
     </div>
 
-    <div class="form__item">
+    <div class="form__item <?if (!empty($category['error_message'])) : ?>form__item--invalid<?endif; ?>">
       <label for="<?=$category['name']; ?>"><?=$category['title']; ?></label>
       <select id="<?=$category['name']; ?>"
               name="<?=$category['name']; ?>">
@@ -24,7 +24,7 @@
         <option><?=$value; ?></option>
         <? endforeach; ?>
       </select>
-      <span class="form__error"><?=$category['error_message']; ?></span>
+      <span class="form__error"><?if (isset($category['error_message'])) : ?><?=$category['error_message']; ?><?endif; ?></span>
     </div>
   </div>
 

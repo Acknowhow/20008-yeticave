@@ -57,14 +57,13 @@ $form_errors = [
     'error_empty' => 'Введите начальную цену', 'error_format' => ''
   ],
   'lot_step' => [
-    'name' => 'lot_step',
-    'error_empty' => 'Введите шаг ставки', 'error_format' => 'Неправильный формат ставки',
-    'error-negative' => 'Значение меньше нуля', 'error-value' => 'Цена выше максимального значения'
-  ],
+    'name' => 'lot_step', 'error_empty' => 'Введите шаг ставки',
+    'error_format' => 'Неправильный формат ставки', 'error-negative' => 'Значение меньше нуля',
 
   'lot_date' => [
     'name' => 'lot_date', 'error_empty' => 'Введите дату завершения торгов',
     'error_format' => 'Неправильный формат даты', 'error-date' => 'Дата меньше текущего значения'
   ],
   'all' => ['name' => 'all', 'error_empty' => 'Пожалуйста, исправьте ошибки в форме.'],
-];
+    ]
+  ];

@@ -17,8 +17,10 @@ $nav = null;
 $errors = false;
 $error_key = null;
 
+$error_empty = null;
+
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
-  var_dump($_SESSION['form_data']);
+  var_dump($_SESSION['form_data']['lot_date ']);
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
@@ -26,24 +28,14 @@ if(isset($_GET['success']) && $_GET['success'] === 'false') {
   $error_key = $_SESSION['error_key'];
 
   $error_message = $form_errors[$error_key]['error_empty'];
+  // Geeting error message for the specific key
+  // that was received for $_POST
   $form[$error_key]['error_message'] = $error_message;
 
-  foreach ($_SESSION['form_data'] as $key => $value) {
-    //
-  }
-  // First must check if the key value in the array is null,
-  // If so, display the default message from form data for that key
+//  foreach ($_SESSION['form_data'] as $error_key) {
+//    //
+//  }
 
-  // Best option is to make one function for filtering array keys.
-  // 1.) If the key is null, then display message for that
-  // Key from form data array
-  // 2.) Else return key and its value to pick out item from lot array,
-  // and display that error from error-messages array
-
-  // 3.) The only thing to keep in mind is whether several messages should
-  // be displayed, or only the first one which is wrong. Since function which
-  // was offered on lecture checks error messages sequentially, it is probably
-  // preferred to be implemented that way
 }
 
 
