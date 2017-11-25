@@ -1,5 +1,6 @@
 <?php
-header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+// For faster validation checks
+header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 session_start();
 require 'functions.php';
@@ -39,9 +40,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $result = call_user_func($rules[$key], $value);
 
       if (!empty($result)) {
-        $error_state[$key] = $result;
-      }
-    }
+         $error_state[$key] = $result;
+       }
+     }
   }
 }
 

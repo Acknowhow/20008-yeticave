@@ -15,7 +15,6 @@ if($timeLapseHours < 1) {
 } else {
   return date('H часов назад', $timeStamp);
 }
-
 }
 
 function validateLotRate($lotValue) {
@@ -23,12 +22,14 @@ function validateLotRate($lotValue) {
   $is_numeric = intval($_lotValue);
 
   $is_positive = $_lotValue > 0;
+  if(empty($_lotValue)) {
+    return 'Введите начальную цену';
+  }
   if(!$is_numeric) {
+    return 'Введите числовое значение';
 
-    return 'error_numeric';
   } elseif (!$is_positive) {
-
-    return 'error_negative';
+    return 'Введите число больше нуля';
   }
   return '';
 }
@@ -39,11 +40,14 @@ function validateLotStep($lotValue) {
   $is_int = ctype_digit($_lotValue);
   $is_positive = $_lotValue > 0;
 
+  if(empty($_lotValue)) {
+    return 'Введите шаг ставки';
+  }
   if(!$is_int) {
-    return 'error_integer';
+    return 'Введите целое число';
 
   } elseif (!$is_positive) {
-    return 'error_negative';
+    return 'Введите число больше нуля';
   }
   return '';
 }

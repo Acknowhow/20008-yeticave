@@ -21,18 +21,7 @@ if(isset($_GET['success']) && $_GET['success'] === 'true') {
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
-  $errors = true;
-  $error_key = $_SESSION['error_key'];
-
-  $error_message = $form_errors[$error_key]['error_empty'];
-  // Geeting error message for the specific key
-  // that was received for $_POST
-  $form[$error_key]['error_message'] = $error_message;
-
-//  foreach ($_SESSION['form_data'] as $error_key) {
-//    //
-//  }
-
+  var_dump($_SESSION['error_state']);
 }
 
 
@@ -79,7 +68,7 @@ if(isset($_GET['add']) || $errors === true){
     'file' => $form['file'], 'lot_rate' => $form['lot_rate'],
 
     'lot_step' => $form['lot_step'], 'lot_date' => $form['lot_date'], 'all' => $form['all'],
-    'message' => $form['message'], 'errors' => $errors, 'error_key' => $error_key
+    'message' => $form['message'], 'errors' => $errors
   ]);
 }
 

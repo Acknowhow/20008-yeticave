@@ -38,32 +38,28 @@ $form = [
 
 $form_errors = [
   'lot_name' => [
-    'name' => 'lot_name',
-    'error_empty' => 'Введите наименование лота', 'error_format' => ''
+    'name' => 'lot_name', 'error_empty' => 'Введите наименование лота'
   ],
   'category' => [
-    'name' => 'category',
-    'error_empty' => 'Выберите категорию', 'error_format' => ''
+    'name' => 'category', 'error_empty' => 'Выберите категорию'
   ],
   'message' => [
-    'name' => 'message',
-    'error_empty' => 'Напишите описание лота', 'error_format' => ''
+    'name' => 'message', 'error_empty' => 'Напишите описание лота'
   ],
   'file' => [
-    'name' => 'file', 'error_empty' => '', 'error_format' => ''
+    'name' => 'file', 'error_empty' => ''
   ],
   'lot_rate' => [
-    'name' => 'lot_rate',
-    'error_empty' => 'Введите начальную цену', 'error_format' => ''
+    'name' => 'lot_rate', 'error_empty' => ''
   ],
   'lot_step' => [
-    'name' => 'lot_step', 'error_empty' => 'Введите шаг ставки',
-    'error_format' => 'Неправильный формат ставки', 'error-negative' => 'Значение меньше нуля',
-
+    'name' => 'lot_step', 'error_empty' => ''
+  ],
   'lot_date' => [
     'name' => 'lot_date', 'error_empty' => 'Введите дату завершения торгов',
     'error_format' => 'Неправильный формат даты', 'error_date' => 'Дата меньше текущего значения'
   ],
-  'all' => ['name' => 'all', 'error_empty' => 'Пожалуйста, исправьте ошибки в форме.'],
-    ]
-  ];
+  'all' => [
+    'name' => 'all', 'error_empty' => 'Пожалуйста, исправьте ошибки в форме.'
+  ]
+];
