@@ -7,7 +7,7 @@ $form_errors = [
     'name' => 'category', 'error_empty' => 'Выберите категорию'
   ],
   'message' => [
-    'name' => 'message', 'error_empty' => 'Напишите описание лота'
+    'name' => 'message', 'error_empty' => 'Добавьте описание лота'
   ],
   'file' => [
     'name' => 'file', 'error_empty' => ''

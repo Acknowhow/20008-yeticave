@@ -1,12 +1,11 @@
 <?php
 header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+
 session_start();
 require 'functions.php';
-
 require 'config.php';
 require 'data/data.php';
-
 require 'data/lot.php';
 
 error_reporting(-1);
@@ -95,6 +94,7 @@ if(isset($_GET['add']) || !empty($errors)) {
 
 if(isset($index)) {
   $content = include_template('templates/index.php', [
+
     'categories' => $categories,
     'items' => $items, 'lot_time_remaining' => $lot_time_remaining
   ]);

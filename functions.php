@@ -5,7 +5,6 @@ $timeLapseStamp = strtotime('now') - $timeStamp;
 // Elapsed time in hours
 $timeLapseHours = round($timeLapseStamp/3600, 2);
 
-
 if($timeLapseHours < 1) {
   return date('i минут назад', $timeStamp);
 
@@ -15,41 +14,6 @@ if($timeLapseHours < 1) {
 } else {
   return date('H часов назад', $timeStamp);
 }
-}
-
-function validateLotRate($lotValue) {
-  $_lotValue = $lotValue;
-  $is_numeric = intval($_lotValue);
-
-  $is_positive = $_lotValue > 0;
-  if(empty($_lotValue)) {
-    return 'Введите начальную цену';
-  }
-  if(!$is_numeric) {
-    return 'Введите числовое значение';
-
-  } elseif (!$is_positive) {
-    return 'Введите число больше нуля';
-  }
-  return '';
-}
-
-function validateLotStep($lotValue) {
-  $_lotValue = $lotValue;
-
-  $is_int = ctype_digit($_lotValue);
-  $is_positive = $_lotValue > 0;
-
-  if(empty($_lotValue)) {
-    return 'Введите шаг ставки';
-  }
-  if(!$is_int) {
-    return 'Введите целое число';
-
-  } elseif (!$is_positive) {
-    return 'Введите число больше нуля';
-  }
-  return '';
 }
 
 function include_template($templatePath, $templateData){
@@ -67,22 +31,6 @@ function include_template($templatePath, $templateData){
   return $tpl;
 }
 
-function validateDate($date, $format = 'Y-m-d') {
-  $_date = DateTime::createFromFormat($format, $date);
-
-  $_date && $_date->format($format) == $date ?
-    $_date = '' : $_date = 'error_date';
-
-  return $_date;
-}
-
-// Use this function to return
-function getErrorMessage($arr, $key){
-  return array_filter($arr, function($_key) use ($key) {
-
-    return $_key === $key;
-  }, ARRAY_FILTER_USE_KEY);
-}
 
 
 
