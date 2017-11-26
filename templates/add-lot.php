@@ -62,7 +62,7 @@
              type="number"
              name="<?=$lot_rate['name']; ?>"
              placeholder="0"
-             step="0.1"
+             step="0.00001"
              value="<?=htmlspecialchars($lot_rate['input_data']); ?>">
       <span class="form__error"><?=$errors['lot_rate']['error_message']; ?></span>
     </div>
@@ -73,7 +73,8 @@
              type="number"
              name="<?=$lot_step['name']; ?>"
              placeholder="0"
-              value="<?=htmlspecialchars($lot_step['input_data']); ?>">
+             step="0.00001"
+             value="<?=htmlspecialchars($lot_step['input_data']); ?>">
       <span class="form__error"><?=$errors['lot_step']['error_message']; ?></span>
     </div>
 

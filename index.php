@@ -5,6 +5,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 session_start();
 require 'functions.php';
 require 'config.php';
+
 require 'data/data.php';
 require 'data/lot.php';
 
@@ -36,7 +37,7 @@ $form_defaults['lot_date']['input_data'] =
   $form_data['lot_date'] ? $form_data['lot_date'] : '';
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
-  // Add last item into array
+  var_dump($form_data);
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {

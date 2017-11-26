@@ -41,16 +41,13 @@ function getDateFormat($date, $format = 'Y-m-d') {
 }
 
 function validateDate($date) {
-  $test = [];
-
-
   $now = strtotime('now');
 
   $_date = getDateFormat($date);
   if (empty($_date)) {
     $end = strtotime($date);
 
-    $min = ceil(($end - $now)/3600);
+    $min = round(($end - $now)/3600, 2);
 
     $is_day = $min > 24 ? '' :
       'Срок размещения должен быть больше одного дня';
