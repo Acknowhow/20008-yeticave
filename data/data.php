@@ -69,7 +69,7 @@ $form_defaults = [
   ],
   'lot_date' => ['name' => 'lot_date', 'title' => 'Дата окончания торгов', 'input_data' => ''
   ],
-  'all' => ['name' => 'all', 'error_message' => 'Пожалуйста, исправьте ошибки в форме.', 'input_data' => ''
+  'all' => ['name' => 'all', 'error_message' => 'Пожалуйста, исправьте ошибки в форме', 'input_data' => ''
   ]
 ];
 

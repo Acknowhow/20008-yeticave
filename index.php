@@ -1,4 +1,6 @@
 <?php
+header("Cache-Control: no-cache, must-revalidate");
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 session_start();
 require 'functions.php';
 
@@ -14,10 +16,14 @@ $index = true;
 $nav = null;
 $errors = [];
 
-// To prevent form fields reset
 $form_defaults['lot_name']['input_data'] = $_SESSION['form_data']['lot_name'] ?
   $_SESSION['form_data']['lot_name'] : '';
 
+$form_defaults['category']['input_data'] = $_SESSION['form_data']['category'] ?
+  $_SESSION['form_data']['category'] : '';
+
+$form_defaults['message']['input_data'] = $_SESSION['form_data']['message'] ?
+  $_SESSION['form_data']['message'] : '';
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
   // Add last item into array
@@ -89,4 +95,5 @@ print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
+session_abort();
 
