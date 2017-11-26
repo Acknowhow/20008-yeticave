@@ -3,7 +3,7 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 session_start();
-require 'utils/form.php';
+require 'functions.php';
 require 'data/form.php';
 
 $lot_name = $_POST['lot_name'] ?? '';
@@ -28,6 +28,7 @@ $rules = [
   'lot_rate' => 'validateLotRate',
   'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate'
 ];
+
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
   foreach ($_POST as $key => $value) {

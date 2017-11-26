@@ -62,6 +62,7 @@
              type="number"
              name="<?=$lot_rate['name']; ?>"
              placeholder="0"
+             step="0.1"
              value="<?=htmlspecialchars($lot_rate['input_data']); ?>">
       <span class="form__error"><?=$errors['lot_rate']['error_message']; ?></span>
     </div>
