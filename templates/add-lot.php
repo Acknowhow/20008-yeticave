@@ -10,7 +10,7 @@
              type="text"
              name="<?=$lot_name['name']; ?>"
              placeholder="<?=$lot_name['placeholder']; ?>"
-             value="<?=htmlspecialchars($lot_name['input_data']); ?>"><?=var_dump($errors['category']);?>
+             value="<?=htmlspecialchars($lot_name['input_data']); ?>">
       <span class="form__error"><?if ($errors['lot_name']) : ?><?=$errors['lot_name']['error_message']; ?><?endif; ?></span>
     </div>
 

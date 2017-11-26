@@ -7,7 +7,8 @@ require 'functions.php';
 require 'data/form.php';
 
 $lot_name = $_POST['lot_name'] ?? '';
-$category = $_POST['category'] ?? '';
+$category = $_POST['category'] === 'Выберите категорию' ? '' : $_POST['category'];
+
 
 $message = $_POST['message'] ?? '';
 $lot_rate = $_POST['lot_rate'] ?? '';
