@@ -21,6 +21,8 @@ if(isset($_GET['success']) && $_GET['success'] === 'true') {
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
+  // First check if first key value is equal to error empty
+  // $_SESSION
   var_dump($_SESSION['error_state']);
 }
 
