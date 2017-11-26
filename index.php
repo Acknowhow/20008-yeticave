@@ -20,8 +20,7 @@ if(isset($_GET['success']) && $_GET['success'] === 'true') {
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
-  $error = true;
-  $errors = $_SESSION['error_state'];
+    var_dump($_SESSION['error_state']);
 
 
 

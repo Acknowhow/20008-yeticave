@@ -1,7 +1,7 @@
 <?=$nav?>
 <form class="form form--add-lot container <?if (!empty($errors)) : ?>form--invalid<?endif; ?>"
       action="/add.php" method="POST" enctype="multipart/form-data"> <!-- form--invalid -->
-  <h2>Добавление лота<? if(isset($errors['lot_name'])) : ?><?=$errors['lot_name']['error_message']?><?endif;?></h2>
+  <h2>Добавление лота</h2>
 
   <div class="form__container-two">
     <div class="form__item <?if ($errors['lot_name']) : ?>form__item--invalid<?endif; ?>">
@@ -10,11 +10,11 @@
              type="text"
              name="<?=$lot_name['name']; ?>"
              placeholder="<?=$lot_name['placeholder']; ?>"
-             value="<?=htmlspecialchars($lot_name['input_data']); ?>">
-      <span class="form__error"><?if (isset($errors[$lot_name])) : ?><?=$errors[$lot_name]['error_message']; ?><?endif; ?></span>
+             value="<?=htmlspecialchars($lot_name['input_data']); ?>"><?=var_dump($errors['category']);?>
+      <span class="form__error"><?if ($errors['lot_name']) : ?><?=$errors['lot_name']['error_message']; ?><?endif; ?></span>
     </div>
 
-    <div class="form__item <?if (!empty($category['error_message'])) : ?>form__item--invalid<?endif; ?>">
+    <div class="form__item <?if ($errors['category']) : ?>form__item--invalid<?endif; ?>">
       <label for="<?=$category['name']; ?>"><?=$category['title']; ?></label>
       <select id="<?=$category['name']; ?>"
               name="<?=$category['name']; ?>">
