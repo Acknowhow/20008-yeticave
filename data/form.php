@@ -1,5 +1,5 @@
 <?php
-$form = [
+$form_errors = [
   'lot_name' => [
     'name' => 'lot_name', 'error_empty' => 'Введите наименование лота'
   ],

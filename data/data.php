@@ -24,62 +24,54 @@ $users = [
   ]
 ];
 
-$categories = ['boards' => 'Доски и лыжи', 'attachment' => 'Крепления', 'boots' => 'Ботинки',
-  'clothing' => 'Одежда', 'tools' => 'Инструменты', 'other' => 'Разное'];
+$categories = ['boards' => 'Доски и лыжи', 'attachment' => 'Крепления',
+  'boots' => 'Ботинки', 'clothing' => 'Одежда', 'tools' => 'Инструменты', 'other' => 'Разное'
+];
 
 $items = [
   ['name' => '2014 Rossignol District Snowboard', 'category' =>	'Доски и лыжи',
-    'price' =>	10999, 'img_url' =>	'img/lot-1.jpg', 'img_alt' => 'Сноуборд'],
-
+    'price' =>	10999, 'img_url' =>	'img/lot-1.jpg', 'img_alt' => 'Сноуборд'
+  ],
   ['name' => 'DC Ply Mens 2016/2017 Snowboard',  'category' => 'Доски и лыжи',
-    'price' => 159999, 'img_url' => 'img/lot-2.jpg', 'img_alt' => 'Сноуборд'],
-
-  ['name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-    'category' => 'Крепления', 'price' => 8000, 'img_url' => 'img/lot-3.jpg', 'img_alt' => 'Крепления'],
-
+    'price' => 159999, 'img_url' => 'img/lot-2.jpg', 'img_alt' => 'Сноуборд'
+  ],
+  ['name' => 'Крепления Union Contact Pro 2015 года размер L/XL', 'category' => 'Крепления',
+    'price' => 8000, 'img_url' => 'img/lot-3.jpg', 'img_alt' => 'Крепления'
+  ],
   ['name' => 'Ботинки для сноуборда DC Mutiny Charocal',  'category' => 'Ботинки',
-    'price' => 10999, 'img_url' => 'img/lot-4.jpg', 'img_alt' => 'Ботинки'],
-
+    'price' => 10999, 'img_url' => 'img/lot-4.jpg', 'img_alt' => 'Ботинки'
+  ],
   ['name' => 'Куртка для сноуборда DC Mutiny Charocal',  'category' => 'Одежда',
-    'price' => 7500, 'img_url' => 'img/lot-5.jpg', 'img_alt' => 'Куртка'],
-
+    'price' => 7500, 'img_url' => 'img/lot-5.jpg', 'img_alt' => 'Куртка'
+  ],
   ['name' => 'Маска Oakley Canopy',  'category' => 'Разное',
-    'price' => 5400, 'img_url' => 'img/lot-6.jpg', 'img_alt' => 'Маска']
+    'price' => 5400, 'img_url' => 'img/lot-6.jpg', 'img_alt' => 'Маска'
+  ]
 ];
 
-$form = [
-  'lot_name' => [
-    'name' => 'lot_name', 'title' => 'Наименование',
-    'error_message' => '', 'input_data' => ''
+$form_defaults = [
+  'lot_name' => ['name' => 'lot_name',
+    'title' => 'Наименование', 'input_data' => '', 'placeholder' => 'Введите наименование лота'
   ],
-  'category' => [
-    'name' => 'category',
-    'title' => 'Категория',
-    'option_default' => 'Выберите категорию',
-    'error_message' => '', 'input_data' => ''
+  'category' => ['name' => 'category', 'title' => 'Категория',
+    'option_default' => 'Выберите категорию', 'input_data' => ''
   ],
-  'message' => [
-    'name' => 'message', 'title' => 'Описание',
-    'error_message' => '', 'input_data' => ''
+  'message' => ['name' => 'message',
+    'title' => 'Описание', 'input_data' => '', 'placeholder' => 'Добавьте описание лота'
   ],
-  'file' => [
-    'name' => 'file', 'title' => 'Изображение',
+  'file' => ['name' => 'file', 'title' => 'Изображение',
     'alt' => 'Изображение лота', 'input_data' => ''
   ],
-  'lot_rate' => [
-    'name' => 'lot_rate', 'title' => 'Начальная цена',
-    'error_message' => '', 'input_data' => ''
+  'lot_rate' => ['name' => 'lot_rate',
+    'title' => 'Начальная цена', 'input_data' => ''
   ],
-  'lot_step' => [
-    'name' => 'lot_step', 'title' => 'Шаг ставки',
-    'error_message' => '', 'input_data' => ''
+  'lot_step' => ['name' => 'lot_step',
+    'title' => 'Шаг ставки', 'input_data' => ''
   ],
-  'lot_date' => [
-    'name' => 'lot_date',
+  'lot_date' => ['name' => 'lot_date',
     'title' => 'Дата окончания торгов', 'error_message' => '', 'input_data' => ''
   ],
-  'all' => [
-    'name' => 'all', 'error_message' => '', 'input_data' => ''
+  'all' => ['name' => 'all', 'error_message' => 'Пожалуйста, исправьте ошибки в форме.', 'input_data' => ''
   ]
 ];
 

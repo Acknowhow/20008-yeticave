@@ -13,17 +13,19 @@ ini_set("display_errors", 1);
 $index = true;
 $nav = null;
 
-$errors = false;
+$errors = [];
+
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
-  var_dump($_SESSION['form_data']);
+
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
-  $errors = true;
-  // foreach($_SESSION as $)
-  var_dump($_SESSION['error_state']);
-}
+  $error = true;
+  $errors = $_SESSION['error_state'];
 
+
+
+}
 
 if(isset($_GET['id']) || isset($_GET['add'])) {
   $nav = include_template('templates/nav.php', [
@@ -57,18 +59,18 @@ if(isset($_GET['id'])){
   }
 }
 
-if(isset($_GET['add']) || $errors === true) {
+if(isset($_GET['add']) || !empty($errors)) {
   $index = null;
 
   $title = $add_lot_title;
   $content = include_template('templates/add-lot.php', [
 
     'categories' => $categories, 'nav' => $nav,
-    'lot_name' => $form['lot_name'], 'category' => $form['category'],
-    'file' => $form['file'], 'lot_rate' => $form['lot_rate'],
+    'lot_name' => $form_defaults['lot_name'], 'category' => $form_defaults['category'],
+    'file' => $form_defaults['file'], 'lot_rate' => $form_defaults['lot_rate'],
 
-    'lot_step' => $form['lot_step'], 'lot_date' => $form['lot_date'], 'all' => $form['all'],
-    'message' => $form['message'], 'errors' => $errors
+    'lot_step' => $form_defaults['lot_step'], 'lot_date' => $form_defaults['lot_date'],
+    'all' => $form_defaults['all'], 'message' => $form_defaults['message'], 'errors' => $errors
   ]);
 }
 

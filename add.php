@@ -1,5 +1,4 @@
 <?php
-// For faster validation checks
 header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
@@ -35,7 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $required) && $value == '') {
-      $error_state[$key]['error_message'] = $form[$key]['error_empty'];
+      $error_state[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
 
     if (array_key_exists($key, $rules)) {

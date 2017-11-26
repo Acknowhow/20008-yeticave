@@ -1,17 +1,17 @@
 <?=$nav?>
-<form class="form form--add-lot container <?if ($errors === true) : ?>form--invalid<?endif; ?>"
+<form class="form form--add-lot container <?if (!empty($errors)) : ?>form--invalid<?endif; ?>"
       action="/add.php" method="POST" enctype="multipart/form-data"> <!-- form--invalid -->
-  <h2>Добавление лота</h2>
+  <h2>Добавление лота<? if(isset($errors['lot_name'])) : ?><?=$errors['lot_name']['error_message']?><?endif;?></h2>
 
   <div class="form__container-two">
-    <div class="form__item <?if (!empty($lot_name['error_message'])) : ?>form__item--invalid<?endif; ?>">
+    <div class="form__item <?if ($errors['lot_name']) : ?>form__item--invalid<?endif; ?>">
       <label for="<?=$lot_name['name']; ?>"><?=$lot_name['title']; ?></label>
       <input id="<?=$lot_name['name']; ?>"
              type="text"
              name="<?=$lot_name['name']; ?>"
-             placeholder="<?=$lot_name['error_message']; ?>"
+             placeholder="<?=$lot_name['placeholder']; ?>"
              value="<?=htmlspecialchars($lot_name['input_data']); ?>">
-      <span class="form__error"><?if (isset($lot_name['error_message'])) : ?><?=$lot_name['error_message']; ?><?endif; ?></span>
+      <span class="form__error"><?if (isset($errors[$lot_name])) : ?><?=$errors[$lot_name]['error_message']; ?><?endif; ?></span>
     </div>
 
     <div class="form__item <?if (!empty($category['error_message'])) : ?>form__item--invalid<?endif; ?>">
@@ -38,11 +38,11 @@
   </div>
 
   <div class="form__item form__item--file"> <!-- form__item--uploaded -->
-    <label><?=$file['name']; ?></label>
+    <label><?=$file['title']; ?></label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
       <div class="preview__img">
-        <img src="img/avatar.jpg" width="113" height="113" alt="">
+        <img src="img/avatar.jpg" width="113" height="113" alt="<?=$file['alt']?>">
       </div>
     </div>
     <div class="form__input-file">
@@ -84,6 +84,6 @@
     </div>
   </div>
 
-  <span class="form__error form__error--bottom"><?=$all['error_message']; ?></span>
+  <span class="form__error form__error--bottom"><?if (!empty($errors)) : ?><?=$all['error_message']; ?><?endif;?></span>
   <button type="submit" class="button">Добавить лот</button>
 </form>
