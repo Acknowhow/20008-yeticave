@@ -18,23 +18,23 @@
       <label for="<?=$category['name']; ?>"><?=$category['title']; ?></label>
       <select id="<?=$category['name']; ?>"
               name="<?=$category['name']; ?>">
-        <option><?=$category['option_default']; ?></option>
+        <option><?=$category['input_data']; ?></option>
 
         <? foreach ($categories as $category => $value) :?>
         <option><?=$value; ?></option>
         <? endforeach; ?>
       </select>
-      <span class="form__error"><?if (isset($category['error_message'])) : ?><?=$category['error_message']; ?><?endif; ?></span>
+      <span class="form__error"><?if ($errors['category']) : ?><?=$errors['category']['error_message']; ?><?endif; ?></span>
     </div>
   </div>
 
-  <div class="form__item form__item--wide">
+  <div class="form__item form__item--wide <?if ($errors['message']) : ?>form__item--invalid<?endif;?>">
     <label for="<?=$message['name']; ?>"><?=$message['title']; ?></label>
     <textarea id="<?=$message['name']; ?>"
               name="<?=$message['name']; ?>"
-              placeholder="<?=$message['error_message']; ?>"
+              placeholder="<?=$message['placeholder']; ?>"
               ><?=htmlspecialchars($message['input_data']); ?></textarea>
-    <span class="form__error"><?=$message['error_message']; ?></span>
+    <span class="form__error"><?if ($errors['message']) : ?><?=$errors['message']['error_message']; ?><?endif; ?></span>
   </div>
 
   <div class="form__item form__item--file"> <!-- form__item--uploaded -->

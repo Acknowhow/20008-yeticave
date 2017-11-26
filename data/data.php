@@ -50,14 +50,14 @@ $items = [
 ];
 
 $form_defaults = [
-  'lot_name' => ['name' => 'lot_name',
-    'title' => 'Наименование', 'input_data' => '', 'placeholder' => 'Введите наименование лота'
+  'lot_name' => ['name' => 'lot_name', 'title' => 'Наименование',
+    'input_data' => '', 'placeholder' => 'Введите наименование лота'
   ],
-  'category' => ['name' => 'category', 'title' => 'Категория',
-    'option_default' => 'Выберите категорию', 'input_data' => ''
+  'category' => ['name' => 'category',
+    'title' => 'Категория', 'input_data' => 'Выберите категорию'
   ],
-  'message' => ['name' => 'message',
-    'title' => 'Описание', 'input_data' => '', 'placeholder' => 'Добавьте описание лота'
+  'message' => ['name' => 'message', 'title' => 'Описание',
+    'input_data' => '', 'placeholder' => 'Добавьте описание лота'
   ],
   'file' => ['name' => 'file', 'title' => 'Изображение',
     'alt' => 'Изображение лота', 'input_data' => ''
@@ -65,11 +65,9 @@ $form_defaults = [
   'lot_rate' => ['name' => 'lot_rate',
     'title' => 'Начальная цена', 'input_data' => ''
   ],
-  'lot_step' => ['name' => 'lot_step',
-    'title' => 'Шаг ставки', 'input_data' => ''
+  'lot_step' => ['name' => 'lot_step', 'title' => 'Шаг ставки', 'input_data' => ''
   ],
-  'lot_date' => ['name' => 'lot_date',
-    'title' => 'Дата окончания торгов', 'error_message' => '', 'input_data' => ''
+  'lot_date' => ['name' => 'lot_date', 'title' => 'Дата окончания торгов', 'input_data' => ''
   ],
   'all' => ['name' => 'all', 'error_message' => 'Пожалуйста, исправьте ошибки в форме.', 'input_data' => ''
   ]

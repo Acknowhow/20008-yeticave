@@ -12,16 +12,15 @@ ini_set("display_errors", 1);
 
 $index = true;
 $nav = null;
-
 $errors = [];
 
-$form_defaults['lot_name']['input_data'] = $_SESSION['form_data']['lot_name'] ? $_SESSION['form_data']['lot_name'] : '';
-
-print_r($_SESSION['form_data']);
+// To prevent form fields reset
+$form_defaults['lot_name']['input_data'] = $_SESSION['form_data']['lot_name'] ?
+  $_SESSION['form_data']['lot_name'] : '';
 
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
-
+  // Add last item into array
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
@@ -84,7 +83,7 @@ if(isset($index)) {
   ]);
 }
 
-//ob_end_clean();
+ob_end_clean();
 print include_template('templates/layout.php', [
 
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,

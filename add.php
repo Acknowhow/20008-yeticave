@@ -7,7 +7,8 @@ require 'functions.php';
 require 'data/form.php';
 
 $lot_name = $_POST['lot_name'] ?? '';
-$category = $_POST['category'] === 'Выберите категорию' ? $_POST['category'] = '' : $_POST['category'];
+$category = $_POST['category'] === 'Выберите категорию' ?
+  $_POST['category'] = '' : $_POST['category'];
 
 $message = $_POST['message'] ?? '';
 $lot_rate = $_POST['lot_rate'] ?? '';
@@ -44,9 +45,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
          $error_state[$key]['error_message'] = $result;
        }
 
-     } else {
-      $form_data[$key] = $value;
-    }
+     } $form_data[$key] = $value;
   }
 }
 
