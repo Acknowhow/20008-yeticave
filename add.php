@@ -26,9 +26,7 @@ $required = [
 
 $rules = [
   'lot_rate' => 'validateLotRate',
-
-  'lot_step' => 'validateLotStep',
-  'lot_date' => 'validateDate'
+  'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate'
 ];
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -50,15 +48,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 ob_start();
+$_SESSION['form_data'] = $form_data;
 
 if(!count($error_state)){
-  $_SESSION['form_data'] = $form_data;
-
   header('Location: index.php?success=true');
 }
 if(count($error_state)){
   $_SESSION['error_state'] = $error_state;
-  $_SESSION['form_data'] = $form_data;
 
   header('Location: index.php?success=false');
 }

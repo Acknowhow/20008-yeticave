@@ -14,16 +14,27 @@ ini_set("display_errors", 1);
 
 $index = true;
 $nav = null;
+
 $errors = [];
+$form_data = $_SESSION['form_data'] ?? '';
 
-$form_defaults['lot_name']['input_data'] = $_SESSION['form_data']['lot_name'] ?
-  $_SESSION['form_data']['lot_name'] : '';
+$form_defaults['lot_name']['input_data'] =
+  $form_data['lot_name'] ? $form_data['lot_name'] : '';
 
-$form_defaults['category']['input_data'] = $_SESSION['form_data']['category'] ?
-  $_SESSION['form_data']['category'] : '';
+$form_defaults['category']['input_data'] =
+  $form_data['category'] ? $form_data['category'] : '';
 
-$form_defaults['message']['input_data'] = $_SESSION['form_data']['message'] ?
-  $_SESSION['form_data']['message'] : '';
+$form_defaults['message']['input_data'] =
+  $form_data['message'] ? $form_data['message'] : '';
+
+$form_defaults['lot_rate']['input_data'] =
+  $form_data['lot_rate'] ? $form_data['lot_rate'] : '';
+
+$form_defaults['lot_step']['input_data'] =
+  $form_data['lot_step'] ? $form_data['lot_step'] : '';
+
+$form_defaults['lot_date']['input_data'] =
+  $form_data['lot_date'] ? $form_data['lot_date'] : '';
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
   // Add last item into array
@@ -73,7 +84,7 @@ if(isset($_GET['add']) || !empty($errors)) {
   $title = $add_lot_title;
   $content = include_template('templates/add-lot.php', [
 
-    'categories' => $categories, 'nav' => $nav,
+    'nav' => $nav, 'categories' => $categories,
     'lot_name' => $form_defaults['lot_name'], 'category' => $form_defaults['category'],
     'file' => $form_defaults['file'], 'lot_rate' => $form_defaults['lot_rate'],
 
