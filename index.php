@@ -5,7 +5,6 @@ require 'functions.php';
 require 'config.php';
 require 'data/data.php';
 
-require 'data/form.php';
 require 'data/lot.php';
 
 error_reporting(-1);
