@@ -15,6 +15,11 @@ $nav = null;
 
 $errors = [];
 
+$form_defaults['lot_name']['input_data'] = $_SESSION['form_data']['lot_name'] ? $_SESSION['form_data']['lot_name'] : '';
+
+print_r($_SESSION['form_data']);
+
+
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
 
 }
@@ -22,8 +27,6 @@ if(isset($_GET['success']) && $_GET['success'] === 'true') {
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
   $error = true;
   $errors = $_SESSION['error_state'];
-
-
 
 }
 
@@ -81,7 +84,7 @@ if(isset($index)) {
   ]);
 }
 
-ob_end_clean();
+//ob_end_clean();
 print include_template('templates/layout.php', [
 
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
