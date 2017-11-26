@@ -42,7 +42,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $result = call_user_func($rules[$key], $value);
 
       if (!empty($result)) {
-         $error_state[$key] = $result;
+         $error_state[$key]['error_message'] = $result;
        }
      }
   }

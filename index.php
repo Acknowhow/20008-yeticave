@@ -14,14 +14,13 @@ $index = true;
 $nav = null;
 
 $errors = false;
-
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
   var_dump($_SESSION['form_data']);
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
-  // First check if first key value is equal to error empty
-  // $_SESSION
+  $errors = true;
+  // foreach($_SESSION as $)
   var_dump($_SESSION['error_state']);
 }
 
@@ -58,7 +57,7 @@ if(isset($_GET['id'])){
   }
 }
 
-if(isset($_GET['add']) || $errors === true){
+if(isset($_GET['add']) || $errors === true) {
   $index = null;
 
   $title = $add_lot_title;
