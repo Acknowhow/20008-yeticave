@@ -61,7 +61,7 @@ if(isset($_GET['id'])){
   $index = null;
   $id = $_GET['id'];
 
-  if(!isset($items[$id])) {
+  if(!isset($lots[$id])) {
     $title = $error_title;
 
     http_response_code(404);
@@ -71,7 +71,7 @@ if(isset($_GET['id'])){
     ]);
 
   } else {
-    $lot = $items[$id];
+    $lot = $lots[$id];
 
     $title = $lot['name'];
     $content = include_template('templates/lot.php', [
@@ -101,7 +101,7 @@ if(isset($index)) {
   $content = include_template('templates/index.php', [
 
     'categories' => $categories,
-    'items' => $items, 'lot_time_remaining' => $lot_time_remaining
+    'lots' => $lots, 'lot_time_remaining' => $lot_time_remaining
   ]);
 }
 

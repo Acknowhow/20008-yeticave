@@ -13,7 +13,7 @@
     <h2>Открытые лоты</h2>
   </div>
   <ul class="lots__list">
-    <? foreach ($items as $item => $value) :?>
+    <? foreach ($lots as $lot => $value) :?>
       <li class="lots__item lot">
       <div class="lot__image">
         <img src="<?=$value['img_url']; ?>" width="350" height="260" alt="<?=$value['img_alt']; ?>">
