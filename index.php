@@ -76,8 +76,8 @@ if(isset($_GET['id'])){
     $title = $lot['name'];
     $content = include_template('templates/lot.php', [
 
-      'nav' => $nav, 'categories' => $categories,
-      'lot' => $lot, 'lot_text' => $lot_text, 'bets' => $bets
+      'nav' => $nav,
+      'categories' => $categories, 'lot' => $lot, 'bets' => $bets
     ]);
   }
 }
