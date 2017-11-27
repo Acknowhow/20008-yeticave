@@ -19,6 +19,7 @@ $errors = [];
 
 if(isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
+  var_dump($form_data);
 
   $form_defaults['lot_name']['input_data'] =
     $form_data['lot_name'] ? $form_data['lot_name'] : '';

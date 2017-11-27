@@ -26,61 +26,62 @@ $required = [
 ];
 
 $rules = [
-  'lot_rate' => 'validateLotRate', 'lot_step' => 'validateLotStep',
-  'lot_date' => 'validateDate', 'files' => 'validateUpload'
+  'lot_rate' => 'validateLotRate',
+  'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate',
 ];
 
-if (isset($_FILES["avatar"]) && $_FILES["avatar"]["error"] == 0) {
-  $allowed = array(
-    "jpeg" => "image/jpeg",
-    "png" => "image/png"
-  );
-
-  $file_name = $_FILES['avatar']['name'];
-  $file_name_tmp = $_FILES["avatar"]["tmp_name"];
-  $file_type = $_FILES["avatar"]["type"];
-
-  $file_size = $_FILES["avatar"]["size"];
-  $file_path = __DIR__ . '/uploads/';
-  $file_url = '/uploads/' . $file_name;
-
-
-  $finfo = finfo_open(FILEINFO_MIME_TYPE);
-  $file_type = finfo_file($finfo, $file_name);
-
-  // Move this part into separate function for validation
-  $result = array_filter(array_values($allowed), function($value) use ($file_type) {
-    return $value == $file_type;
-  }, ARRAY_FILTER_USE_KEY);
-
-  if(empty($result)) {
-    return 'Пожалуйста, выберите файл правильного формата';
-  }
-
-  if($file_size > 200000) {
-    return 'Максимальный размер файла: 200Кб';
-  }
-
-  $destination_path = $file_path . $file_name;
-  var_dump($_FILES);
-}
-
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
+  if (isset($_FILES['photo'])) {
 
-    foreach ($_POST as $key => $value) {
+    $photo = $_FILES['photo'];
 
-    if (in_array($key, $required) && $value == '') {
-      $error_state[$key]['error_message'] = $form_errors[$key]['error_empty'];
+    if ($photo["error"] == 0) {
+      $allowed = array(
+        'jpeg' => 'image/jpeg',
+        'png' => 'image/png'
+      );
+
+      $file_name = $photo['name'];
+      $file_name_tmp = $photo['tmp_name'];
+
+      $file_type = $photo['type'];
+      $file_size = $photo['size'];
+
+      $file_path = __DIR__ . '/uploads/';
+      $file_url = '/uploads/' . $file_name;
+
+      $finfo = finfo_open(FILEINFO_MIME_TYPE);
+      $file_type = finfo_file($finfo, $file_name);
+
+      $result = validateUpload($allowed, $file_type, $file_size);
+
+      if(!empty($result)) {
+        $error_state['files']['error_message'] = $result;
+      }
+
+      $destination_path = $file_path . $file_name;
+      $form_data['files'] = $photo;
+
+    } else {
+      $error_state['files']['error_message'] = $form_errors['file']['error_empty'];
+
+    }
+  }
+
+  foreach ($_POST as $key => $value) {
+
+  if (in_array($key, $required) && $value == '') {
+  $error_state[$key]['error_message'] = $form_errors[$key]['error_empty'];
+  }
+
+  if (array_key_exists($key, $rules)) {
+    $result = call_user_func($rules[$key], $value);
+
+    if (!empty($result)) {
+      $error_state[$key]['error_message'] = $result;
     }
 
-    if (array_key_exists($key, $rules)) {
-      $result = call_user_func($rules[$key], $value);
-
-      if (!empty($result)) {
-         $error_state[$key]['error_message'] = $result;
-       }
-
-     } $form_data[$key] = $value;
+  } $form_data[$key] = $value;
   }
 }
 

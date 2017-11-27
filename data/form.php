@@ -10,7 +10,7 @@ $form_errors = [
     'name' => 'message', 'error_empty' => 'Добавьте описание лота'
   ],
   'file' => [
-    'name' => 'file', 'error_empty' => ''
+    'name' => 'file', 'error_empty' => 'Добавьте изображение лота'
   ],
   'lot_rate' => [
     'name' => 'lot_rate', 'error_empty' => ''

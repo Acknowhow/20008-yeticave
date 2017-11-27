@@ -108,6 +108,20 @@ function validateLotStep($lotStep) {
   return '';
 }
 
+function validateUpload($array, $fileType, $fileSize) {
+  $_result = array_filter(array_values($array), function($value) use ($fileType) {
 
+    return $value == $fileType;
+  }, ARRAY_FILTER_USE_KEY);
+
+  if(empty($_result)) {
+    return 'Пожалуйста, выберите файл правильного формата';
+  }
+
+  elseif($fileSize > 200000) {
+    return 'Максимальный размер файла: 200Кб';
+  }
+  return '';
+}
 
 
