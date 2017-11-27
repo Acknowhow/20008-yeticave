@@ -60,7 +60,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       }
 
       $destination_path = $file_path . $file_name;
-      $form_data['files'] = $photo;
+      move_uploaded_file($file_name_tmp, $destination_path);
 
     } else {
       $error_state['files']['error_message'] = $form_errors['file']['error_empty'];

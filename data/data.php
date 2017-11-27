@@ -90,7 +90,7 @@ $tags = [];
 $tag_new = [''];
 $tag = ['name' => 'badf', 'url' => 'sdf'];
 
-$tag_new = array_map(function($t) use ($tag) {
+$tag_new = array_map(function($tag) {
   return array(
     'lot_name' => $tag['name'],
     'url' => 'rue'

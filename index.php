@@ -15,11 +15,12 @@ ini_set("display_errors", 1);
 $index = true;
 $nav = null;
 
+$form_data = [];
 $errors = [];
+$photo = [];
 
 if(isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
-  var_dump($form_data);
 
   $form_defaults['lot_name']['input_data'] =
     $form_data['lot_name'] ? $form_data['lot_name'] : '';
@@ -40,7 +41,7 @@ if(isset($_SESSION['form_data'])) {
     $form_data['lot_date'] ? $form_data['lot_date'] : '';
 }
 
-if(isset($_GET['success']) && $_GET['success'] === 'true') {
+if (isset($_GET['success']) && $_GET['success'] === 'true') {
 
 
 }
