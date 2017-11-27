@@ -72,6 +72,20 @@ $form_defaults = [
   'all' => ['name' => 'all', 'error_message' => 'Пожалуйста, исправьте ошибки в форме', 'input_data' => ''
   ]
 ];
+// New item mapped
+$tags = [];
+$tag_new = [''];
+$tag = ['name' => 'badf', 'url' => 'sdf'];
+
+$tag_new = array_map(function($t) use ($tag) {
+  return array(
+    'lot_name' => $tag['name'],
+    'url' => 'rue'
+  );
+}, $tag_new);
+
+$el = array_values($tag_new)[0];
+$tags[] = $el;
 
 
 

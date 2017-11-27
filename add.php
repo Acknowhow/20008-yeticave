@@ -19,6 +19,9 @@ $lot_date = $_POST['lot_date'] ?? '';
 $error_state = [];
 $form_data = [];
 
+$files = $_FILES ?? '';
+
+
 $required = [
   'lot_name', 'category', 'message',
   'lot_rate', 'lot_step', 'lot_date'
@@ -31,6 +34,7 @@ $rules = [
 
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
+  print_r($_FILES);
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $required) && $value == '') {

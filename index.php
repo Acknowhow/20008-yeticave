@@ -36,8 +36,17 @@ $form_defaults['lot_step']['input_data'] =
 $form_defaults['lot_date']['input_data'] =
   $form_data['lot_date'] ? $form_data['lot_date'] : '';
 
+//if(isset($_FILES['preview'])) {
+//  $file_name = $_FILES['preview']['name'];
+//  $file_path = __DIR__ . '/uploads/';
+//  $file_url = $file_path . $file_name;
+//  move_uploaded_file($_FILES['preview']['tmp_name'], $file_url);
+//
+//}
+
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
-  var_dump($form_data);
+
+
 }
 
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
