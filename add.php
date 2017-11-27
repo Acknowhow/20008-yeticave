@@ -18,7 +18,6 @@ $lot_date = $_POST['lot_date'] ?? '';
 
 $error_state = [];
 $form_data = [];
-$files = [];
 
 $required = [
   'lot_name', 'category', 'message',
@@ -33,22 +32,22 @@ $rules = [
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_FILES['photo'])) {
 
-    $photo = $_FILES['photo'];
+    $file = $_FILES['photo'];
 
-    if ($photo["error"] == 0) {
+    if ($file["error"] == 0) {
       $allowed = array(
         'jpeg' => 'image/jpeg',
         'png' => 'image/png'
       );
 
-      $file_name = $photo['name'];
-      $file_name_tmp = $photo['tmp_name'];
+      $file_name = $file['name'];
+      $file_name_tmp = $file['tmp_name'];
 
-      $file_type = $photo['type'];
-      $file_size = $photo['size'];
+      $file_type = $file['type'];
+      $file_size = $file['size'];
 
       $file_path = __DIR__ . '/uploads/';
-      $file_url = '/uploads/' . $file_name;
+      $file_url = 'uploads/' . $file_name;
 
       $finfo = finfo_open(FILEINFO_MIME_TYPE);
       $file_type = finfo_file($finfo, $file_name);
@@ -56,14 +55,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $result = validateUpload($allowed, $file_type, $file_size);
 
       if(!empty($result)) {
-        $error_state['files']['error_message'] = $result;
+        $error_state['file']['error_message'] = $result;
       }
 
       $destination_path = $file_path . $file_name;
       move_uploaded_file($file_name_tmp, $destination_path);
 
+
+      $form_data['file_url'] = $file_url;
+
     } else {
-      $error_state['files']['error_message'] = $form_errors['file']['error_empty'];
+      $error_state['file']['error_message'] = $form_errors['file']['error_empty'];
 
     }
   }
