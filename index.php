@@ -16,33 +16,28 @@ $index = true;
 $nav = null;
 
 $errors = [];
-$form_data = $_SESSION['form_data'] ?? '';
 
-$form_defaults['lot_name']['input_data'] =
-  $form_data['lot_name'] ? $form_data['lot_name'] : '';
+if(isset($_SESSION['form_data'])) {
+  $form_data = $_SESSION['form_data'];
 
-$form_defaults['category']['input_data'] =
-  $form_data['category'] ? $form_data['category'] : '';
+  $form_defaults['lot_name']['input_data'] =
+    $form_data['lot_name'] ? $form_data['lot_name'] : '';
 
-$form_defaults['message']['input_data'] =
-  $form_data['message'] ? $form_data['message'] : '';
+  $form_defaults['category']['input_data'] =
+    $form_data['category'] ? $form_data['category'] : '';
 
-$form_defaults['lot_rate']['input_data'] =
-  $form_data['lot_rate'] ? $form_data['lot_rate'] : '';
+  $form_defaults['message']['input_data'] =
+    $form_data['message'] ? $form_data['message'] : '';
 
-$form_defaults['lot_step']['input_data'] =
-  $form_data['lot_step'] ? $form_data['lot_step'] : '';
+  $form_defaults['lot_rate']['input_data'] =
+    $form_data['lot_rate'] ? $form_data['lot_rate'] : '';
 
-$form_defaults['lot_date']['input_data'] =
-  $form_data['lot_date'] ? $form_data['lot_date'] : '';
+  $form_defaults['lot_step']['input_data'] =
+    $form_data['lot_step'] ? $form_data['lot_step'] : '';
 
-//if(isset($_FILES['preview'])) {
-//  $file_name = $_FILES['preview']['name'];
-//  $file_path = __DIR__ . '/uploads/';
-//  $file_url = $file_path . $file_name;
-//  move_uploaded_file($_FILES['preview']['tmp_name'], $file_url);
-//
-//}
+  $form_defaults['lot_date']['input_data'] =
+    $form_data['lot_date'] ? $form_data['lot_date'] : '';
+}
 
 if(isset($_GET['success']) && $_GET['success'] === 'true') {
 
@@ -116,5 +111,5 @@ print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
-session_abort();
+session_destroy();
 
