@@ -46,7 +46,6 @@ if(isset($_SESSION['form_data'])) {
 if(isset($_GET['success']) && $_GET['success'] === 'false') {
   $error = true;
   $errors = $_SESSION['error_state'];
-
 }
 
 if(isset($_GET['id']) || isset($_GET['add']) || !empty($success)) {
@@ -57,7 +56,8 @@ if(isset($_GET['id']) || isset($_GET['add']) || !empty($success)) {
 }
 
 if (!empty($success)) {
-  $index = null;
+  $index = false;
+
   $lot = [
     'name' => $form_data['lot_name'], 'category' => $form_data['category'],
     'price' => $form_data['lot_rate'], 'step' => $form_data['lot_step'],
@@ -68,7 +68,7 @@ if (!empty($success)) {
 }
 
 if(isset($_GET['id'])){
-  $index = null;
+  $index = false;
   $id = $_GET['id'];
 
   if(!isset($lots[$id])) {
@@ -90,13 +90,12 @@ if(!empty($lot)){
 
   $content = include_template('templates/lot.php', [
     'nav' => $nav, 'categories' => $categories,
-
     'lot' => $lot, 'bets' => $bets
   ]);
 }
 
 if(isset($_GET['add']) || !empty($errors)) {
-  $index = null;
+  $index = false;
 
   $title = $add_lot_title;
   $content = include_template('templates/add-lot.php', [
@@ -110,7 +109,7 @@ if(isset($_GET['add']) || !empty($errors)) {
   ]);
 }
 
-if(isset($index)) {
+if(!empty($index)) {
   $content = include_template('templates/index.php', [
 
     'categories' => $categories,
@@ -123,5 +122,5 @@ print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
-session_destroy();
+
 
