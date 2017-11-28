@@ -17,7 +17,10 @@ $nav = null;
 
 $form_data = [];
 $errors = [];
-$photo = [];
+
+$lot_added = [''];
+$success = (isset($_GET['success']) && $_GET['success'] === 'true') ? true : null;
+
 
 if(isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
@@ -39,10 +42,6 @@ if(isset($_SESSION['form_data'])) {
 
   $form_defaults['lot_date']['input_data'] =
     $form_data['lot_date'] ? $form_data['lot_date'] : '';
-}
-
-if (isset($_GET['success']) && $_GET['success'] === 'true') {
-
 
 }
 
@@ -51,37 +50,44 @@ if(isset($_GET['success']) && $_GET['success'] === 'false') {
   $errors = $_SESSION['error_state'];
 
 }
+if (isset($success)) {
 
-if(isset($_GET['id']) || isset($_GET['add'])) {
+   //Just for example to display form-data
+  $lot_added = array_map(function($t) use ($form_data) {
+    return array(
+      'name' => $form_data['lot_name'], 'category' => $form_data['category'],
+      'price' => $form_data['lot_rate'], 'step' => $form_data['lot_step'],
+
+      'date' => $form_data['lot_date'], 'img_url' => $form_data['lot_url'],
+      'img_alt' => $form_data['lot_alt'], 'description' => $form_data['message']
+    );
+  }, $lot_added);
+
+}
+
+if(isset($_GET['id']) || isset($_GET['add']) || isset($success)) {
   $nav = include_template('templates/nav.php', [
 
     'categories' => $categories
   ]);
 }
 
-if(isset($_GET['id'])){
+if(isset($_GET['id']) || isset($success)){
   $index = null;
-  $id = $_GET['id'];
+  $id = isset($_GET['id']) ? $_GET['id'] : 0;
 
-  if(!isset($lots[$id])) {
-    $title = $error_title;
-
-    http_response_code(404);
-    $content = include_template('templates/404.php', [
-
-      'container' => $container
-    ]);
-
-  } else {
+  if($id !== 0){
     $lot = $lots[$id];
-
-    $title = $lot['name'];
-    $content = include_template('templates/lot.php', [
-
-      'nav' => $nav,
-      'categories' => $categories, 'lot' => $lot, 'bets' => $bets
-    ]);
+  } else {
+    $lot = $lot_added[$id];
   }
+
+  $title = $lot['name'];
+  $content = include_template('templates/lot.php', [
+
+    'nav' => $nav,
+    'categories' => $categories, 'lot' => $lot, 'bets' => $bets
+  ]);
 }
 
 if(isset($_GET['add']) || !empty($errors)) {
@@ -113,5 +119,5 @@ print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
-session_destroy();
+
 

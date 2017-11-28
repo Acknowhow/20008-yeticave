@@ -62,7 +62,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       move_uploaded_file($file_name_tmp, $destination_path);
 
 
-      $form_data['file_url'] = $file_url;
+      $form_data['lot_url'] = $file_url;
+      $form_data['lot_alt'] = 'uploaded';
 
     } else {
       $error_state['file']['error_message'] = $form_errors['file']['error_empty'];
