@@ -46,8 +46,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $file_type = $file['type'];
       $file_size = $file['size'];
 
-      $file_path = __DIR__ . '/uploads/';
-      $file_url = 'uploads/' . $file_name;
+      $file_path = __DIR__ . '/img/';
+      $file_url = 'img/' . $file_name;
 
       $finfo = finfo_open(FILEINFO_MIME_TYPE);
       $file_type = finfo_file($finfo, $file_name);
