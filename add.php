@@ -6,15 +6,15 @@ session_start();
 require 'functions.php';
 require 'data/form.php';
 
-$lot_name = $_POST['lot_name'] ?? '';
+$lot_name = isset($_POST['lot_name']) ? $_POST['lot_name'] : '';
 $category = $_POST['category'] === 'Выберите категорию' ?
   $_POST['category'] = '' : $_POST['category'];
 
-$message = $_POST['message'] ?? '';
-$lot_rate = $_POST['lot_rate'] ?? '';
+$message = isset($_POST['message']) ? $_POST['message'] : '';
+$lot_rate = isset($_POST['lot_rate']) ? $_POST['lot_rate'] : '';
 
-$lot_step = $_POST['lot_step'] ?? '';
-$lot_date = $_POST['lot_date'] ?? '';
+$lot_step = isset($_POST['lot_step']) ? $_POST['lot_step'] : '';
+$lot_date = isset($_POST['lot_date']) ? $_POST['lot_date'] : '';
 
 $error_state = [];
 $form_data = [];
@@ -35,10 +35,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $file = $_FILES['photo'];
 
     if ($file["error"] == 0) {
-      $allowed = array(
+      $allowed = [
         'jpeg' => 'image/jpeg',
         'png' => 'image/png'
-      );
+      ];
 
       $file_name = $file['name'];
       $file_name_tmp = $file['tmp_name'];
@@ -88,9 +88,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
-
 $_SESSION['form_data'] = $form_data;
-
 
 if(!count($error_state)){
   header('Location: index.php?success=true');
