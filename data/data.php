@@ -12,7 +12,6 @@ $lot_default_description = 'Легкий маневренный сноуборд
   А если к концу катального дня сил совсем не останется, просто посмотрите на Вашу доску 
   и улыбнитесь, крутая графика от Шона Кливера еще никого не оставляла равнодушным.';
 
-
 $users = [
   [
     'email' => 'ignat.v@gmail.com',
@@ -65,8 +64,6 @@ $lots = [
   ]
 ];
 
-
-
 $form_defaults = [
   'lot_name' => ['name' => 'lot_name', 'title' => 'Наименование',
     'input_data' => '', 'placeholder' => 'Введите наименование лота'
@@ -90,20 +87,6 @@ $form_defaults = [
   'all' => ['name' => 'all', 'error_message' => 'Пожалуйста, исправьте ошибки в форме', 'input_data' => ''
   ]
 ];
-// New item mapped
-$tags = [];
-$tag_new = [''];
-$tag = ['name' => 'badf', 'url' => 'sdf'];
-
-$tag_new = array_map(function($tag) {
-  return array(
-    'lot_name' => $tag['name'],
-    'url' => 'rue'
-  );
-}, $tag_new);
-
-$el = array_values($tag_new)[0];
-$tags[] = $el;
 
 
 

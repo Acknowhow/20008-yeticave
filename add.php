@@ -88,8 +88,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
-ob_start();
+
 $_SESSION['form_data'] = $form_data;
+
 
 if(!count($error_state)){
   header('Location: index.php?success=true');

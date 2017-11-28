@@ -18,7 +18,7 @@ $nav = null;
 $form_data = [];
 $errors = [];
 
-$lot_added = [''];
+$lot_added = [];
 $success = (isset($_GET['success']) && $_GET['success'] === 'true') ? true : null;
 
 
@@ -51,18 +51,13 @@ if(isset($_GET['success']) && $_GET['success'] === 'false') {
 
 }
 if (isset($success)) {
+  $lot_added = [
+    'name' => $form_data['lot_name'], 'category' => $form_data['category'],
+    'price' => $form_data['lot_rate'], 'step' => $form_data['lot_step'],
 
-   //Just for example to display form-data
-  $lot_added = array_map(function($t) use ($form_data) {
-    return array(
-      'name' => $form_data['lot_name'], 'category' => $form_data['category'],
-      'price' => $form_data['lot_rate'], 'step' => $form_data['lot_step'],
-
-      'date' => $form_data['lot_date'], 'img_url' => $form_data['lot_url'],
-      'img_alt' => $form_data['lot_alt'], 'description' => $form_data['message']
-    );
-  }, $lot_added);
-
+    'date' => $form_data['lot_date'], 'img_url' => $form_data['lot_url'],
+    'img_alt' => $form_data['lot_alt'], 'description' => $form_data['message']
+  ];
 }
 
 if(isset($_GET['id']) || isset($_GET['add']) || isset($success)) {
@@ -79,7 +74,7 @@ if(isset($_GET['id']) || isset($success)){
   if($id !== 0){
     $lot = $lots[$id];
   } else {
-    $lot = $lot_added[$id];
+    $lot = $lot_added;
   }
 
   $title = $lot['name'];
@@ -113,11 +108,10 @@ if(isset($index)) {
   ]);
 }
 
-ob_end_clean();
 print include_template('templates/layout.php', [
 
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
-
+session_destroy();
 
