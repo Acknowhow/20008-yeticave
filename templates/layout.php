@@ -31,25 +31,24 @@
 
       <?if($is_auth !== true) : ?><ul class="user-menu__list">
         <li class="user-menu__item">
-          <a href="#">Регистрация</a>
+          <a href="sign-up.html">Регистрация</a>
         </li>
         <li class="user-menu__item">
-          <a href="#">Вход</a>
+          <a href="login.html">Вход</a>
         </li>
       </ul><? endif; ?>
     </nav>
   </div>
 </header>
 
-<main <?if(!empty($index)) : ?>class="container"<?endif; ?>><?=$content; ?></main>
+<main<?if(!empty($index)) : ?> class="container"<?endif; ?>><?=$content; ?></main>
 
 <footer class="main-footer">
   <nav class="nav">
-    <ul class="nav__list container">
-      <? foreach ($categories as $category => $value) : ?>
-        <li class="nav__item">
+    <ul class="nav__list container"><? foreach ($categories as $category => $value) : ?>
+      <li class="nav__item">
         <a href="all-lots.html"><?=$value; ?></a>
-        </li><?endforeach; ?>
+      </li><?endforeach; ?>
     </ul>
   </nav>
   <div class="main-footer__bottom container">
