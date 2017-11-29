@@ -118,6 +118,8 @@ if (isset($_GET['add_lot']) && !count($errors_lot)){
 if (isset($_GET['add_lot']) && count($errors_lot)){
   $_SESSION['errors_lot'] = $errors_lot;
 
+  unset($errors_lot);
+
   header('Location: index.php?lot_added=false');
 }
 
@@ -126,6 +128,8 @@ if (isset($_GET['add_user']) && !count($errors_user)){
 }
 if (isset($_GET['add_user']) && count($errors_user)){
   $_SESSION['errors_user'] = $errors_user;
+
+  unset($errors_user);
 
   header('Location: index.php?user_added=false');
 }
