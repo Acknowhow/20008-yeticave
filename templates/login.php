@@ -1,23 +1,23 @@
 <?=$nav; ?>
-<form class="form container" action="/add.php" method="post"> <!-- form--invalid -->
+<form class="form container <?if (!empty($errors_user)) : ?>form__invalid<?endif; ?>" action="/add.php?add_user=true" method="post">
     <h2>Вход</h2>
-    <div class="form__item"> <!-- form__item--invalid -->
-      <label for="email">E-mail*</label>
-      <input id="email"
+    <div class="form__item <?if (!empty($errors_user['email'])) : ?>form__item--invalid<?endif; ?>">
+      <label for="<?=$email['name']?>"><?=$email['title']; ?></label>
+      <input id="<?=$email['name']; ?>"
              type="text"
-             name="email"
-             placeholder="Введите e-mail"
-             value="">
-      <span class="form__error">Введите e-mail</span>
+             name="<?=$email['name']; ?>"
+             placeholder="<?=$email['placeholder']; ?>"
+             value="<?=htmlspecialchars($email['input_data']); ?>">
+      <span class="form__error"><?if (isset($errors_user['email']['message'])) : ?><?=$errors_user['email']['message']; ?><?endif; ?></span>
     </div>
-    <div class="form__item form__item--last">
-      <label for="password">Пароль*</label>
-      <input id="password"
+    <div class="form__item form__item--last <?if (!empty($errors_user['password'])) : ?>form__item--invalid<?endif; ?>">
+      <label for="<?=$password['name']; ?>"><?=$password['title']; ?></label>
+      <input id="<?=$password['name']; ?>"
              type="text"
-             name="password"
-             placeholder="Введите пароль"
-             value="">
-      <span class="form__error">Введите пароль</span>
+             name="<?=$password['name']; ?>"
+             placeholder="<?=$password['placeholder']; ?>"
+             value="<?=htmlspecialchars($password['input_data']); ?>">
+      <span class="form__error"><?if (isset($errors_user['password']['message'])) : ?><?=$errors_user['password']['message']; ?><?endif; ?></span>
     </div>
     <button type="submit" class="button">Войти</button>
   </form>;

@@ -31,7 +31,7 @@ if (isset($_SESSION['form_data'])) {
     $form_data['email'] ? $form_data['email'] : '';
 
   $form_defaults['password']['input_data'] =
-    $form_data['email'] ? $form_data['email'] : '';
+    $form_data['password'] ? $form_data['password'] : '';
 
   $form_defaults['lot_name']['input_data'] =
     $form_data['lot_name'] ? $form_data['lot_name'] : '';
@@ -53,12 +53,10 @@ if (isset($_SESSION['form_data'])) {
 }
 
 if (isset($_GET['lot_added']) && $_GET['lot_added'] === 'false') {
-//  $error = true;
   $errors_lot = $_SESSION['errors_lot'];
 }
 
 if (isset($_GET['user_added']) && $_GET['user_added'] === 'false') {
-//  $error = true;
   $errors_user = $_SESSION['errors_user'];
 }
 
@@ -114,7 +112,7 @@ if (isset($_GET['login']) || !empty($errors_user)) {
   $content = include_template('templates/login.php', [
     'nav' => $nav, 'email' => $form_defaults['email'],
 
-    'password' => $form_defaults['password']
+    'password' => $form_defaults['password'], 'errors_user' => $errors_user
   ]);
 }
 

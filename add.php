@@ -37,7 +37,7 @@ $rules_lot = [
   'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate',
 ];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_lot'])) {
   if (isset($_FILES['photo'])) {
 
     $file = $_FILES['photo'];
@@ -96,10 +96,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add'])) {
   }
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['login'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
   foreach ($_POST as $key => $value) {
 
-    if (in_array($key, $required_login) && $value == '') {
+    if (in_array($key, $required_user) && $value == '') {
       $errors_user[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
 
@@ -109,19 +109,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['login'])) {
 
 $_SESSION['form_data'] = $form_data;
 
-if (!count($errors_lot)){
+if (isset($_GET['add_lot']) && !count($errors_lot)){
   header('Location: index.php?lot_added=true');
 }
-if (count($errors_lot)){
+if (isset($_GET['add_lot']) && count($errors_lot)){
   $_SESSION['errors_lot'] = $errors_lot;
 
   header('Location: index.php?lot_added=false');
 }
 
-if (!count($errors_user)){
+if (isset($_GET['add_user']) && !count($errors_user)){
   header('Location: index.php?user_added=true');
 }
-if (count($errors_user)){
+if (isset($_GET['add_user']) && count($errors_user)){
   $_SESSION['errors_user'] = $errors_user;
 
   header('Location: index.php?user_added=false');

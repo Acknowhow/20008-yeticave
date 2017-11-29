@@ -1,6 +1,6 @@
 <?=$nav?>
 <form class="form form--add-lot container <?if (!empty($errors_lot)) : ?>form--invalid<? endif; ?>"
-      action="/add.php" method="POST" enctype="multipart/form-data">
+      action="/add.php?add_lot=true" method="POST" enctype="multipart/form-data">
   <h2>Добавление лота</h2>
 
   <div class="form__container-two">
