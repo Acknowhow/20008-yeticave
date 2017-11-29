@@ -14,15 +14,24 @@ ini_set("display_errors", 1);
 
 $index = true;
 $nav = null;
+
 $lot = [];
-
 $form_data = [];
-$errors = [];
 
-$success = (isset($_GET['success']) && $_GET['success'] === 'true') ? true : false;
+$errors_lot = [];
+$errors_user = [];
+
+$lot_added = (isset($_GET['lot_added']) && $_GET['lot_added'] === 'true') ? true : false;
+$user_added = (isset($_GET['user_added']) && $_GET['user_added'] === 'true') ? true : false;
 
 if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
+
+  $form_defaults['email']['input_data'] =
+    $form_data['email'] ? $form_data['email'] : '';
+
+  $form_defaults['password']['input_data'] =
+    $form_data['email'] ? $form_data['email'] : '';
 
   $form_defaults['lot_name']['input_data'] =
     $form_data['lot_name'] ? $form_data['lot_name'] : '';
@@ -43,27 +52,24 @@ if (isset($_SESSION['form_data'])) {
     $form_data['lot_date'] ? $form_data['lot_date'] : '';
 }
 
-if (isset($_GET['success']) && $_GET['success'] === 'false') {
+if (isset($_GET['lot_added']) && $_GET['lot_added'] === 'false') {
 //  $error = true;
-  $errors = $_SESSION['error_state'];
+  $errors_lot = $_SESSION['errors_lot'];
 }
 
-if (isset($_GET['id']) || isset($_GET['add']) || !empty($success) || isset($_GET['login'])) {
+if (isset($_GET['user_added']) && $_GET['user_added'] === 'false') {
+//  $error = true;
+  $errors_user = $_SESSION['errors_user'];
+}
+
+if (isset($_GET['id']) || isset($_GET['add']) || !empty($lot_added) || isset($_GET['login'])) {
   $nav = include_template('templates/nav.php', [
 
     'categories' => $categories
   ]);
 }
 
-if (isset($_GET['login'])) {
-  $index = false;
-
-  $content = include_template('templates/login.php', [
-    'nav' => $nav
-  ]);
-}
-
-if (!empty($success)) {
+if (!empty($lot_added)) {
   $index = false;
 
   $lot = [
@@ -102,7 +108,17 @@ if (!empty($lot)){
   ]);
 }
 
-if (isset($_GET['add']) || !empty($errors)) {
+if (isset($_GET['login']) || !empty($errors_user)) {
+  $index = false;
+
+  $content = include_template('templates/login.php', [
+    'nav' => $nav, 'email' => $form_defaults['email'],
+
+    'password' => $form_defaults['password']
+  ]);
+}
+
+if (isset($_GET['add']) || !empty($errors_lot)) {
   $index = false;
 
   $title = $add_lot_title;
@@ -115,7 +131,7 @@ if (isset($_GET['add']) || !empty($errors)) {
     'file' => $form_defaults['file'], 'lot_rate' => $form_defaults['lot_rate'],
 
     'lot_step' => $form_defaults['lot_step'], 'lot_date' => $form_defaults['lot_date'],
-    'all' => $form_defaults['all'], 'message' => $form_defaults['message'], 'errors' => $errors
+    'all' => $form_defaults['all'], 'message' => $form_defaults['message'], 'errors_lot' => $errors_lot
   ]);
 }
 
