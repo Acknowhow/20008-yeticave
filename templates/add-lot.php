@@ -19,10 +19,8 @@
 
       <select id="<?=$category['name']; ?>"
               name="<?=$category['name']; ?>">
-        <option><?=$category['input_data']; ?></option>
-        <? foreach ($categories as $category => $value) :?>
-        <option><?=$value; ?></option>
-        <? endforeach; ?>
+        <option><?=$category['input_data']; ?></option><? foreach ($categories as $category => $value) :?>
+        <option><?=$value; ?></option><? endforeach; ?>
       </select>
 
       <span class="form__error"><?=($errors['category']['error_message']) ?? ''; ?></span>
