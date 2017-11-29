@@ -8,7 +8,7 @@
              name="<?=$email['name']; ?>"
              placeholder="<?=$email['placeholder']; ?>"
              value="<?=htmlspecialchars($email['input_data']); ?>">
-      <span class="form__error"><?if (isset($errors_user['email']['message'])) : ?><?=$errors_user['email']['message']; ?><?endif; ?></span>
+      <span class="form__error"><?if (isset($errors_user['email']['error_message'])) : ?><?=$errors_user['email']['error_message']; ?><?endif; ?></span>
     </div>
     <div class="form__item form__item--last <?if (!empty($errors_user['password'])) : ?>form__item--invalid<?endif; ?>">
       <label for="<?=$password['name']; ?>"><?=$password['title']; ?></label>
@@ -17,7 +17,7 @@
              name="<?=$password['name']; ?>"
              placeholder="<?=$password['placeholder']; ?>"
              value="<?=htmlspecialchars($password['input_data']); ?>">
-      <span class="form__error"><?if (isset($errors_user['password']['message'])) : ?><?=$errors_user['password']['message']; ?><?endif; ?></span>
+      <span class="form__error"><?if (isset($errors_user['password']['error_message'])) : ?><?=$errors_user['password']['error_message']; ?><?endif; ?></span>
     </div>
     <button type="submit" class="button">Войти</button>
-  </form>;
+  </form>

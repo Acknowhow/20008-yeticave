@@ -16,10 +16,12 @@
 
     <div class="form__item <?if (!empty($errors_lot['category'])) : ?>form__item--invalid<? endif; ?>">
       <label for="<?=$category['name']; ?>"><?=$category['title']; ?></label>
-      <select id="<?=$category['name']; ?>"
-              name="<?=$category['name']; ?>">
-        <option><?=$category['input_data']; ?></option><? foreach ($categories as $category => $value) :?>
-          <option><?=$value; ?></option><? endforeach; ?>
+
+      <select id="<?=$category['name']; ?>" name="<?=$category['name']; ?>">
+        <option><?=$category['input_data']; ?></option>
+        <? foreach ($categories as $category => $value) :?>
+        <option><?=$value; ?></option>
+        <? endforeach; ?>
       </select>
 
       <span class="form__error"<?if (isset($errors_lot['category']['error_message'])) : ?>><?=$errors_lot['category']['error_message']; ?><? endif; ?></span>

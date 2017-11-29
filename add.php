@@ -97,6 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_lot'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
+
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $required_user) && $value == '') {
@@ -108,6 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
 }
 
 $_SESSION['form_data'] = $form_data;
+
+
 
 if (isset($_GET['add_lot']) && !count($errors_lot)){
   header('Location: index.php?lot_added=true');
