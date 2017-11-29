@@ -6,7 +6,7 @@ $timeLapseStamp = strtotime('now') - $timeStamp;
 // Elapsed time in hours
 $timeLapseHours = round($timeLapseStamp/3600, 2);
 
-if($timeLapseHours < 1) {
+if ($timeLapseHours < 1) {
   return date('i минут назад', $timeStamp);
 
 } else if ($timeLapseHours > 24) {
@@ -18,10 +18,10 @@ if($timeLapseHours < 1) {
 }
 
 function include_template($templatePath, $templateData){
-  if(!file_exists($templatePath)) {
+  if (!file_exists($templatePath)) {
     return '';
   }
-  if($templateData) {
+  if ($templateData) {
     extract($templateData);
   }
   ob_start();
@@ -59,7 +59,7 @@ function validateDate($date) {
 
 function get_integer($val) {
   $_val = $val + 0;
-  if(is_int($_val)) {
+  if (is_int($_val)) {
     return $_val;
   }
   return 0;
@@ -78,10 +78,10 @@ function validateLotRate($lotRate) {
   $is_numeric = get_numeric($_lotRate);
   $is_positive = $_lotRate > 0;
 
-  if(empty($_lotRate)) {
+  if (empty($_lotRate)) {
     return 'Введите начальную цену';
   }
-  if(!$is_numeric) {
+  if (!$is_numeric) {
     return 'Введите числовое значение';
 
   } elseif (!$is_positive) {
@@ -96,10 +96,10 @@ function validateLotStep($lotStep) {
   $is_integer = get_integer($_lotStep);
   $is_positive = $_lotStep > 0;
 
-  if(empty($_lotStep)) {
+  if (empty($_lotStep)) {
     return 'Введите шаг ставки';
   }
-  if(!$is_integer) {
+  if (!$is_integer) {
     return 'Введите целое число';
 
   } elseif (!$is_positive) {
@@ -114,11 +114,11 @@ function validateUpload($array, $fileType, $fileSize) {
     return $value == $fileType;
   }, ARRAY_FILTER_USE_KEY);
 
-  if(empty($_result)) {
+  if (empty($_result)) {
     return 'Пожалуйста, выберите файл правильного формата';
   }
 
-  elseif($fileSize > 200000) {
+  elseif ($fileSize > 200000) {
     return 'Максимальный размер файла: 200Кб';
   }
   return '';

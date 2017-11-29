@@ -29,7 +29,7 @@ $rules = [
   'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate',
 ];
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (isset($_FILES['photo'])) {
 
     $file = $_FILES['photo'];
@@ -54,7 +54,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       $result = validateUpload($allowed, $file_type, $file_size);
 
-      if(!empty($result)) {
+      if (!empty($result)) {
         $error_state['file']['error_message'] = $result;
       }
 
@@ -90,10 +90,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 $_SESSION['form_data'] = $form_data;
 
-if(!count($error_state)){
+if (!count($error_state)){
   header('Location: index.php?success=true');
 }
-if(count($error_state)){
+if (count($error_state)){
   $_SESSION['error_state'] = $error_state;
 
   header('Location: index.php?success=false');

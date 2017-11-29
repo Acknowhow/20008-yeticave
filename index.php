@@ -12,6 +12,7 @@ require 'data/lot.php';
 error_reporting(-1);
 ini_set("display_errors", 1);
 
+
 $index = true;
 $nav = null;
 $lot = [];
@@ -21,7 +22,7 @@ $errors = [];
 
 $success = (isset($_GET['success']) && $_GET['success'] === 'true') ? true : false;
 
-if(isset($_SESSION['form_data'])) {
+if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
 
   $form_defaults['lot_name']['input_data'] =
@@ -43,12 +44,12 @@ if(isset($_SESSION['form_data'])) {
     $form_data['lot_date'] ? $form_data['lot_date'] : '';
 }
 
-if(isset($_GET['success']) && $_GET['success'] === 'false') {
+if (isset($_GET['success']) && $_GET['success'] === 'false') {
   $error = true;
   $errors = $_SESSION['error_state'];
 }
 
-if(isset($_GET['id']) || isset($_GET['add']) || !empty($success)) {
+if (isset($_GET['id']) || isset($_GET['add']) || !empty($success)) {
   $nav = include_template('templates/nav.php', [
 
     'categories' => $categories
@@ -67,11 +68,11 @@ if (!empty($success)) {
   ];
 }
 
-if(isset($_GET['id'])){
+if (isset($_GET['id'])){
   $index = false;
   $id = $_GET['id'];
 
-  if(!isset($lots[$id])) {
+  if (!isset($lots[$id])) {
     $title = $error_title;
 
     http_response_code(404);
@@ -85,7 +86,7 @@ if(isset($_GET['id'])){
   }
 }
 
-if(!empty($lot)){
+if (!empty($lot)){
   $title = $lot['name'];
 
   $content = include_template('templates/lot.php', [
@@ -94,7 +95,7 @@ if(!empty($lot)){
   ]);
 }
 
-if(isset($_GET['add']) || !empty($errors)) {
+if (isset($_GET['add']) || !empty($errors)) {
   $index = false;
 
   $title = $add_lot_title;
@@ -109,7 +110,7 @@ if(isset($_GET['add']) || !empty($errors)) {
   ]);
 }
 
-if(!empty($index)) {
+if (!empty($index)) {
   $content = include_template('templates/index.php', [
 
     'categories' => $categories,

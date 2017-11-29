@@ -21,15 +21,15 @@
     <a class="main-header__add-lot button" href="index.php?add=true">Добавить лот</a>
 
     <nav class="user-menu">
-      <?if($is_auth === true) : ?>
+      <?if ($is_auth === true) : ?>
         <div class="user-menu__image">
           <img src="<?=$user_avatar; ?>" width="40" height="40" alt="Пользователь">
         </div>
         <div class="user-menu__logged">
         <p><?=$user_name; ?></p>
-        </div><?endif; ?>
+        </div><? endif; ?>
 
-      <?if($is_auth !== true) : ?><ul class="user-menu__list">
+      <? if($is_auth !== true) : ?><ul class="user-menu__list">
         <li class="user-menu__item">
           <a href="sign-up.html">Регистрация</a>
         </li>
@@ -41,14 +41,14 @@
   </div>
 </header>
 
-<main<?if(!empty($index)) : ?> class="container"<?endif; ?>><?=$content; ?></main>
+<main<?if (!empty($index)) : ?> class="container"<? endif; ?>><?=$content; ?></main>
 
 <footer class="main-footer">
   <nav class="nav">
-    <ul class="nav__list container"><? foreach ($categories as $category => $value) : ?>
+    <ul class="nav__list container"><?foreach ($categories as $category => $value) : ?>
       <li class="nav__item">
         <a href="all-lots.html"><?=$value; ?></a>
-      </li><?endforeach; ?>
+      </li><? endforeach; ?>
     </ul>
   </nav>
   <div class="main-footer__bottom container">
