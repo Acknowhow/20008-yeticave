@@ -99,6 +99,8 @@ if (isset($_GET['add']) || !empty($errors)) {
   $index = false;
 
   $title = $add_lot_title;
+  $form_defaults['category']['input_data'] = 'Выберите категорию';
+
   $content = include_template('templates/add-lot.php', [
 
     'nav' => $nav, 'categories' => $categories,

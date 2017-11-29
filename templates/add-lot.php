@@ -16,7 +16,6 @@
 
     <div class="form__item <?if (!empty($errors['category'])) : ?>form__item--invalid<? endif; ?>">
       <label for="<?=$category['name']; ?>"><?=$category['title']; ?></label>
-
       <select id="<?=$category['name']; ?>"
               name="<?=$category['name']; ?>">
         <option><?=$category['input_data']; ?></option><? foreach ($categories as $category => $value) :?>
