@@ -24,14 +24,8 @@ $errors_user = [];
 $lot_added = (isset($_GET['lot_added']) && $_GET['lot_added'] === 'true') ? true : false;
 $user_added = (isset($_GET['user_added']) && $_GET['user_added'] === 'true') ? true : false;
 
-if (isset($_SESSION['form_data'])) {
+if (isset($_SESSION['form_data']) && isset($_GET['lot_added'])) {
   $form_data = $_SESSION['form_data'];
-
-  $form_defaults['email']['input_data'] =
-    $form_data['email'] ? $form_data['email'] : '';
-
-  $form_defaults['password']['input_data'] =
-    $form_data['password'] ? $form_data['password'] : '';
 
   $form_defaults['lot_name']['input_data'] =
     $form_data['lot_name'] ? $form_data['lot_name'] : '';
@@ -50,6 +44,16 @@ if (isset($_SESSION['form_data'])) {
 
   $form_defaults['lot_date']['input_data'] =
     $form_data['lot_date'] ? $form_data['lot_date'] : '';
+}
+
+if (isset($_SESSION['form_data']) && isset($_GET['user_added'])) {
+  $form_data = $_SESSION['form_data'];
+
+  $form_defaults['email']['input_data'] =
+    $form_data['email'] ? $form_data['email'] : '';
+
+  $form_defaults['password']['input_data'] =
+    $form_data['password'] ? $form_data['password'] : '';
 }
 
 if (isset($_GET['lot_added']) && $_GET['lot_added'] === 'false') {
