@@ -34,7 +34,7 @@
           <a href="sign-up.html">Регистрация</a>
         </li>
         <li class="user-menu__item">
-          <a href="login.html">Вход</a>
+          <a href="index.php?login=true">Вход</a>
         </li>
       </ul><? endif; ?>
     </nav>

@@ -12,7 +12,6 @@ require 'data/lot.php';
 error_reporting(-1);
 ini_set("display_errors", 1);
 
-
 $index = true;
 $nav = null;
 $lot = [];
@@ -45,14 +44,22 @@ if (isset($_SESSION['form_data'])) {
 }
 
 if (isset($_GET['success']) && $_GET['success'] === 'false') {
-  $error = true;
+//  $error = true;
   $errors = $_SESSION['error_state'];
 }
 
-if (isset($_GET['id']) || isset($_GET['add']) || !empty($success)) {
+if (isset($_GET['id']) || isset($_GET['add']) || !empty($success) || isset($_GET['login'])) {
   $nav = include_template('templates/nav.php', [
 
     'categories' => $categories
+  ]);
+}
+
+if (isset($_GET['login'])) {
+  $index = false;
+
+  $content = include_template('templates/login.php', [
+    'nav' => $nav
   ]);
 }
 
@@ -125,5 +132,5 @@ print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
-
+session_destroy();
 

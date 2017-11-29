@@ -65,6 +65,13 @@ $lots = [
 ];
 
 $form_defaults = [
+  'email' => ['name' => 'email',
+    'title' => 'E-mail*', 'placeholder' => 'Введите e-mail'
+  ],
+  'password' => ['name' => 'password',
+    'title' => 'Пароль*', 'placeholder' => 'Введите пароль'
+
+  ],
   'lot_name' => ['name' => 'lot_name', 'title' => 'Наименование',
     'input_data' => '', 'placeholder' => 'Введите наименование лота'
   ],

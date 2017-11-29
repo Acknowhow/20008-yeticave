@@ -20,8 +20,8 @@ $error_state = [];
 $form_data = [];
 
 $required = [
-  'lot_name', 'category', 'message',
-  'lot_rate', 'lot_step', 'lot_date'
+  'email', 'password', 'lot_name',
+  'category', 'message', 'lot_rate', 'lot_step', 'lot_date'
 ];
 
 $rules = [
