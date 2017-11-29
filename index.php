@@ -24,7 +24,7 @@ $errors_user = [];
 $lot_added = (isset($_GET['lot_added']) && $_GET['lot_added'] === 'true') ? true : false;
 $user_added = (isset($_GET['user_added']) && $_GET['user_added'] === 'true') ? true : false;
 
-if (isset($_SESSION['form_data']) && isset($_GET['lot_added'])) {
+if (isset($_SESSION['form_data']) && !empty($lot_added)) {
   $form_data = $_SESSION['form_data'];
 
   $form_defaults['lot_name']['input_data'] =
@@ -46,7 +46,7 @@ if (isset($_SESSION['form_data']) && isset($_GET['lot_added'])) {
     $form_data['lot_date'] ? $form_data['lot_date'] : '';
 }
 
-if (isset($_SESSION['form_data']) && isset($_GET['user_added'])) {
+if (isset($_SESSION['form_data']) && !empty($user_added)) {
   $form_data = $_SESSION['form_data'];
 
   $form_defaults['email']['input_data'] =
@@ -64,7 +64,7 @@ if (isset($_GET['user_added']) && $_GET['user_added'] === 'false') {
   $errors_user = $_SESSION['errors_user'];
 }
 
-if (isset($_GET['id']) || isset($_GET['add']) || !empty($lot_added) || isset($_GET['login'])) {
+if (isset($_GET['id']) || isset($_GET['add']) || !empty($lot_added) || !empty($user_added)) {
   $nav = include_template('templates/nav.php', [
 
     'categories' => $categories
