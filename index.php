@@ -23,7 +23,6 @@ $errors_user = [];
 
 $lot_added = '';
 $user_submitted = '';
-$is_user = $_SESSION['user'] ? $_SESSION['user'] : '';
 
 
 if (isset($_GET['lot_added'])) {
@@ -51,17 +50,7 @@ if (isset($_GET['user_submitted'])) {
 }
 
 if(is_bool($user_submitted) && $user_submitted === true) {
-  if ($user = searchUserByEmail($_SESSION['email'], $users)) {
-
-    if (password_verify($password, $user['password'])) {
-      session_start();
-
-      $_SESSION['user'] = $user;
-      header("Location: index.php");
-    }
-  }
-
-
+  var_dump($_SESSION['form_data']);
 }
 
 if (isset($_SESSION['form_data'])) {
@@ -189,4 +178,3 @@ print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
-

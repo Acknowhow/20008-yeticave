@@ -124,6 +124,7 @@ function validateUpload($array, $fileType, $fileSize) {
   return '';
 }
 
+
 function validateEmail($email) {
   if(empty($_result = filter_var($email, FILTER_VALIDATE_EMAIL))) {
     $_result = 'Пожалуйста, введите правильный формат email';
@@ -131,26 +132,39 @@ function validateEmail($email) {
   } else {
     $_result = '';
   }
-
   return $_result;
 }
 
-function validatePassword($password) {
-
-}
-
-// Launch this function on index.php
-function searchUser($email, $users) {
-  $_result = '';
+function searchUserByEmail($email, $users) {
+  $_result = null;
   foreach ($users as $user) {
     if($user['email'] == $email) {
       $_result = $user;
       break;
     }
-    $_result = 'Пользователь с таким email не зарегистрирован';
-
+    $_result = 'Вы указали неверный пароль или email';
   }
   return $_result;
 }
 
-function validateUser
+
+function validateUser($email, $password, $users) {
+  $is_user = '';
+  $user = searchUserByEmail($email, $users);
+
+  if(is_string($user)) {
+    $is_user = $user;
+  }
+  if(is_array($user) && ($is_user = password_verify($password, $user['password']))) {
+    $is_user = $user;
+  }
+  if(is_array($user) && empty($is_user = password_verify($password, $user['password']))) {
+    $is_user = 'Пароль неверный';
+  }
+
+  return $is_user;
+}
+
+$validate = validateUser('ignat.v@gmail.com', 'ug0GdVMi', $users);
+
+
