@@ -27,6 +27,10 @@ $required_user = [
   'email', 'password'
 ];
 
+$rules_user = [
+  'email' => 'searchUserByEmail'
+];
+
 $required_lot = [
   'lot_name', 'category', 'message',
   'lot_rate', 'lot_step', 'lot_date'
@@ -104,6 +108,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
       $errors_user[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
 
+    if(array_key_exists($key, $rules_user)) {
+      $result = call_user_func($rules_user[$key], $value);
+
+      if (!empty($result)) {
+        $form_data[$key] = $result;
+      }
+
+
+    }
+
     $form_data[$key] = $value;
   }
 }
@@ -123,13 +137,13 @@ if (isset($_GET['add_lot']) && count($errors_lot)){
 }
 
 if (isset($_GET['add_user']) && !count($errors_user)){
-  header('Location: index.php?user_added=true');
+  header('Location: index.php?user_submitted=true');
 }
 if (isset($_GET['add_user']) && count($errors_user)){
   $_SESSION['errors_user'] = $errors_user;
 
   unset($errors_user);
-  header('Location: index.php?user_added=false');
+  header('Location: index.php?user_submitted=false');
 }
 
 

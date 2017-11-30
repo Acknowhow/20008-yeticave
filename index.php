@@ -22,7 +22,8 @@ $errors_lot = [];
 $errors_user = [];
 
 $lot_added = '';
-$user_added = '';
+$user_submitted = '';
+$is_user = $_SESSION['user'] ? $_SESSION['user'] : '';
 
 if (isset($_GET['lot_added'])) {
   if ($_GET['lot_added'] === 'true') {
@@ -36,16 +37,30 @@ if (isset($_GET['lot_added'])) {
   }
 }
 
-if (isset($_GET['user_added'])) {
-  if ($_GET['user_added'] === 'true') {
-    $user_added = true;
+if (isset($_GET['user_submitted'])) {
+  if ($_GET['user_submitted'] === 'true') {
+    $user_submitted = true;
 
-  } elseif ($_GET['user_added'] === 'false') {
-    $user_added = false;
+  } elseif ($_GET['user_submitted'] === 'false') {
+    $user_submitted = false;
 
   } else {
-    $user_added = '';
+    $user_submitted = '';
   }
+}
+
+if(is_bool($user_submitted) && $user_submitted === true) {
+  if ($user = searchUserByEmail($email, $users)) {
+
+    if (password_verify($password, $user['password'])) {
+      session_start();
+
+      $_SESSION['user'] = $user;
+      header("Location: index.php");
+    }
+  }
+
+
 }
 
 if (isset($_SESSION['form_data'])) {
@@ -70,7 +85,7 @@ if (isset($_SESSION['form_data'])) {
     $form_defaults['lot_date']['input_data'] =
       $form_data['lot_date'] ? $form_data['lot_date'] : '';
 
-  } elseif (is_bool($user_added)) {
+  } elseif (is_bool($user_submitted)) {
     $form_defaults['email']['input_data'] =
       $form_data['email'] ? $form_data['email'] : '';
 
@@ -83,7 +98,7 @@ if (is_bool($lot_added) && $lot_added === false) {
   $errors_lot = $_SESSION['errors_lot'];
 }
 
-if (is_bool($user_added) && $user_added === false) {
+if (is_bool($user_submitted) && $user_submitted === false) {
   $errors_user = $_SESSION['errors_user'];
 }
 
