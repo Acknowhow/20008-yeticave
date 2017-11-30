@@ -113,19 +113,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
     $errors_user['email']['error_message'] = $result;
   }
 
-  if(is_string($validate = call_user_func('validateUser', $email, $users, $password))) {
+  elseif(is_string($validate = call_user_func('validateUser', $email, $users, $password))) {
     $errors_user['password']['error_message'] = $validate;
-
   }
 
-  if(is_array($validate = call_user_func('validateUser', $email, $users, $password))) {
+  elseif(is_array($validate = call_user_func('validateUser', $email, $users, $password))) {
     $form_data['user'] = $validate;
-
   }
 
   $form_data['email'] = $email;
   $form_data['password'] = $password;
-
 }
 
 $_SESSION['form_data'] = $form_data;

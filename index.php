@@ -12,6 +12,8 @@ require 'data/lot.php';
 error_reporting(-1);
 ini_set("display_errors", 1);
 
+$is_auth = isset($_SESSION['form_data']['user']) ? true : false;
+
 $index = true;
 $nav = null;
 
@@ -25,7 +27,13 @@ $lot_added = '';
 $user_submitted = '';
 
 $user = [];
+$user_name = '';
 
+if(!empty($is_auth)) {
+  $user = $_SESSION['form_data']['user'];
+  $user_name = $user['name'];
+
+}
 
 if (isset($_GET['lot_added'])) {
   if ($_GET['lot_added'] === 'true') {
@@ -59,7 +67,6 @@ if (is_bool($user_submitted) && $user_submitted === false) {
   $errors_user = $_SESSION['errors_user'];
 }
 
-
 if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
 
@@ -92,9 +99,6 @@ if (isset($_SESSION['form_data'])) {
 }
 
 if(is_bool($user_submitted) && $user_submitted === true) {
-  $user = $_SESSION['form_data'];
-
-  var_dump($user);
 
 }
 
