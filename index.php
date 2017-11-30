@@ -21,57 +21,80 @@ $form_data = [];
 $errors_lot = [];
 $errors_user = [];
 
-$lot_added = (isset($_GET['lot_added']) && $_GET['lot_added'] === 'true') ? true : false;
-$user_added = (isset($_GET['user_added']) && $_GET['user_added'] === 'true') ? true : false;
+$lot_added = '';
+$user_added = '';
 
-if (isset($_SESSION['form_data']) && !empty($lot_added)) {
-  $form_data = $_SESSION['form_data'];
+if (isset($_GET['lot_added'])) {
+  if ($_GET['lot_added'] === 'true') {
+    $lot_added = true;
 
-  $form_defaults['lot_name']['input_data'] =
-    $form_data['lot_name'] ? $form_data['lot_name'] : '';
+  } elseif ($_GET['lot_added'] === 'false') {
+    $lot_added = false;
 
-  $form_defaults['category']['input_data'] =
-    $form_data['category'] ? $form_data['category'] : '';
-
-  $form_defaults['message']['input_data'] =
-    $form_data['message'] ? $form_data['message'] : '';
-
-  $form_defaults['lot_rate']['input_data'] =
-    $form_data['lot_rate'] ? $form_data['lot_rate'] : '';
-
-  $form_defaults['lot_step']['input_data'] =
-    $form_data['lot_step'] ? $form_data['lot_step'] : '';
-
-  $form_defaults['lot_date']['input_data'] =
-    $form_data['lot_date'] ? $form_data['lot_date'] : '';
+  } else {
+    $lot_added = '';
+  }
 }
 
-if (isset($_SESSION['form_data']) && !empty($user_added)) {
-  $form_data = $_SESSION['form_data'];
+if (isset($_GET['user_added'])) {
+  if ($_GET['user_added'] === 'true') {
+    $user_added = true;
 
-  $form_defaults['email']['input_data'] =
-    $form_data['email'] ? $form_data['email'] : '';
+  } elseif ($_GET['user_added'] === 'false') {
+    $user_added = false;
 
-  $form_defaults['password']['input_data'] =
-    $form_data['password'] ? $form_data['password'] : '';
+  } else {
+    $user_added = '';
+  }
 }
 
-if (isset($_GET['lot_added']) && $_GET['lot_added'] === 'false') {
+if (isset($_SESSION['form_data'])) {
+  $form_data = $_SESSION['form_data'];
+
+  if(is_bool($lot_added)) {
+    $form_defaults['lot_name']['input_data'] =
+      $form_data['lot_name'] ? $form_data['lot_name'] : '';
+
+    $form_defaults['category']['input_data'] =
+      $form_data['category'] ? $form_data['category'] : '';
+
+    $form_defaults['message']['input_data'] =
+      $form_data['message'] ? $form_data['message'] : '';
+
+    $form_defaults['lot_rate']['input_data'] =
+      $form_data['lot_rate'] ? $form_data['lot_rate'] : '';
+
+    $form_defaults['lot_step']['input_data'] =
+      $form_data['lot_step'] ? $form_data['lot_step'] : '';
+
+    $form_defaults['lot_date']['input_data'] =
+      $form_data['lot_date'] ? $form_data['lot_date'] : '';
+
+  } elseif (is_bool($user_added)) {
+    $form_defaults['email']['input_data'] =
+      $form_data['email'] ? $form_data['email'] : '';
+
+    $form_defaults['password']['input_data'] =
+      $form_data['password'] ? $form_data['password'] : '';
+  }
+}
+
+if (is_bool($lot_added) && $lot_added === false) {
   $errors_lot = $_SESSION['errors_lot'];
 }
 
-if (isset($_GET['user_added']) && $_GET['user_added'] === 'false') {
+if (is_bool($user_added) && $user_added === false) {
   $errors_user = $_SESSION['errors_user'];
 }
 
-if (isset($_GET['id']) || isset($_GET['add']) || !empty($lot_added) || !empty($user_added)) {
+if (isset($_GET['id']) || isset($_GET['add']) || isset($_GET['login'])) {
   $nav = include_template('templates/nav.php', [
 
     'categories' => $categories
   ]);
 }
 
-if (!empty($lot_added)) {
+if (is_bool($lot_added) && $lot_added === true) {
   $index = false;
 
   $lot = [
@@ -102,6 +125,7 @@ if (isset($_GET['id'])){
 }
 
 if (!empty($lot)){
+  $index = false;
   $title = $lot['name'];
 
   $content = include_template('templates/lot.php', [
@@ -149,5 +173,4 @@ print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
-session_destroy();
 
