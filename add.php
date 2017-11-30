@@ -5,6 +5,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 session_start();
 require 'functions.php';
 require 'data/form.php';
+require 'data/users.php';
 
 $email = isset($_POST['email']) ? $_POST['email'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
@@ -106,23 +107,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
     if (in_array($key, $required_user) && $value == '') {
       $errors_user[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
-
-    if (array_key_exists($key, $rules_user)) {
-      $result = call_user_func($rules_user[$key], $value);
-
-      if (!empty($result) && is_string($result)) {
-        $errors_user[$key]['error_message'] = $result;
-      }
-
-      if (!empty($result) && is_array($result)) {
-
-        $form_data['user'] = $result;
-        break;
-      }
-
-      $form_data[$key] = $value;
-    }
   }
+
+  if(!empty($result = call_user_func('validateEmail', $email))) {
+    $errors_user['email']['error_message'] = $result;
+  }
+
+  if(is_string($validate = call_user_func('validateUser', $email, $users, $password))) {
+    $errors_user['password']['error_message'] = $validate;
+
+  }
+
+  if(is_array($validate = call_user_func('validateUser', $email, $users, $password))) {
+    $form_data['user'] = $validate;
+  }
+
+  $form_data['email'] = $email;
+  $form_data['password'] = $password;
+
+  print_r($errors_user);
 }
 
 $_SESSION['form_data'] = $form_data;

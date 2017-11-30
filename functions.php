@@ -148,7 +148,7 @@ function searchUserByEmail($email, $users) {
 }
 
 
-function validateUser($email, $password, $users) {
+function validateUser($email, $users, $password) {
   $is_user = '';
   $user = searchUserByEmail($email, $users);
 
@@ -165,6 +165,5 @@ function validateUser($email, $password, $users) {
   return $is_user;
 }
 
-$validate = validateUser('ignat.v@gmail.com', 'ug0GdVMi', $users);
 
 
