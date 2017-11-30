@@ -124,13 +124,33 @@ function validateUpload($array, $fileType, $fileSize) {
   return '';
 }
 
-function searchUserByEmail($email, $users) {
-  $result = null;
+function validateEmail($email) {
+  if(empty($_result = filter_var($email, FILTER_VALIDATE_EMAIL))) {
+    $_result = 'Пожалуйста, введите правильный формат email';
+
+  } else {
+    $_result = '';
+  }
+
+  return $_result;
+}
+
+function validatePassword($password) {
+
+}
+
+// Launch this function on index.php
+function searchUser($email, $users) {
+  $_result = '';
   foreach ($users as $user) {
     if($user['email'] == $email) {
-      $result = $user;
+      $_result = $user;
       break;
     }
+    $_result = 'Пользователь с таким email не зарегистрирован';
+
   }
-  return $result;
+  return $_result;
 }
+
+function validateUser

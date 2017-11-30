@@ -28,12 +28,12 @@ $required_user = [
 ];
 
 $rules_user = [
-  'email' => 'searchUserByEmail'
+  'email' => 'validateEmail', 'password' => 'validateUser'
 ];
 
 $required_lot = [
-  'lot_name', 'category', 'message',
-  'lot_rate', 'lot_step', 'lot_date'
+  'lot_name', 'category',
+  'message', 'lot_rate', 'lot_step', 'lot_date'
 ];
 
 $rules_lot = [
@@ -101,30 +101,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_lot'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
-
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $required_user) && $value == '') {
       $errors_user[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
 
-    if(array_key_exists($key, $rules_user)) {
+    if (array_key_exists($key, $rules_user)) {
       $result = call_user_func($rules_user[$key], $value);
 
-      if (!empty($result)) {
-        $form_data[$key] = $result;
+      if (!empty($result) && is_string($result)) {
+        $errors_user[$key]['error_message'] = $result;
       }
 
+      if (!empty($result) && is_array($result)) {
 
+        $form_data['user'] = $result;
+        break;
+      }
+
+      $form_data[$key] = $value;
     }
-
-    $form_data[$key] = $value;
   }
 }
 
 $_SESSION['form_data'] = $form_data;
-
-
 
 if (isset($_GET['add_lot']) && !count($errors_lot)){
   header('Location: index.php?lot_added=true');

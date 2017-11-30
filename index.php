@@ -25,6 +25,7 @@ $lot_added = '';
 $user_submitted = '';
 $is_user = $_SESSION['user'] ? $_SESSION['user'] : '';
 
+
 if (isset($_GET['lot_added'])) {
   if ($_GET['lot_added'] === 'true') {
     $lot_added = true;
@@ -50,7 +51,7 @@ if (isset($_GET['user_submitted'])) {
 }
 
 if(is_bool($user_submitted) && $user_submitted === true) {
-  if ($user = searchUserByEmail($email, $users)) {
+  if ($user = searchUserByEmail($_SESSION['email'], $users)) {
 
     if (password_verify($password, $user['password'])) {
       session_start();
