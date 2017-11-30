@@ -24,6 +24,8 @@ $errors_user = [];
 $lot_added = '';
 $user_submitted = '';
 
+$user = [];
+
 
 if (isset($_GET['lot_added'])) {
   if ($_GET['lot_added'] === 'true') {
@@ -49,9 +51,14 @@ if (isset($_GET['user_submitted'])) {
   }
 }
 
-if(is_bool($user_submitted) && $user_submitted === true) {
-  var_dump($_SESSION['form_data']);
+if (is_bool($lot_added) && $lot_added === false) {
+  $errors_lot = $_SESSION['errors_lot'];
 }
+
+if (is_bool($user_submitted) && $user_submitted === false) {
+  $errors_user = $_SESSION['errors_user'];
+}
+
 
 if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
@@ -84,13 +91,13 @@ if (isset($_SESSION['form_data'])) {
   }
 }
 
-if (is_bool($lot_added) && $lot_added === false) {
-  $errors_lot = $_SESSION['errors_lot'];
+if(is_bool($user_submitted) && $user_submitted === true) {
+  $user = $_SESSION['form_data'];
+
+  var_dump($user);
+
 }
 
-if (is_bool($user_submitted) && $user_submitted === false) {
-  $errors_user = $_SESSION['errors_user'];
-}
 
 if (isset($_GET['id']) || isset($_GET['add']) || isset($_GET['login'])) {
   $nav = include_template('templates/nav.php', [

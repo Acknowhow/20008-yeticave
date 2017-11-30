@@ -143,22 +143,23 @@ function searchUserByEmail($email, $users) {
       break;
     }
     $_result = 'Вы указали неверный пароль или email';
+
   }
   return $_result;
 }
 
 
 function validateUser($email, $users, $password) {
-  $is_user = '';
+  $is_user = null;
   $user = searchUserByEmail($email, $users);
 
   if(is_string($user)) {
     $is_user = $user;
   }
-  if(is_array($user) && ($is_user = password_verify($password, $user['password']))) {
+  elseif(is_array($user) && ($is_user = password_verify($password, $user['password']))) {
     $is_user = $user;
   }
-  if(is_array($user) && empty($is_user = password_verify($password, $user['password']))) {
+  elseif(is_array($user) && empty($is_user = password_verify($password, $user['password']))) {
     $is_user = 'Пароль неверный';
   }
 

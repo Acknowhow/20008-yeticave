@@ -120,12 +120,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
 
   if(is_array($validate = call_user_func('validateUser', $email, $users, $password))) {
     $form_data['user'] = $validate;
+
   }
 
   $form_data['email'] = $email;
   $form_data['password'] = $password;
 
-  print_r($form_data['user']);
 }
 
 $_SESSION['form_data'] = $form_data;
