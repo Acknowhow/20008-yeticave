@@ -7,6 +7,11 @@ require 'functions.php';
 require 'data/form.php';
 require 'data/users.php';
 
+if($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user'])) {
+  http_response_code(403);
+  die();
+}
+
 $email = isset($_POST['email']) ? $_POST['email'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
 

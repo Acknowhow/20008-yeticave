@@ -159,6 +159,14 @@ if (isset($_GET['login']) || !empty($errors_user)) {
     'password' => $form_defaults['password'], 'errors_user' => $errors_user
   ]);
 }
+if (isset($_GET['add']) && empty($is_auth)) {
+  $title = $error_title;
+
+  http_response_code(403);
+  $content = include_template('templates/403.php', [
+    'container' => $container
+  ]);
+}
 
 if (isset($_GET['add']) || !empty($errors_lot)) {
   $index = false;
