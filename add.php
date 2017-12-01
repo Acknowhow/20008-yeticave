@@ -7,7 +7,6 @@ require 'functions.php';
 require 'data/form.php';
 require 'data/users.php';
 
-
 $email = isset($_POST['email']) ? $_POST['email'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
 
@@ -21,7 +20,7 @@ $lot_rate = isset($_POST['lot_rate']) ? $_POST['lot_rate'] : '';
 $lot_step = isset($_POST['lot_step']) ? $_POST['lot_step'] : '';
 $lot_date = isset($_POST['lot_date']) ? $_POST['lot_date'] : '';
 
-$form_data = [];
+$form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
 $errors_lot = [];
 $errors_user = [];
 

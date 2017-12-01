@@ -11,7 +11,7 @@
              name="<?=$lot_name['name']; ?>"
              placeholder="<?=$lot_name['placeholder']; ?>"
              value="<?=htmlspecialchars($lot_name['input_data']); ?>">
-      <span class="form__error"<?if (isset($errors_lot['lot_name']['error_message'])) : ?>><?=$errors_lot['lot_name']['error_message']; ?><? endif; ?></span>
+      <span class="form__error"><?if (isset($errors_lot['lot_name']['error_message'])) : ?><?=$errors_lot['lot_name']['error_message']; ?><? endif; ?></span>
     </div>
 
     <div class="form__item <?if (!empty($errors_lot['category'])) : ?>form__item--invalid<? endif; ?>">
@@ -24,7 +24,7 @@
         <? endforeach; ?>
       </select>
 
-      <span class="form__error"<?if (isset($errors_lot['category']['error_message'])) : ?>><?=$errors_lot['category']['error_message']; ?><? endif; ?></span>
+      <span class="form__error"><?if (isset($errors_lot['category']['error_message'])) : ?><?=$errors_lot['category']['error_message']; ?><? endif; ?></span>
     </div>
   </div>
 
@@ -35,7 +35,7 @@
               name="<?=$message['name']; ?>"
               placeholder="<?=$message['placeholder']; ?>"
     ><?=htmlspecialchars($message['input_data']); ?></textarea>
-    <span class="form__error"<?if (isset($errors_lot['message']['error_message'])) : ?>><?=$errors_lot['message']['error_message']; ?><? endif; ?></span>
+    <span class="form__error"><?if (isset($errors_lot['message']['error_message'])) : ?><?=$errors_lot['message']['error_message']; ?><? endif; ?></span>
   </div>
 
   <div class="form__item form__item--file"> <!-- form__item--uploaded -->
@@ -48,7 +48,7 @@
     </div>
     <div class="form__input-file">
       <input class="visually-hidden" type="file" id="photo2" name="photo">
-      <span class="form_error"<?if (isset($errors_lot['file']['error_message'])) : ?>><?=$errors_lot['file']['error_message']; ?><? endif; ?></span>
+      <span class="form_error"><?if (isset($errors_lot['file']['error_message'])) : ?><?=$errors_lot['file']['error_message']; ?><? endif; ?></span>
       <label for="photo2">
         <span>+ Добавить</span>
       </label>
@@ -64,7 +64,7 @@
              placeholder="0"
              step="0.00001"
              value="<?=htmlspecialchars($lot_rate['input_data']); ?>">
-      <span class="form__error"<? if(isset($errors_lot['lot_rate']['error_message'])) : ?>><?=$errors_lot['lot_rate']['error_message']; ?><? endif; ?></span>
+      <span class="form__error"><? if(isset($errors_lot['lot_rate']['error_message'])) : ?><?=$errors_lot['lot_rate']['error_message']; ?><? endif; ?></span>
     </div>
 
     <div class="form__item form__item--small <?if (!empty($errors_lot['lot_step'])) : ?>form__item--invalid<? endif; ?>">
@@ -75,7 +75,7 @@
              placeholder="0"
              step="0.00001"
              value="<?=htmlspecialchars($lot_step['input_data']); ?>">
-      <span class="form__error"<?if (isset($errors_lot['lot_step']['error_message'])) : ?>><?=$errors_lot['lot_step']['error_message']; ?><? endif; ?></span>
+      <span class="form__error"><?if (isset($errors_lot['lot_step']['error_message'])) : ?><?=$errors_lot['lot_step']['error_message']; ?><? endif; ?></span>
     </div>
 
     <div class="form__item <?if (!empty($errors_lot['lot_date'])) : ?>form__item--invalid<? endif; ?>">
@@ -85,7 +85,7 @@
              type="date"
              name="<?=$lot_date['name']; ?>"
              value="<?=$lot_date['input_data']; ?>">
-      <span class="form__error"<?if (isset($errors_lot['lot_date']['error_message'])) : ?>><?=$errors_lot['lot_date']['error_message']; ?><? endif; ?></span>
+      <span class="form__error"><?if (isset($errors_lot['lot_date']['error_message'])) : ?><?=$errors_lot['lot_date']['error_message']; ?><? endif; ?></span>
     </div>
   </div>
 
