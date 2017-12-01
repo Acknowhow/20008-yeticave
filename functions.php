@@ -124,7 +124,6 @@ function validateUpload($array, $fileType, $fileSize) {
   return '';
 }
 
-
 function validateEmail($email) {
   if(empty($_result = filter_var($email, FILTER_VALIDATE_EMAIL))) {
     $_result = 'Пожалуйста, введите правильный формат email';
@@ -147,7 +146,6 @@ function searchUserByEmail($email, $users) {
   }
   return $_result;
 }
-
 
 function validateUser($email, $users, $password) {
   $is_user = null;

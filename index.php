@@ -98,11 +98,6 @@ if (isset($_SESSION['form_data'])) {
   }
 }
 
-if(is_bool($user_submitted) && $user_submitted === true) {
-
-}
-
-
 if (isset($_GET['id']) || isset($_GET['add']) || isset($_GET['login'])) {
   $nav = include_template('templates/nav.php', [
 
@@ -146,7 +141,7 @@ if (!empty($lot)){
 
   $content = include_template('templates/lot.php', [
     'nav' => $nav, 'categories' => $categories,
-    'lot' => $lot, 'bets' => $bets
+    'lot' => $lot, 'bets' => $bets, 'is_auth' => $is_auth
   ]);
 }
 
@@ -157,14 +152,6 @@ if (isset($_GET['login']) || !empty($errors_user)) {
     'nav' => $nav, 'email' => $form_defaults['email'],
 
     'password' => $form_defaults['password'], 'errors_user' => $errors_user
-  ]);
-}
-if (isset($_GET['add']) && empty($is_auth)) {
-  $title = $error_title;
-
-  http_response_code(403);
-  $content = include_template('templates/403.php', [
-    'container' => $container
   ]);
 }
 
