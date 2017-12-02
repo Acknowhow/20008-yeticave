@@ -10,22 +10,28 @@ require 'data/data.php';
 require 'data/lot.php';
 
 $cookie_name = 'cookie_bet';
-$cookie_value = 45;
+$cookie_value = 'black';
 $expire = time()+60*60*24*30;
 $path = '/';
 
 if(isset($_COOKIE['cookie_bet'])) {
   $cookie_value = $_COOKIE['cookie_bet'];
-  $cookie_value = 34;
+  $cookie_value = json_decode($cookie_value, true);
+
+  $cookie_value['bet_name'] = 'bet_time';
+  $cookie_value['bet_date'] = strtotime('now');
+  $cookie_value['bet_value'] = 84;
+  $cookie_value = json_encode($cookie_value);
 
   setcookie($cookie_name, $cookie_value, time() - 9000, $path);
+  unset($_COOKIE['cookie_bet']);
 
 }
 
 setcookie($cookie_name, $cookie_value, $expire, $path);
 
-print_r($cookie_value);
 
+print_r($cookie_value);
 
 
 
@@ -202,10 +208,10 @@ if (!empty($index)) {
     'lots' => $lots, 'lot_time_remaining' => $lot_time_remaining
   ]);
 }
-
+session_destroy();
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
-session_destroy();
+
 
