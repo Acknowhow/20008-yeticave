@@ -29,6 +29,8 @@ $form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
 $errors_lot = [];
 $errors_user = [];
 
+$url_param = '';
+
 $required_user = [
   'email', 'password'
 ];
@@ -114,15 +116,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
     }
   }
 
-  if(!empty($result = call_user_func('validateEmail', $email))) {
+  if(!empty($result = call_user_func(
+    'validateEmail', $email))) {
     $errors_user['email']['error_message'] = $result;
   }
 
-  elseif(is_string($validate = call_user_func('validateUser', $email, $users, $password))) {
+  elseif(is_string($validate = call_user_func(
+    'validateUser', $email, $users, $password))) {
+
     $errors_user['password']['error_message'] = $validate;
   }
 
-  elseif(is_array($validate = call_user_func('validateUser', $email, $users, $password))) {
+  elseif(is_array($validate = call_user_func(
+    'validateUser', $email, $users, $password))) {
+
     $form_data['user'] = $validate;
   }
 
@@ -132,22 +139,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
 
 $_SESSION['form_data'] = $form_data;
 
-if (isset($_GET['add_lot']) && !count($errors_lot)){
-  header('Location: index.php?lot_added=true');
-}
-if (isset($_GET['add_lot']) && count($errors_lot)){
+if (isset($_GET['add_lot'])) {
   $_SESSION['errors_lot'] = $errors_lot;
 
-  header('Location: index.php?lot_added=false');
+  $result = count($errors_lot) ? 'false' : 'true';
+  $url_param = 'lot_added=' . $result;
 }
 
-if (isset($_GET['add_user']) && !count($errors_user)){
-  header('Location: index.php?user_submitted=true');
-}
-if (isset($_GET['add_user']) && count($errors_user)){
+if (isset($_GET['add_user'])) {
   $_SESSION['errors_user'] = $errors_user;
 
-  header('Location: index.php?user_submitted=false');
+  $result = count($errors_user) ? 'false' : 'true';
+  $url_param = 'user_submitted=' . $result;
 }
+
+header('Location: index.php?' . $url_param);
+
+
 
 

@@ -20,22 +20,15 @@ if(isset($_COOKIE['cookie_bet'])) {
 
   $cookie_value['bet_name'] = 'bet_time';
   $cookie_value['bet_date'] = strtotime('now');
+
   $cookie_value['bet_value'] = 84;
   $cookie_value = json_encode($cookie_value);
 
   setcookie($cookie_name, $cookie_value, time() - 9000, $path);
-  unset($_COOKIE['cookie_bet']);
-
 }
 
 setcookie($cookie_name, $cookie_value, $expire, $path);
-
-
 print_r($cookie_value);
-
-
-
-
 
 error_reporting(-1);
 ini_set("display_errors", 1);
@@ -60,30 +53,23 @@ $user_name = '';
 if(!empty($is_auth)) {
   $user = $_SESSION['form_data']['user'];
   $user_name = $user['name'];
-
 }
 
 if (isset($_GET['lot_added'])) {
   if ($_GET['lot_added'] === 'true') {
     $lot_added = true;
-
-  } elseif ($_GET['lot_added'] === 'false') {
+  }
+  elseif ($_GET['lot_added'] === 'false') {
     $lot_added = false;
-
-  } else {
-    $lot_added = '';
   }
 }
 
 if (isset($_GET['user_submitted'])) {
   if ($_GET['user_submitted'] === 'true') {
     $user_submitted = true;
-
-  } elseif ($_GET['user_submitted'] === 'false') {
+  }
+  elseif ($_GET['user_submitted'] === 'false') {
     $user_submitted = false;
-
-  } else {
-    $user_submitted = '';
   }
 }
 
@@ -208,7 +194,7 @@ if (!empty($index)) {
     'lots' => $lots, 'lot_time_remaining' => $lot_time_remaining
   ]);
 }
-session_destroy();
+
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
