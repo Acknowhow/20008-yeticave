@@ -20,7 +20,7 @@ $categories = ['boards' => 'Доски и лыжи', 'attachment' => 'Крепл
 $lots = [
   ['name' => '2014 Rossignol District Snowboard', 'category' =>	'Доски и лыжи',
     'price' =>	10999, 'step' => null, 'date' => null, 'img_url' =>	'img/lot-1.jpg',
-    'img_alt' => 'Сноуборд', 'description' => $lot_default_description,
+    'img_alt' => 'Сноуборд', 'description' => $lot_default_description
   ],
   ['name' => 'DC Ply Mens 2016/2017 Snowboard',  'category' => 'Доски и лыжи',
     'price' => 159999, 'step' => null, 'date' => null, 'img_url' => 'img/lot-2.jpg',
