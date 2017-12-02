@@ -19,31 +19,31 @@ $categories = ['boards' => 'Доски и лыжи', 'attachment' => 'Крепл
 
 $lots = [
   ['name' => '2014 Rossignol District Snowboard', 'category' =>	'Доски и лыжи',
-    'price' =>	10999, 'step' => null, 'date' => null, 'img_url' =>	'img/lot-1.jpg',
-    'img_alt' => 'Сноуборд', 'description' => $lot_default_description
+    'price' =>	10999, 'step' => 400, 'start_date' => null, 'end_date' => null,
+    'img_url' =>	'img/lot-1.jpg', 'img_alt' => 'Сноуборд', 'description' => $lot_default_description
   ],
   ['name' => 'DC Ply Mens 2016/2017 Snowboard',  'category' => 'Доски и лыжи',
-    'price' => 159999, 'step' => null, 'date' => null, 'img_url' => 'img/lot-2.jpg',
-    'img_alt' => 'Сноуборд', 'description' => $lot_default_description
+    'price' => 159999, 'step' => 500, 'start_date' => null, 'end_date' => null,
+    'img_url' => 'img/lot-2.jpg', 'img_alt' => 'Сноуборд', 'description' => $lot_default_description
   ],
   ['name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-    'category' => 'Крепления', 'price' => 8000, 'step' => null,
-    'date' => null, 'img_url' => 'img/lot-3.jpg',
+    'category' => 'Крепления', 'price' => 8000, 'step' => 400,
+    'start_date' => null, 'end_date' => null, 'img_url' => 'img/lot-3.jpg',
     'img_alt' => 'Крепления', 'description' => $lot_default_description
   ],
   ['name' => 'Ботинки для сноуборда DC Mutiny Charocal',
-    'category' => 'Ботинки', 'price' => 10999, 'step' => null,
-    'date' => null, 'img_url' => 'img/lot-4.jpg',
+    'category' => 'Ботинки', 'price' => 10999, 'step' => 500,
+    'start_date' => null, 'end_date' => null, 'img_url' => 'img/lot-4.jpg',
     'img_alt' => 'Ботинки', 'description' => $lot_default_description
   ],
   ['name' => 'Куртка для сноуборда DC Mutiny Charocal',
-    'category' => 'Одежда', 'price' => 7500, 'step' => null,
-    'date' => null, 'img_url' => 'img/lot-5.jpg',
+    'category' => 'Одежда', 'price' => 7500, 'step' => 1000,
+    'start_date' => null, 'end_date' => null, 'img_url' => 'img/lot-5.jpg',
     'img_alt' => 'Куртка', 'description' => $lot_default_description
   ],
   ['name' => 'Маска Oakley Canopy',  'category' => 'Разное',
-    'price' => 5400, 'step' => null, 'date' => null, 'img_url' => 'img/lot-6.jpg',
-    'img_alt' => 'Маска', 'description' => $lot_default_description
+    'price' => 5400, 'step' => 700, 'start_date' => null, 'end_date' => null,
+    'img_url' => 'img/lot-6.jpg', 'img_alt' => 'Маска', 'description' => $lot_default_description
   ]
 ];
 
