@@ -17,16 +17,16 @@
         <div class="lot-item__cost-state">
           <div class="lot-item__rate">
             <span class="lot-item__amount">Текущая цена</span>
-            <span class="lot-item__cost">11 500</span>
+            <span class="lot-item__cost"><?=$lot['price']; ?></span>
           </div>
           <div class="lot-item__min-cost">
-            Мин. ставка <span>12 000 р</span>
+            Мин. ставка <span><?=($lot['price'] + $lot['step']); ?> р</span>
           </div>
         </div>
-        <form class="lot-item__form" action="/add.php?add_bet=true?lot_id=<?=$_GET['id']?>" method="POST">
+        <form class="lot-item__form" action="/add.php?add_bet=true&lot_id=<?=$_GET['id']; ?>" method="POST">
           <p class="lot-item__form-item">
             <label for="cost">Ваша ставка</label>
-            <input id="cost" type="number" name="cost" placeholder="12 000" step="500" min="12000">
+            <input id="cost" type="number" name="cost" placeholder="<?=($lot['price'] + $lot['step']); ?>" step="<?=$lot['step']; ?>" min="<?=($lot['price'] + $lot['step']); ?>">
           </p>
           <button type="submit" class="button">Сделать ставку</button>
         </form>

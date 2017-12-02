@@ -45,7 +45,8 @@ $errors_lot = [];
 $errors_user = [];
 
 $lot_added = '';
-$user_submitted = '';
+$user_added = '';
+$bet_added = '';
 
 $user = [];
 $user_name = '';
@@ -64,12 +65,18 @@ if (isset($_GET['lot_added'])) {
   }
 }
 
-if (isset($_GET['user_submitted'])) {
-  if ($_GET['user_submitted'] === 'true') {
-    $user_submitted = true;
+if (isset($_GET['user_added'])) {
+  if ($_GET['user_added'] === 'true') {
+    $user_added = true;
   }
-  elseif ($_GET['user_submitted'] === 'false') {
-    $user_submitted = false;
+  elseif ($_GET['user_added'] === 'false') {
+    $user_added = false;
+  }
+}
+
+if (isset($_GET['bet_added'])) {
+  if ($_GET['bet_added'] === 'true') {
+    $bet_added = true;
   }
 }
 
@@ -77,7 +84,7 @@ if (is_bool($lot_added) && $lot_added === false) {
   $errors_lot = $_SESSION['errors_lot'];
 }
 
-if (is_bool($user_submitted) && $user_submitted === false) {
+if (is_bool($user_added) && $user_added === false) {
   $errors_user = $_SESSION['errors_user'];
 }
 
@@ -103,7 +110,7 @@ if (isset($_SESSION['form_data'])) {
     $form_defaults['lot_date']['input_data'] =
       $form_data['lot_date'] ? $form_data['lot_date'] : '';
 
-  } elseif (is_bool($user_submitted)) {
+  } elseif (is_bool($user_added)) {
     $form_defaults['email']['input_data'] =
       $form_data['email'] ? $form_data['email'] : '';
 
@@ -118,6 +125,7 @@ if (isset($_GET['id']) || isset($_GET['add']) || isset($_GET['login'])) {
     'categories' => $categories
   ]);
 }
+
 
 if (is_bool($lot_added) && $lot_added === true) {
   $index = false;
@@ -147,6 +155,15 @@ if (isset($_GET['id'])){
   } else {
     $lot = $lots[$id];
   }
+}
+
+if (is_bool($bet_added)) {
+  $index = false;
+
+  $content = include_template('templates/my-lots.php', [
+    'nav' => $nav
+  ]);
+
 }
 
 

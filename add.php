@@ -25,6 +25,10 @@ $lot_rate = isset($_POST['lot_rate']) ? $_POST['lot_rate'] : '';
 $lot_step = isset($_POST['lot_step']) ? $_POST['lot_step'] : '';
 $lot_date = isset($_POST['lot_date']) ? $_POST['lot_date'] : '';
 
+$lot_id = isset($_GET['lot_id']) ? $_GET['lot_id'] : '';
+
+
+
 $form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
 $errors_lot = [];
 $errors_user = [];
@@ -116,18 +120,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
     }
   }
 
-  if(!empty($result = call_user_func(
+  if (!empty($result = call_user_func(
     'validateEmail', $email))) {
     $errors_user['email']['error_message'] = $result;
   }
 
-  elseif(is_string($validate = call_user_func(
+  elseif (is_string($validate = call_user_func(
     'validateUser', $email, $users, $password))) {
 
     $errors_user['password']['error_message'] = $validate;
   }
 
-  elseif(is_array($validate = call_user_func(
+  elseif (is_array($validate = call_user_func(
     'validateUser', $email, $users, $password))) {
 
     $form_data['user'] = $validate;
@@ -135,6 +139,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
 
   $form_data['email'] = $email;
   $form_data['password'] = $password;
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_bet'])) {
+  $form_data['lot_id'] = $lot_id;
+
 }
 
 $_SESSION['form_data'] = $form_data;
@@ -150,7 +159,11 @@ if (isset($_GET['add_user'])) {
   $_SESSION['errors_user'] = $errors_user;
 
   $result = count($errors_user) ? 'false' : 'true';
-  $url_param = 'user_submitted=' . $result;
+  $url_param = 'user_added=' . $result;
+}
+
+if (isset($_GET['add_bet'])) {
+  $url_param = 'bet_added=true';
 }
 
 header('Location: index.php?' . $url_param);
