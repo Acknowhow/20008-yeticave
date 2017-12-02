@@ -9,6 +9,28 @@ require 'config.php';
 require 'data/data.php';
 require 'data/lot.php';
 
+$cookie_name = 'cookie_bet';
+$cookie_value = 45;
+$expire = time()+60*60*24*30;
+$path = '/';
+
+if(isset($_COOKIE['cookie_bet'])) {
+  $cookie_value = $_COOKIE['cookie_bet'];
+  $cookie_value = 34;
+
+  setcookie($cookie_name, $cookie_value, time() - 9000, $path);
+
+}
+
+setcookie($cookie_name, $cookie_value, $expire, $path);
+
+print_r($cookie_value);
+
+
+
+
+
+
 error_reporting(-1);
 ini_set("display_errors", 1);
 
@@ -135,6 +157,7 @@ if (isset($_GET['id'])){
   }
 }
 
+
 if (!empty($lot)){
   $index = false;
   $title = $lot['name'];
@@ -184,4 +207,5 @@ print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
+session_destroy();
 
