@@ -10,7 +10,7 @@ require 'data/data.php';
 require 'data/lot.php';
 
 $cookie_name = 'cookie_bet';
-$cookie_value = 'black';
+$cookie_value = '';
 $expire = time()+60*60*24*30;
 $path = '/';
 
@@ -32,22 +32,6 @@ $bet_added = '';
 
 $user = [];
 $user_name = '';
-
-if(isset($_COOKIE['cookie_bet'])) {
-  $cookie_value = $_COOKIE['cookie_bet'];
-  $cookie_value = json_decode($cookie_value, true);
-
-  $cookie_value['bet_name'] = 'bet_time';
-  $cookie_value['bet_date'] = strtotime('now');
-
-  $cookie_value['bet_value'] = 84;
-  $cookie_value = json_encode($cookie_value);
-
-  setcookie($cookie_name, $cookie_value, time() - 9000, $path);
-}
-
-setcookie($cookie_name, $cookie_value, $expire, $path);
-print_r($cookie_value);
 
 error_reporting(-1);
 ini_set("display_errors", 1);
@@ -80,14 +64,30 @@ if (isset($_GET['user_added'])) {
 }
 
 if (isset($_GET['bet_added'])) {
+  $id = $_SESSION['form_data']['lot_id'];
+
   if ($_GET['bet_added'] === 'true') {
     $bet_added = true;
+
+    ob_start();
+    $cookie_value = $_COOKIE['cookie_bet'];
+    $cookie_value = json_decode($cookie_value, true);
+
+    $cookie_value['bet_' . $id . '_value'] = $form_data['bet_value'];
+    $cookie_value['bet_' . $id . '_date'] = strtotime('now');
+    $cookie_value['bet_id'] = $id;
+
+    $cookie_value = json_encode($cookie_value);
+
+    setcookie($cookie_name, $cookie_value, $expire, $path);
+    print_r($cookie_value);
   }
   elseif ($_GET['bet_added'] === 'false') {
     $bet_added = false;
   }
 }
 
+// Set errors
 if (is_bool($lot_added) && $lot_added === false) {
   $errors_lot = $_SESSION['errors_lot'];
 }
@@ -130,6 +130,8 @@ if (isset($_SESSION['form_data'])) {
 
     $form_defaults['password']['input_data'] =
       $form_data['password'] ? $form_data['password'] : '';
+  } elseif (is_bool($bet_added)) {
+    // $form_defaults['dffg'] must add form defaults
   }
 }
 
@@ -139,7 +141,6 @@ if (isset($_GET['id']) || isset($_GET['add']) || isset($_GET['login'])) {
     'categories' => $categories
   ]);
 }
-
 
 if (is_bool($lot_added) && $lot_added === true) {
   $index = false;
@@ -156,6 +157,7 @@ if (is_bool($lot_added) && $lot_added === true) {
 if (isset($_GET['id']) || is_bool($bet_added) && $bet_added === false){
   $index = false;
   $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['form_data']['lot_id'];
+  ob_end_flush();
 
   if (!isset($lots[$id])) {
     $title = $error_title;
