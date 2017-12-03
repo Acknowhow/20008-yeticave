@@ -164,5 +164,16 @@ function validateUser($email, $users, $password) {
   return $is_user;
 }
 
+function getBets($betsArr, $lotsArr){
+  $filtered = [];
+
+  $bets_keys = array_keys($betsArr);
+  foreach($bets_keys as $key){
+
+    $filtered[$key] = $lotsArr[$key];
+  }
+  return $filtered;
+}
+
 
 

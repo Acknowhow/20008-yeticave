@@ -36,8 +36,8 @@ $form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
 // Form errors
 $errors_lot = [];
 $errors_user = [];
-$errors_bet = [];
 
+$errors_bet = [];
 $url_param = '';
 
 $required_user = [

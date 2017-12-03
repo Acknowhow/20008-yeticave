@@ -9,7 +9,7 @@
       <p class="lot-item__category">Категория: <span><?=$lot['category']; ?></span></p>
       <p class="lot-item__description"><?=$lot['description']; ?></p>
     </div>
-    <div class="lot-item__right"><?if ($is_auth === true) : ?>
+    <div class="lot-item__right"><?if ($is_auth === true && empty($bet_made)) : ?>
       <div class="lot-item__state <?if (!empty($errors_bet)) : ?>form__item--invalid<? endif; ?>">
         <div class="lot-item__timer timer">
           10:54:12

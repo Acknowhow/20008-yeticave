@@ -10,7 +10,7 @@ require 'data/data.php';
 require 'data/lot.php';
 
 $cookie_name = 'cookie_bet';
-$cookie_value = '';
+$cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
 $expire = time()+60*60*24*30;
 $path = '/';
 
@@ -20,6 +20,9 @@ $nav = null;
 
 $lot = [];
 $bet = [];
+$bet_made = false;
+$my_bets = [];
+
 $id = '';
 $form_data = [];
 
@@ -107,17 +110,13 @@ if (isset($_GET['bet_added'])) {
 
   if ($_GET['bet_added'] === 'true') {
     $bet_added = true;
-
-    $cookie_value = $_COOKIE['cookie_bet'];
     $cookie_value = json_decode($cookie_value, true);
 
-    $cookie_value['bet_' . $id]['value'] = $form_data['bet'];
-    $cookie_value['bet_' . $id]['date'] = strtotime('now');
+    $cookie_value[$id]['value'] = $form_data['bet'];
+    $cookie_value[$id]['date'] = strtotime('now');
 
     $cookie_value = json_encode($cookie_value);
-
     setcookie($cookie_name, $cookie_value, $expire, $path);
-    print_r($cookie_value);
   }
   elseif ($_GET['bet_added'] === 'false') {
     $bet_added = false;
@@ -177,11 +176,18 @@ if (isset($_GET['id']) || is_bool($bet_added) && $bet_added === false){
   }
 }
 
+if (is_bool($bet_added) && $bet_added === true || !empty($lot)) {
+  $cookie_value = json_decode($cookie_value, true);
+
+  $my_bets = $cookie_value;
+  $cookie_value = json_encode($cookie_value);
+}
+
 if (is_bool($bet_added) && $bet_added === true) {
   $index = false;
 
   $content = include_template('templates/my-lots.php', [
-    'nav' => $nav
+    'nav' => $nav, 'my_bets' => $my_bets, 'lots' => $lots
   ]);
 }
 
@@ -189,9 +195,15 @@ if (!empty($lot)){
   $index = false;
   $title = $lot['name'];
 
+  if (!empty($my_bets)) {
+    $bet_made = array_key_exists($id, $my_bets) ? true : false;
+  }
+
   $content = include_template('templates/lot.php', [
-    'nav' => $nav, 'is_auth' => $is_auth, 'categories' => $categories, 'id' => $id,
-    'lot' => $lot, 'bet' => $bet, 'bets' => $bets, 'errors_bet' => $errors_bet
+    'nav' => $nav, 'is_auth' => $is_auth,
+
+    'categories' => $categories, 'id' => $id, 'lot' => $lot,
+    'bet' => $bet, 'bets' => $bets, 'errors_bet' => $errors_bet, 'bet_made' => $bet_made
   ]);
 }
 
@@ -225,8 +237,7 @@ if (isset($_GET['add']) || !empty($errors_lot)) {
 if (!empty($index)) {
   $content = include_template('templates/index.php', [
 
-    'categories' => $categories,
-    'lots' => $lots, 'lot_time_remaining' => $lot_time_remaining
+    'categories' => $categories, 'lots' => $lots, 'lot_time_remaining' => $lot_time_remaining
   ]);
 }
 
