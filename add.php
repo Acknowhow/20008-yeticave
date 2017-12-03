@@ -12,9 +12,11 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user'])
   die();
 }
 
+// Login
 $email = isset($_POST['email']) ? $_POST['email'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
 
+// Add lot
 $lot_name = isset($_POST['lot_name']) ? $_POST['lot_name'] : '';
 $category = $_POST['category'] === 'Выберите категорию' ?
   $_POST['category'] = '' : $_POST['category'];
@@ -25,13 +27,19 @@ $lot_rate = isset($_POST['lot_rate']) ? $_POST['lot_rate'] : '';
 $lot_step = isset($_POST['lot_step']) ? $_POST['lot_step'] : '';
 $lot_date = isset($_POST['lot_date']) ? $_POST['lot_date'] : '';
 
+// Bet
+$user_name = isset($_SESSION['form_data']['user']) ?
+  $_SESSION['form_data']['user']['name'] : '';
+
 $lot_id = isset($_GET['lot_id']) ? $_GET['lot_id'] : '';
-
-
+$bet_value = isset($_POST['cost']) ? $_POST['cost'] : '';
 
 $form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
+
+// Form errors
 $errors_lot = [];
 $errors_user = [];
+$errors_bet = [];
 
 $url_param = '';
 
@@ -142,7 +150,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_bet'])) {
+  if(empty($bet_value)) {
+
+    $errors_bet['value']['error_message'] = 'Пожалуйста, введите минимальное значение ставки';
+  }
+
   $form_data['lot_id'] = $lot_id;
+  $form_data['bet_value'] = $bet_value;
+
+  $form_data['bet_time'] = strtotime('now');
 
 }
 
@@ -163,7 +179,10 @@ if (isset($_GET['add_user'])) {
 }
 
 if (isset($_GET['add_bet'])) {
-  $url_param = 'bet_added=true';
+  $_SESSION['errors_bet'] = $errors_bet;
+
+  $result = count($errors_bet) ? 'false' : 'true';
+  $url_param = 'bet_added=' . $result;
 }
 
 header('Location: index.php?' . $url_param);

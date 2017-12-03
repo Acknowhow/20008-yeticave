@@ -10,7 +10,7 @@
       <p class="lot-item__description"><?=$lot['description']; ?></p>
     </div>
     <div class="lot-item__right"><?if ($is_auth === true) : ?>
-      <div class="lot-item__state">
+      <div class="lot-item__state <?if (!empty($errors_bet)) : ?>form__item--invalid<? endif; ?>">
         <div class="lot-item__timer timer">
           10:54:12
         </div>
@@ -23,13 +23,18 @@
             Мин. ставка <span><?=($lot['price'] + $lot['step']); ?> р</span>
           </div>
         </div>
-        <form class="lot-item__form" action="/add.php?add_bet=true&lot_id=<?=$_GET['id']; ?>" method="POST">
+        <form class="lot-item__form" action="/add.php?add_bet=true&lot_id=<?=$id; ?>" method="POST">
           <p class="lot-item__form-item">
             <label for="cost">Ваша ставка</label>
-            <input id="cost" type="number" name="cost" placeholder="<?=($lot['price'] + $lot['step']); ?>" step="<?=$lot['step']; ?>" min="<?=($lot['price'] + $lot['step']); ?>">
+            <input id="cost" type="number" name="cost"
+                   placeholder="<?=($lot['price'] + $lot['step']); ?>"
+                   step="<?=$lot['step']; ?>"
+                   min="<?=($lot['price'] + $lot['step']); ?>">
           </p>
           <button type="submit" class="button">Сделать ставку</button>
         </form>
+
+        <span class="form__error"><?if (!empty($errors_bet)) : ?><?=$errors_bet['value']['error_message']; ?><? endif; ?></span>
       </div><?endif; ?>
       <div class="history">
         <h3>История ставок (<span>4</span>)</h3>
