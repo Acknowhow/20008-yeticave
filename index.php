@@ -19,6 +19,7 @@ $index = true;
 $nav = null;
 
 $lot = [];
+$bet = [];
 $id = '';
 $form_data = [];
 
@@ -43,61 +44,6 @@ if(!empty($is_auth)) {
   // Unset open password for security reasons
   unset($_SESSION['form_data']['email']);
   unset($_SESSION['form_data']['password']);
-}
-
-if (isset($_GET['lot_added'])) {
-  if ($_GET['lot_added'] === 'true') {
-    $lot_added = true;
-  }
-  elseif ($_GET['lot_added'] === 'false') {
-    $lot_added = false;
-  }
-}
-
-if (isset($_GET['user_added'])) {
-  if ($_GET['user_added'] === 'true') {
-    $user_added = true;
-  }
-  elseif ($_GET['user_added'] === 'false') {
-    $user_added = false;
-  }
-}
-
-if (isset($_GET['bet_added'])) {
-  $id = $_SESSION['form_data']['lot_id'];
-
-  if ($_GET['bet_added'] === 'true') {
-    $bet_added = true;
-
-    ob_start();
-    $cookie_value = $_COOKIE['cookie_bet'];
-    $cookie_value = json_decode($cookie_value, true);
-
-    $cookie_value['bet_' . $id . '_value'] = $form_data['bet_value'];
-    $cookie_value['bet_' . $id . '_date'] = strtotime('now');
-    $cookie_value['bet_id'] = $id;
-
-    $cookie_value = json_encode($cookie_value);
-
-    setcookie($cookie_name, $cookie_value, $expire, $path);
-    print_r($cookie_value);
-  }
-  elseif ($_GET['bet_added'] === 'false') {
-    $bet_added = false;
-  }
-}
-
-// Set errors
-if (is_bool($lot_added) && $lot_added === false) {
-  $errors_lot = $_SESSION['errors_lot'];
-}
-
-if (is_bool($user_added) && $user_added === false) {
-  $errors_user = $_SESSION['errors_user'];
-}
-
-if (is_bool($bet_added) && $bet_added === false) {
-  $errors_bet = $_SESSION['errors_bet'];
 }
 
 if (isset($_SESSION['form_data'])) {
@@ -130,9 +76,65 @@ if (isset($_SESSION['form_data'])) {
 
     $form_defaults['password']['input_data'] =
       $form_data['password'] ? $form_data['password'] : '';
+
   } elseif (is_bool($bet_added)) {
-    // $form_defaults['dffg'] must add form defaults
+    $form_defaults['bet']['input_data'] =
+      $form_data['bet'] ? $form_data['bet'] : '';
   }
+}
+
+if (isset($_GET['lot_added'])) {
+  if ($_GET['lot_added'] === 'true') {
+    $lot_added = true;
+  }
+  elseif ($_GET['lot_added'] === 'false') {
+    $lot_added = false;
+  }
+}
+
+if (isset($_GET['user_added'])) {
+  if ($_GET['user_added'] === 'true') {
+    $user_added = true;
+  }
+  elseif ($_GET['user_added'] === 'false') {
+    $user_added = false;
+  }
+}
+
+ob_start();
+if (isset($_GET['bet_added'])) {
+  $id = $_SESSION['form_data']['bet_id'];
+
+  if ($_GET['bet_added'] === 'true') {
+    $bet_added = true;
+
+    $cookie_value = $_COOKIE['cookie_bet'];
+    $cookie_value = json_decode($cookie_value, true);
+
+    $cookie_value['bet_' . $id]['value'] = $form_data['bet'];
+    $cookie_value['bet_' . $id]['date'] = strtotime('now');
+
+    $cookie_value = json_encode($cookie_value);
+
+    setcookie($cookie_name, $cookie_value, $expire, $path);
+    print_r($cookie_value);
+  }
+  elseif ($_GET['bet_added'] === 'false') {
+    $bet_added = false;
+  }
+}
+
+// Set errors
+if (is_bool($lot_added) && $lot_added === false) {
+  $errors_lot = $_SESSION['errors_lot'];
+}
+
+if (is_bool($user_added) && $user_added === false) {
+  $errors_user = $_SESSION['errors_user'];
+}
+
+if (is_bool($bet_added) && $bet_added === false) {
+  $errors_bet = $_SESSION['errors_bet'];
 }
 
 if (isset($_GET['id']) || isset($_GET['add']) || isset($_GET['login'])) {
@@ -156,7 +158,9 @@ if (is_bool($lot_added) && $lot_added === true) {
 
 if (isset($_GET['id']) || is_bool($bet_added) && $bet_added === false){
   $index = false;
-  $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['form_data']['lot_id'];
+
+  $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['form_data']['bet_id'];
+  $bet = $form_defaults['bet'];
   ob_end_flush();
 
   if (!isset($lots[$id])) {
@@ -173,13 +177,12 @@ if (isset($_GET['id']) || is_bool($bet_added) && $bet_added === false){
   }
 }
 
-if (is_bool($bet_added)) {
+if (is_bool($bet_added) && $bet_added === true) {
   $index = false;
 
   $content = include_template('templates/my-lots.php', [
     'nav' => $nav
   ]);
-
 }
 
 if (!empty($lot)){
@@ -187,8 +190,8 @@ if (!empty($lot)){
   $title = $lot['name'];
 
   $content = include_template('templates/lot.php', [
-    'nav' => $nav, 'categories' => $categories, 'id' => $id,
-    'lot' => $lot, 'bets' => $bets, 'is_auth' => $is_auth, 'errors_bet' => $errors_bet
+    'nav' => $nav, 'is_auth' => $is_auth, 'categories' => $categories, 'id' => $id,
+    'lot' => $lot, 'bet' => $bet, 'bets' => $bets, 'errors_bet' => $errors_bet
   ]);
 }
 

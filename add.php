@@ -28,11 +28,8 @@ $lot_step = isset($_POST['lot_step']) ? $_POST['lot_step'] : '';
 $lot_date = isset($_POST['lot_date']) ? $_POST['lot_date'] : '';
 
 // Bet
-$user_name = isset($_SESSION['form_data']['user']) ?
-  $_SESSION['form_data']['user']['name'] : '';
-
-$lot_id = isset($_GET['lot_id']) ? $_GET['lot_id'] : '';
-$bet_value = isset($_POST['cost']) ? $_POST['cost'] : '';
+$bet = isset($_POST['bet']) ? $_POST['bet'] : '';
+$bet_id = isset($_GET['bet_id']) ? $_GET['bet_id'] : '';
 
 $form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
 
@@ -150,15 +147,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_bet'])) {
-  if(empty($bet_value)) {
+  if(empty($bet)) {
 
     $errors_bet['value']['error_message'] = 'Пожалуйста, введите минимальное значение ставки';
   }
-
-  $form_data['lot_id'] = $lot_id;
-  $form_data['bet_value'] = $bet_value;
-
-  $form_data['bet_time'] = strtotime('now');
+  $form_data['bet'] = $bet;
+  $form_data['bet_id'] = $bet_id;
 
 }
 

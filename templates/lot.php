@@ -23,13 +23,14 @@
             Мин. ставка <span><?=($lot['price'] + $lot['step']); ?> р</span>
           </div>
         </div>
-        <form class="lot-item__form" action="/add.php?add_bet=true&lot_id=<?=$id; ?>" method="POST">
+        <form class="lot-item__form" action="/add.php?add_bet=true&bet_id=<?=$id; ?>" method="POST">
           <p class="lot-item__form-item">
-            <label for="cost">Ваша ставка</label>
-            <input id="cost" type="number" name="cost"
+            <label for="<?=$bet['name']?>">Ваша ставка</label>
+            <input id="<?=$bet['name']?>" type="number" name="<?=$bet['name']?>"
                    placeholder="<?=($lot['price'] + $lot['step']); ?>"
                    step="<?=$lot['step']; ?>"
-                   min="<?=($lot['price'] + $lot['step']); ?>">
+                   min="<?=($lot['price'] + $lot['step']); ?>"
+                   value="<?=$bet['input_data']; ?>">
           </p>
           <button type="submit" class="button">Сделать ставку</button>
         </form>

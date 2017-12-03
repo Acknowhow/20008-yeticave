@@ -48,6 +48,8 @@ $lots = [
 ];
 
 $form_defaults = [
+  'bet' => ['name' => 'bet',
+    'input_data' => ''],
   'email' => ['name' => 'email',
     'title' => 'E-mail*', 'placeholder' => 'Введите e-mail', 'input_data' => ''
   ],
