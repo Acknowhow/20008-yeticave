@@ -1,5 +1,5 @@
 <?=$nav; ?>
-<form class="form container <?if (!empty($errors_user)) : ?>form__invalid<?endif; ?>" action="/add.php?add_user=true" method="post">
+<form class="form container <?if (!empty($errors_user)) : ?>form__invalid<?endif; ?>" action="/add.php" method="post">
     <h2>Вход</h2>
     <div class="form__item <?if (!empty($errors_user['email'])) : ?>form__item--invalid<?endif; ?>">
       <label for="<?=$email['name']?>"><?=$email['title']; ?></label>
