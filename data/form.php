@@ -1,5 +1,11 @@
 <?php
 $form_errors = [
+  'email' => [
+    'name' => 'email', 'error_empty' => 'Введите email'
+  ],
+  'password' => [
+    'name' => 'password', 'error_empty' => 'Введите пароль'
+  ],
   'lot_name' => [
     'name' => 'lot_name', 'error_empty' => 'Введите наименование лота'
   ],

@@ -124,4 +124,45 @@ function validateUpload($array, $fileType, $fileSize) {
   return '';
 }
 
+function validateEmail($email) {
+  if(empty($_result = filter_var($email, FILTER_VALIDATE_EMAIL))) {
+    $_result = 'Пожалуйста, введите правильный формат email';
+
+  } else {
+    $_result = '';
+  }
+  return $_result;
+}
+
+function searchUserByEmail($email, $users) {
+  $_result = null;
+  foreach ($users as $user) {
+    if($user['email'] == $email) {
+      $_result = $user;
+      break;
+    }
+    $_result = 'Вы указали неверный пароль или email';
+
+  }
+  return $_result;
+}
+
+function validateUser($email, $users, $password) {
+  $is_user = null;
+  $user = searchUserByEmail($email, $users);
+
+  if(is_string($user)) {
+    $is_user = $user;
+  }
+  elseif(is_array($user) && ($is_user = password_verify($password, $user['password']))) {
+    $is_user = $user;
+  }
+  elseif(is_array($user) && empty($is_user = password_verify($password, $user['password']))) {
+    $is_user = 'Пароль неверный';
+  }
+
+  return $is_user;
+}
+
+
 

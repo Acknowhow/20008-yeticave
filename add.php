@@ -5,6 +5,15 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 session_start();
 require 'functions.php';
 require 'data/form.php';
+require 'data/users.php';
+
+if($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user'])) {
+  http_response_code(403);
+  die();
+}
+
+$email = isset($_POST['email']) ? $_POST['email'] : '';
+$password = isset($_POST['password']) ? $_POST['password'] : '';
 
 $lot_name = isset($_POST['lot_name']) ? $_POST['lot_name'] : '';
 $category = $_POST['category'] === 'Выберите категорию' ?
@@ -16,20 +25,29 @@ $lot_rate = isset($_POST['lot_rate']) ? $_POST['lot_rate'] : '';
 $lot_step = isset($_POST['lot_step']) ? $_POST['lot_step'] : '';
 $lot_date = isset($_POST['lot_date']) ? $_POST['lot_date'] : '';
 
-$error_state = [];
-$form_data = [];
+$form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
+$errors_lot = [];
+$errors_user = [];
 
-$required = [
-  'lot_name', 'category', 'message',
-  'lot_rate', 'lot_step', 'lot_date'
+$required_user = [
+  'email', 'password'
 ];
 
-$rules = [
+$rules_user = [
+  'email' => 'validateEmail', 'password' => 'validateUser'
+];
+
+$required_lot = [
+  'lot_name', 'category',
+  'message', 'lot_rate', 'lot_step', 'lot_date'
+];
+
+$rules_lot = [
   'lot_rate' => 'validateLotRate',
   'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate',
 ];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_lot'])) {
   if (isset($_FILES['photo'])) {
 
     $file = $_FILES['photo'];
@@ -55,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $result = validateUpload($allowed, $file_type, $file_size);
 
       if (!empty($result)) {
-        $error_state['file']['error_message'] = $result;
+        $errors_lot['file']['error_message'] = $result;
       }
 
       $destination_path = $file_path . $file_name;
@@ -66,37 +84,70 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $form_data['lot_alt'] = 'uploaded';
 
     } else {
-      $error_state['file']['error_message'] = $form_errors['file']['error_empty'];
+      $errors_lot['file']['error_message'] = $form_errors['file']['error_empty'];
 
     }
   }
 
   foreach ($_POST as $key => $value) {
 
-  if (in_array($key, $required) && $value == '') {
-  $error_state[$key]['error_message'] = $form_errors[$key]['error_empty'];
+  if (in_array($key, $required_lot) && $value == '') {
+    $errors_lot[$key]['error_message'] = $form_errors[$key]['error_empty'];
   }
 
-  if (array_key_exists($key, $rules)) {
-    $result = call_user_func($rules[$key], $value);
+  if (array_key_exists($key, $rules_lot)) {
+    $result = call_user_func($rules_lot[$key], $value);
 
     if (!empty($result)) {
-      $error_state[$key]['error_message'] = $result;
+      $errors_lot[$key]['error_message'] = $result;
     }
 
   } $form_data[$key] = $value;
   }
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_GET['add_user'])) {
+  foreach ($_POST as $key => $value) {
+
+    if (in_array($key, $required_user) && $value == '') {
+      $errors_user[$key]['error_message'] = $form_errors[$key]['error_empty'];
+    }
+  }
+
+  if(!empty($result = call_user_func('validateEmail', $email))) {
+    $errors_user['email']['error_message'] = $result;
+  }
+
+  elseif(is_string($validate = call_user_func('validateUser', $email, $users, $password))) {
+    $errors_user['password']['error_message'] = $validate;
+  }
+
+  elseif(is_array($validate = call_user_func('validateUser', $email, $users, $password))) {
+    $form_data['user'] = $validate;
+  }
+
+  $form_data['email'] = $email;
+  $form_data['password'] = $password;
+}
+
 $_SESSION['form_data'] = $form_data;
 
-if (!count($error_state)){
-  header('Location: index.php?success=true');
+if (isset($_GET['add_lot']) && !count($errors_lot)){
+  header('Location: index.php?lot_added=true');
 }
-if (count($error_state)){
-  $_SESSION['error_state'] = $error_state;
+if (isset($_GET['add_lot']) && count($errors_lot)){
+  $_SESSION['errors_lot'] = $errors_lot;
 
-  header('Location: index.php?success=false');
+  header('Location: index.php?lot_added=false');
+}
+
+if (isset($_GET['add_user']) && !count($errors_user)){
+  header('Location: index.php?user_submitted=true');
+}
+if (isset($_GET['add_user']) && count($errors_user)){
+  $_SESSION['errors_user'] = $errors_user;
+
+  header('Location: index.php?user_submitted=false');
 }
 
 

@@ -18,7 +18,7 @@
       <input type="search" name="search" placeholder="Поиск лота" value="">
       <input class="main-header__search-btn" type="submit" name="find" value="Найти">
     </form>
-    <a class="main-header__add-lot button" href="index.php?add=true">Добавить лот</a>
+    <?if ($is_auth === true) : ?><a class="main-header__add-lot button" href="index.php?add=true">Добавить лот</a><?endif; ?>
 
     <nav class="user-menu">
       <?if ($is_auth === true) : ?>
@@ -27,6 +27,7 @@
         </div>
         <div class="user-menu__logged">
         <p><?=$user_name; ?></p>
+        <a href="/logout.php">Выход</a>
         </div><? endif; ?>
 
       <? if($is_auth !== true) : ?><ul class="user-menu__list">
@@ -34,7 +35,7 @@
           <a href="sign-up.html">Регистрация</a>
         </li>
         <li class="user-menu__item">
-          <a href="login.html">Вход</a>
+          <a href="index.php?login=true">Вход</a>
         </li>
       </ul><? endif; ?>
     </nav>
