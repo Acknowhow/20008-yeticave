@@ -9,27 +9,34 @@
       <p class="lot-item__category">Категория: <span><?=$lot['category']; ?></span></p>
       <p class="lot-item__description"><?=$lot['description']; ?></p>
     </div>
-    <div class="lot-item__right"><?if ($is_auth === true) : ?>
-      <div class="lot-item__state">
+    <div class="lot-item__right"><?if ($is_auth === true && empty($bet_made)) : ?>
+      <div class="lot-item__state <?if (!empty($errors_bet)) : ?>form__item--invalid<? endif; ?>">
         <div class="lot-item__timer timer">
           10:54:12
         </div>
         <div class="lot-item__cost-state">
           <div class="lot-item__rate">
             <span class="lot-item__amount">Текущая цена</span>
-            <span class="lot-item__cost">11 500</span>
+            <span class="lot-item__cost"><?=$lot['price']; ?></span>
           </div>
           <div class="lot-item__min-cost">
-            Мин. ставка <span>12 000 р</span>
+            Мин. ставка <span><?=($lot['price'] + $lot['step']); ?> р</span>
           </div>
         </div>
-        <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">
+        <form class="lot-item__form" action="/add.php" method="POST">
           <p class="lot-item__form-item">
-            <label for="cost">Ваша ставка</label>
-            <input id="cost" type="number" name="cost" placeholder="12 000">
+            <label for="<?=$bet['name']?>">Ваша ставка</label>
+            <input id="<?=$bet['name']?>" type="number" name="<?=$bet['name']?>"
+                   placeholder="<?=($lot['price'] + $lot['step']); ?>"
+                   step="<?=$lot['step']; ?>"
+                   min="<?=($lot['price'] + $lot['step']); ?>"
+                   value="<?=$bet['input_data']; ?>">
+            <input type="hidden" name="bet_id" value="<?=$id; ?>">
           </p>
           <button type="submit" class="button">Сделать ставку</button>
         </form>
+
+        <span class="form__error"><?if (!empty($errors_bet)) : ?><?=$errors_bet['value']['error_message']; ?><? endif; ?></span>
       </div><?endif; ?>
       <div class="history">
         <h3>История ставок (<span>4</span>)</h3>

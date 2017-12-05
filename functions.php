@@ -142,7 +142,6 @@ function searchUserByEmail($email, $users) {
       break;
     }
     $_result = 'Вы указали неверный пароль или email';
-
   }
   return $_result;
 }
@@ -160,7 +159,6 @@ function validateUser($email, $users, $password) {
   elseif(is_array($user) && empty($is_user = password_verify($password, $user['password']))) {
     $is_user = 'Пароль неверный';
   }
-
   return $is_user;
 }
 
