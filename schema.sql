@@ -1,6 +1,6 @@
 CREATE DATABASE yeti CHARACTER SET utf8 COLLATE utf8_bin;
 use yeti;
-CREATE TABLE category (
+CREATE TABLE categories (
   category_id INT auto_increment NOT NULL PRIMARY KEY,
   category_name VARCHAR(127) unique key
 
@@ -13,7 +13,7 @@ CREATE TABLE users (
   img_url VARCHAR(255),
   date_registered TIMESTAMP,
   contact_info VARCHAR(127),
-  winner_id INT default 0,
+  winner_id INT not null,
   is_deleted TINYINT default 0
 );
 CREATE TABLE bets (
@@ -21,6 +21,8 @@ CREATE TABLE bets (
   value INT,
   date_created TIMESTAMP,
   user_id INT not null,
+  timer_end TINYINT default 0,
+  timer_win TINYINT default 0,
   FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 CREATE TABLE lots (
@@ -40,7 +42,7 @@ CREATE TABLE lots (
   author_id INT not null,
   category_id INT not null,
   FOREIGN KEY (author_id) REFERENCES users(user_id),
-  FOREIGN KEY (category_id) REFERENCES category(category_id)
+  FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
 ALTER TABLE bets ADD lot_id INT not null AFTER bet_id;
 ALTER TABLE bets ADD FOREIGN KEY (lot_id) REFERENCES lots(lot_id);
