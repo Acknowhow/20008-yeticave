@@ -7,6 +7,9 @@ require 'functions.php';
 require 'data/form.php';
 require 'data/users.php';
 
+require 'mysql_helper.php';
+require 'init.php';
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user'])) {
   http_response_code(403);
   die();
