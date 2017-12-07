@@ -9,6 +9,9 @@ require 'config.php';
 require 'data/data.php';
 require 'data/lot.php';
 
+require 'mysql_helper.php';
+require 'init.php';
+
 $cookie_name = 'cookie_bet';
 $cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
 $expire = time()+60*60*24*30;
@@ -244,5 +247,6 @@ print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
+
 
 
