@@ -17,7 +17,6 @@ $cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
 $expire = time()+60*60*24*30;
 $path = '/';
 
-$sign_up = true;
 $is_auth = isset($_SESSION['form_data']['user']) ? true : false;
 $index = true;
 $nav = null;
@@ -30,12 +29,14 @@ $my_bets = [];
 $id = '';
 $form_data = [];
 
+$errors_login = [];
+$errors_sign_up = [];
 $errors_lot = [];
-$errors_user = [];
 $errors_bet = [];
 
-$lot_added = '';
 $user_added = '';
+$user_registered = '';
+$lot_added = '';
 $bet_added = '';
 
 $user = [];
@@ -150,7 +151,7 @@ if (is_bool($lot_added) && $lot_added === false) {
 }
 
 if (is_bool($user_added) && $user_added === false) {
-  $errors_user = $_SESSION['errors_user'];
+  $errors_login = $_SESSION['errors_login'];
 }
 
 if (is_bool($bet_added) && $bet_added === false) {
@@ -229,17 +230,17 @@ if (!empty($lot)){
   ]);
 }
 
-if (isset($_GET['login']) || !empty($errors_user)) {
+if (isset($_GET['login']) || !empty($errors_login)) {
   $index = false;
 
   $content = include_template('templates/login.php', [
     'nav' => $nav, 'email' => $form_defaults['email'],
 
-    'password' => $form_defaults['password'], 'errors_user' => $errors_user
+    'password' => $form_defaults['password'], 'errors_login' => $errors_login
   ]);
 }
 
-if (isset($sign_up)) {
+if (isset($_GET['register']) || !empty($errors_sign_up)) {
   $index = false;
 
   $content = include_template('templates/sign-up.php', [

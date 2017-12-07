@@ -32,7 +32,7 @@
 
       <? if($is_auth !== true) : ?><ul class="user-menu__list">
         <li class="user-menu__item">
-          <a href="sign-up.html">Регистрация</a>
+          <a href="index.php?register=true">Регистрация</a>
         </li>
         <li class="user-menu__item">
           <a href="index.php?login=true">Вход</a>

@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user']
   die();
 }
 
-// Login
+// Login + Register
 $email = isset($_POST['email']) ? $_POST['email'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
 
@@ -38,7 +38,7 @@ $form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
 
 // Form errors
 $errors_lot = [];
-$errors_user = [];
+$errors_register = [];
 
 $errors_bet = [];
 $url_param = '';
@@ -111,20 +111,21 @@ if (isset($_POST['lot_name'])) {
 }
 
 if (isset($_POST['email'])) {
+  print_r($_POST);
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $required_user) && $value == '') {
-      $errors_user[$key]['error_message'] = $form_errors[$key]['error_empty'];
+      $errors_login[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
   }
 
   if (!empty($result = call_user_func(
     'validateEmail', $email))) {
-    $errors_user['email']['error_message'] = $result;
+    $errors_login['email']['error_message'] = $result;
   } elseif (is_string($validate = call_user_func(
     'validateUser', $email, $users, $password))) {
 
-    $errors_user['password']['error_message'] = $validate;
+    $errors_login['password']['error_message'] = $validate;
   } elseif (is_array($validate = call_user_func(
     'validateUser', $email, $users, $password))) {
 
@@ -155,9 +156,9 @@ if (isset($_POST['lot_name'])) {
 }
 
 if (isset($_POST['email'])) {
-  $_SESSION['errors_user'] = $errors_user;
+  $_SESSION['errors_login'] = $errors_login;
 
-  $result = count($errors_user) ? 'false' : 'true';
+  $result = count($errors_login) ? 'false' : 'true';
   $url_param = 'user_added=' . $result;
 }
 
