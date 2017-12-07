@@ -1,4 +1,5 @@
-<?php
+<?
+
 $title = 'Главная';
 $error_title = 'This page is lost';
 
@@ -48,14 +49,21 @@ $lots = [
 ];
 
 $form_defaults = [
-  'bet' => ['name' => 'bet',
-    'input_data' => ''],
-  'email' => ['name' => 'email',
-    'title' => 'E-mail*', 'placeholder' => 'Введите e-mail', 'input_data' => ''
+  'name' => ['name' => 'name', 'title' => 'Имя*',
+    'placeholder' => 'Введите имя', 'input_data' => ''
   ],
-  'password' => ['name' => 'password',
-    'title' => 'Пароль*', 'placeholder' => 'Введите пароль', 'input_data' => ''
-
+  'email' => ['name' => 'email', 'title' => 'E-mail*',
+    'placeholder' => 'Введите e-mail', 'input_data' => ''
+  ],
+  'password' => ['name' => 'password', 'title' => 'Пароль*',
+    'placeholder' => 'Введите пароль', 'input_data' => ''
+  ],
+  'contacts' => ['name' => 'contacts', 'title' => 'Контактные данные*',
+    'placeholder' => 'Напишите как с вами связаться', 'input_data' => ''
+  ],
+  'user_file' => ['name' => 'user_file', 'title' => 'Аватар'
+  ],
+  'bet' => ['name' => 'bet', 'input_data' => ''
   ],
   'lot_name' => ['name' => 'lot_name', 'title' => 'Наименование',
     'input_data' => '', 'placeholder' => 'Введите наименование лота'
@@ -72,11 +80,14 @@ $form_defaults = [
   'lot_rate' => ['name' => 'lot_rate',
     'title' => 'Начальная цена', 'input_data' => ''
   ],
-  'lot_step' => ['name' => 'lot_step', 'title' => 'Шаг ставки', 'input_data' => ''
+  'lot_step' => ['name' => 'lot_step',
+    'title' => 'Шаг ставки', 'input_data' => ''
   ],
-  'lot_date' => ['name' => 'lot_date', 'title' => 'Дата окончания торгов', 'input_data' => ''
+  'lot_date' => ['name' => 'lot_date',
+    'title' => 'Дата окончания торгов', 'input_data' => ''
   ],
-  'all' => ['name' => 'all', 'error_message' => 'Пожалуйста, исправьте ошибки в форме', 'input_data' => ''
+  'all' => ['name' => 'all',
+    'error_message' => 'Пожалуйста, исправьте ошибки в форме', 'input_data' => ''
   ]
 ];
 

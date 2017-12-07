@@ -1,4 +1,4 @@
-<?php
+<?
 $users = [
   [
     'email' => 'ignat.v@gmail.com',

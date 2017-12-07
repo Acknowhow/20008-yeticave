@@ -1,4 +1,4 @@
-<?php
+<?
 $form_errors = [
   'email' => [
     'name' => 'email', 'error_empty' => 'Введите email'

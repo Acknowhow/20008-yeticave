@@ -1,4 +1,4 @@
-<?php
+<?
 header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
@@ -17,6 +17,7 @@ $cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
 $expire = time()+60*60*24*30;
 $path = '/';
 
+$sign_up = true;
 $is_auth = isset($_SESSION['form_data']['user']) ? true : false;
 $index = true;
 $nav = null;
@@ -40,12 +41,29 @@ $bet_added = '';
 $user = [];
 $user_name = '';
 
+$sql = '';
+$result = '';
+
 error_reporting(-1);
 ini_set("display_errors", 1);
 
-if(!empty($is_auth)) {
+//$sql_lots = 'SELECT * FROM lots';
+//$result_lots = mysqli_query($link, $sql_lots);
+//
+//$rows_lots = mysqli_fetch_all($result_lots, MYSQLI_ASSOC);
+//print_r($rows_lots[0]);
+//
+//$sql_users = 'SELECT * FROM users';
+//$result_users = mysqli_query($link, $sql_users);
+//$rows_users = mysqli_fetch_all($result_users, MYSQLI_ASSOC);
+//print_r($rows_users[0]);
+
+
+if (!empty($is_auth)) {
   $user = $_SESSION['form_data']['user'];
   $user_name = $user['name'];
+
+  print_r($user);
 
   // Unset open password for security reasons
   unset($_SESSION['form_data']['email']);
@@ -139,9 +157,10 @@ if (is_bool($bet_added) && $bet_added === false) {
   $errors_bet = $_SESSION['errors_bet'];
 }
 
-if (isset($_GET['id']) || isset($_GET['add']) || isset($_GET['login'])) {
-  $nav = include_template('templates/nav.php', [
+if (isset($_GET['id']) || isset($_GET['add'])
+  || isset($_GET['login']) || isset($sign_up)) {
 
+  $nav = include_template('templates/nav.php', [
     'categories' => $categories
   ]);
 }
@@ -218,6 +237,15 @@ if (isset($_GET['login']) || !empty($errors_user)) {
 
     'password' => $form_defaults['password'], 'errors_user' => $errors_user
   ]);
+}
+
+if (isset($sign_up)) {
+  $index = false;
+
+  $content = include_template('templates/sign-up.php', [
+    'nav' => $nav
+  ]);
+
 }
 
 if (isset($_GET['add']) || !empty($errors_lot)) {

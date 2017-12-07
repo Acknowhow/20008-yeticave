@@ -18,7 +18,7 @@
       <div class="lot__image">
         <img src="<?=$value['img_url']; ?>" width="350" height="260" alt="<?=$value['img_alt']; ?>">
       </div>
-      <div class="lot__info">~
+      <div class="lot__info">
         <span class="lot__category"><?=$value['category']; ?></span>
         <h3 class="lot__title"><a class="text-link" href="index.php?id=<?=$lot; ?>"><?=$value['name']; ?></a></h3>
         <div class="lot__state">
