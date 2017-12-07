@@ -111,7 +111,6 @@ if (isset($_POST['lot_name'])) {
 }
 
 if (isset($_POST['email'])) {
-  print_r($_POST);
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $required_user) && $value == '') {

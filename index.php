@@ -71,6 +71,27 @@ if (!empty($is_auth)) {
   unset($_SESSION['form_data']['password']);
 }
 
+
+
+if (isset($_GET['lot_added'])) {
+  if ($_GET['lot_added'] === 'true') {
+    $lot_added = true;
+  }
+  elseif ($_GET['lot_added'] === 'false') {
+    $lot_added = false;
+  }
+}
+
+if (isset($_GET['user_added'])) {
+  if ($_GET['user_added'] === 'true') {
+    $user_added = true;
+  }
+  elseif ($_GET['user_added'] === 'false') {
+    $user_added = false;
+  }
+}
+
+ob_start();
 if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
 
@@ -107,26 +128,6 @@ if (isset($_SESSION['form_data'])) {
       $form_data['bet'] ? $form_data['bet'] : '';
   }
 }
-
-if (isset($_GET['lot_added'])) {
-  if ($_GET['lot_added'] === 'true') {
-    $lot_added = true;
-  }
-  elseif ($_GET['lot_added'] === 'false') {
-    $lot_added = false;
-  }
-}
-
-if (isset($_GET['user_added'])) {
-  if ($_GET['user_added'] === 'true') {
-    $user_added = true;
-  }
-  elseif ($_GET['user_added'] === 'false') {
-    $user_added = false;
-  }
-}
-
-ob_start();
 if (isset($_GET['bet_added'])) {
   $id = $_SESSION['form_data']['bet_id'];
 
