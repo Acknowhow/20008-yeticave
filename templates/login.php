@@ -18,6 +18,7 @@
              placeholder="<?=$password['placeholder']; ?>"
              value="<?=htmlspecialchars($password['input_data']); ?>">
       <span class="form__error"><?if (isset($errors_login['password']['error_message'])) : ?><?=$errors_login['password']['error_message']; ?><?endif; ?></span>
+      <input type="hidden" name="login" value="">
     </div>
     <button type="submit" class="button">Войти</button>
   </form>

@@ -37,18 +37,21 @@ $bet_id = isset($_POST['bet_id']) ? $_POST['bet_id'] : '';
 $form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
 
 // Form errors
-$errors_lot = [];
+
+$errors_login = [];
 $errors_register = [];
 
+$errors_lot = [];
 $errors_bet = [];
+
 $url_param = '';
 
-$required_user = [
+$login = [
   'email', 'password'
 ];
 
-$rules_user = [
-  'email' => 'validateEmail', 'password' => 'validateUser'
+$register = [
+  'email', 'password'
 ];
 
 $required_lot = [
@@ -110,10 +113,10 @@ if (isset($_POST['lot_name'])) {
   }
 }
 
-if (isset($_POST['email'])) {
+if (isset($_POST['login'])) {
   foreach ($_POST as $key => $value) {
 
-    if (in_array($key, $required_user) && $value == '') {
+    if (in_array($key, $login) && $value == '') {
       $errors_login[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
   }
@@ -121,19 +124,32 @@ if (isset($_POST['email'])) {
   if (!empty($result = call_user_func(
     'validateEmail', $email))) {
     $errors_login['email']['error_message'] = $result;
+
   } elseif (is_string($validate = call_user_func(
     'validateUser', $email, $users, $password))) {
-
     $errors_login['password']['error_message'] = $validate;
+
   } elseif (is_array($validate = call_user_func(
     'validateUser', $email, $users, $password))) {
-
     $form_data['user'] = $validate;
-  }
 
+  }
   $form_data['email'] = $email;
   $form_data['password'] = $password;
 }
+
+if (isset($_POST['register'])) {
+  foreach ($_POST as $key => $value) {
+
+    if (in_array($key, $login) && $value == '') {
+      $errors_register[$key]['error_message'] = $form_errors[$key]['error_empty'];
+    }
+  }
+
+  print_r($_POST);
+}
+
+
 
 if (isset($_POST['bet'])) {
   if (empty($bet)) {
@@ -154,7 +170,7 @@ if (isset($_POST['lot_name'])) {
   $url_param = 'lot_added=' . $result;
 }
 
-if (isset($_POST['email'])) {
+if (isset($_POST['login'])) {
   $_SESSION['errors_login'] = $errors_login;
 
   $result = count($errors_login) ? 'false' : 'true';

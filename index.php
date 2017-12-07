@@ -30,7 +30,7 @@ $id = '';
 $form_data = [];
 
 $errors_login = [];
-$errors_sign_up = [];
+$errors_register = [];
 $errors_lot = [];
 $errors_bet = [];
 
@@ -59,18 +59,15 @@ ini_set("display_errors", 1);
 //$rows_users = mysqli_fetch_all($result_users, MYSQLI_ASSOC);
 //print_r($rows_users[0]);
 
-
 if (!empty($is_auth)) {
   $user = $_SESSION['form_data']['user'];
   $user_name = $user['name'];
 
-  print_r($user);
 
   // Unset open password for security reasons
   unset($_SESSION['form_data']['email']);
   unset($_SESSION['form_data']['password']);
 }
-
 
 
 if (isset($_GET['lot_added'])) {
@@ -160,7 +157,7 @@ if (is_bool($bet_added) && $bet_added === false) {
 }
 
 if (isset($_GET['id']) || isset($_GET['add'])
-  || isset($_GET['login']) || isset($sign_up)) {
+  || isset($_GET['login']) || isset($_GET['register'])) {
 
   $nav = include_template('templates/nav.php', [
     'categories' => $categories
@@ -241,11 +238,13 @@ if (isset($_GET['login']) || !empty($errors_login)) {
   ]);
 }
 
-if (isset($_GET['register']) || !empty($errors_sign_up)) {
+if (isset($_GET['register']) || !empty($errors_register)) {
   $index = false;
 
-  $content = include_template('templates/sign-up.php', [
-    'nav' => $nav
+  $content = include_template('templates/register.php', [
+    'nav' => $nav, 'email' => $form_defaults['email'],
+
+    'password' => $form_defaults['password'], 'errors_register' => $errors_register
   ]);
 
 }
