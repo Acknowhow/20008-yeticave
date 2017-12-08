@@ -120,7 +120,6 @@ if (isset($_POST['lot_name'])) {
 
 if (isset($_POST['login'])) {
   foreach ($_POST as $key => $value) {
-
     if (in_array($key, $login) && $value == '') {
       $errors_login[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
@@ -147,6 +146,9 @@ if (isset($_POST['login'])) {
 }
 
 if (isset($_POST['register'])) {
+  $form_data['email'] = [];
+  $form_data['password'] = [];
+
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $login) && $value == '') {
@@ -175,7 +177,6 @@ if (isset($_POST['register'])) {
       $form_data['password'] = $password;
     }
 
-    $form_data['password'] = $password;
   }
 }
 

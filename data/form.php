@@ -1,12 +1,19 @@
 <?
 $form_errors = [
   'name' => [
-    'name' => 'name', 'error_empty' => 'Введите ваше имя'],
+    'name' => 'name', 'error_empty' => 'Введите ваше имя'
+  ],
   'email' => [
     'name' => 'email', 'error_empty' => 'Введите email'
   ],
   'password' => [
     'name' => 'password', 'error_empty' => 'Введите пароль'
+  ],
+  'contacts' => [
+    'name' => 'contacts', 'error_empty' => 'Напишите как с вами связаться'
+  ],
+  'avatar' => [
+    'name' => 'avatar', 'error_empty' => ''
   ],
   'lot_name' => [
     'name' => 'lot_name', 'error_empty' => 'Введите наименование лота'

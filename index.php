@@ -21,6 +21,7 @@ $path = '/';
 $is_auth = isset($_SESSION['form_data']['user']) ? true : false;
 $index = true;
 
+
 $is_nav = null;
 $nav = [];
 
@@ -129,11 +130,18 @@ if (isset($_SESSION['form_data'])) {
     // If is_auth is NOT empty, all data stored
     // in $_SESSION['form_data']['user']
   } elseif (empty($is_auth) && (is_bool($is_login) || is_bool($is_register))) {
+
     $form_defaults['email']['input_data'] =
       $form_data['email'] ? $form_data['email'] : '';
 
     $form_defaults['password']['input_data'] =
       $form_data['password'] ? $form_data['password'] : '';
+
+    $form_defaults['name']['input_data'] =
+      $form_data['name'] ? $form_data['name'] : '';
+
+    $form_defaults['contacts']['input_data'] =
+      $form_data['contacts'] ? $form_data['contacts'] : '';
 
   } elseif (is_bool($bet_added)) {
     $form_defaults['bet']['input_data'] =
@@ -263,7 +271,8 @@ if (isset($_GET['register']) || is_bool($is_register) && $is_register === false)
   $content = include_template('templates/register.php', [
     'nav' => $nav, 'email' => $form_defaults['email'],
 
-    'password' => $form_defaults['password'], 'errors' => $errors
+    'password' => $form_defaults['password'], 'name' => $form_defaults['name'],
+    'contacts' => $form_defaults['contacts'], 'errors' => $errors
   ]);
 
 }
