@@ -151,19 +151,19 @@ if (isset($_GET['bet_added'])) {
 
 // Set errors
 if (is_bool($is_login) && $is_login === false) {
-  $errors['login'] = $_SESSION['errors_login'];
+  $errors = $_SESSION['errors_login'];
 }
 
 if (is_bool($is_register) && $is_register === false) {
-  $errors['register'] = $_SESSION['errors_register'];
+  $errors = $_SESSION['errors_register'];
 }
 
 if (is_bool($lot_added) && $lot_added === false) {
-  $errors['lot'] = $_SESSION['errors_lot'];
+  $errors= $_SESSION['errors_lot'];
 }
 
 if (is_bool($bet_added) && $bet_added === false) {
-  $errors['bet'] = $_SESSION['errors_bet'];
+  $errors = $_SESSION['errors_bet'];
 }
 
 if (isset($_GET['id']) || isset($_GET['add'])
@@ -235,32 +235,32 @@ if (!empty($lot)){
     'nav' => $nav, 'is_auth' => $is_auth,
 
     'categories' => $categories, 'id' => $id, 'lot' => $lot,
-    'bet' => $bet, 'bets' => $bets, 'errors' => $errors['bet'], 'bet_made' => $bet_made
+    'bet' => $bet, 'bets' => $bets, 'errors' => $errors, 'bet_made' => $bet_made
   ]);
 }
 
-if (isset($_GET['login']) || isset($errors['login'])) {
+if (isset($_GET['login']) || is_bool($is_login) && $is_login === false) {
   $index = false;
 
   $content = include_template('templates/login.php', [
     'nav' => $nav, 'email' => $form_defaults['email'],
 
-    'password' => $form_defaults['password'], 'errors' => $errors['login']
+    'password' => $form_defaults['password'], 'errors' => $errors
   ]);
 }
 
-if (isset($_GET['register']) || isset($errors['register'])) {
+if (isset($_GET['register']) || is_bool($is_register) && $is_register === false) {
   $index = false;
 
   $content = include_template('templates/register.php', [
     'nav' => $nav, 'email' => $form_defaults['email'],
 
-    'password' => $form_defaults['password'], 'errors' => $errors['register']
+    'password' => $form_defaults['password'], 'errors' => $errors
   ]);
 
 }
 
-if (isset($_GET['add']) || isset($errors['lot'])) {
+if (isset($_GET['add']) || is_bool($lot_added) && $lot_added === false) {
   $index = false;
   $title = $add_lot_title;
 
@@ -272,7 +272,7 @@ if (isset($_GET['add']) || isset($errors['lot'])) {
     'file' => $form_defaults['file'], 'lot_rate' => $form_defaults['lot_rate'],
 
     'lot_step' => $form_defaults['lot_step'], 'lot_date' => $form_defaults['lot_date'],
-    'all' => $form_defaults['all'], 'message' => $form_defaults['message'], 'errors' => $errors['lot']
+    'all' => $form_defaults['all'], 'message' => $form_defaults['message'], 'errors' => $errors
   ]);
 }
 
