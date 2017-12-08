@@ -17,10 +17,10 @@
         <div class="lot-item__cost-state">
           <div class="lot-item__rate">
             <span class="lot-item__amount">Текущая цена</span>
-            <span class="lot-item__cost"><?=$lot['price']; ?></span>
+            <span class="lot-item__cost"><?=$lot['rate']; ?></span>
           </div>
           <div class="lot-item__min-cost">
-            Мин. ставка <span><?=($lot['price'] + $lot['step']); ?> р</span>
+            Мин. ставка <span><?=($lot['rate'] + $lot['step']); ?> р</span>
           </div>
         </div>
         <form class="lot-item__form" action="/add.php" method="POST">
@@ -29,7 +29,7 @@
             <input id="<?=$bet['name']?>" type="number" name="<?=$bet['name']?>"
                    placeholder="<?=($lot['rate'] + $lot['step']); ?>"
                    step="<?=$lot['step']; ?>"
-                   min="<?=($lot['price'] + $lot['step']); ?>"
+                   min="<?=($lot['rate'] + $lot['step']); ?>"
                    value="<?=$bet['input_data']; ?>">
             <input type="hidden" name="bet_id" value="<?=$id; ?>">
           </p>
@@ -45,7 +45,7 @@
           <? foreach ($bets as $bet => $value) : ?>
             <tr class="history__item">
               <td class="history__name"><?=$value['name']; ?></td>
-              <td class="history__price"><?=$value['price']; ?> р</td>
+              <td class="history__price"><?=$value['rate']; ?> р</td>
               <td class="history__time"><?print(convertTimeStamp($value['ts'])); ?></td>
             </tr>
           <? endforeach; ?>

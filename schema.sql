@@ -3,7 +3,6 @@ use yeti;
 CREATE TABLE categories (
   category_id INT auto_increment NOT NULL PRIMARY KEY,
   name VARCHAR(127) unique key
-
 );
 CREATE TABLE users (
   user_id INT auto_increment NOT NULL PRIMARY KEY,

@@ -21,8 +21,8 @@ $form_errors = [
   'category' => [
     'name' => 'category', 'error_empty' => 'Выберите категорию'
   ],
-  'message' => [
-    'name' => 'message', 'error_empty' => 'Добавьте описание лота'
+  'description' => [
+    'name' => 'description', 'error_empty' => 'Добавьте описание лота'
   ],
   'photo' => [
     'name' => 'photo', 'error_empty' => 'Добавьте изображение лота'
@@ -33,8 +33,8 @@ $form_errors = [
   'step' => [
     'name' => 'step', 'error_empty' => ''
   ],
-  'end' => [
-    'name' => 'end', 'error_empty' => 'Введите дату завершения торгов',
+  'date_end' => [
+    'name' => 'date_end', 'error_empty' => 'Введите дату завершения торгов',
     'error_format' => 'Неправильный формат даты', 'error_date' => 'Дата меньше текущего значения'
   ]
 ];

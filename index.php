@@ -128,8 +128,8 @@ if (isset($_SESSION['form_data'])) {
     $form_defaults['step']['input'] =
       $form_data['step'] ? $form_data['step'] : '';
 
-    $form_defaults['end']['input'] =
-      $form_data['end'] ? $form_data['end'] : '';
+    $form_defaults['date_end']['input'] =
+      $form_data['date_end'] ? $form_data['date_end'] : '';
 
     // If is_auth is NOT empty, all data stored
     // in $_SESSION['form_data']['user']

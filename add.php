@@ -28,7 +28,7 @@ $description = isset($_POST['description']) ? $_POST['description'] : '';
 $rate = isset($_POST['rate']) ? $_POST['rate'] : '';
 
 $step = isset($_POST['step']) ? $_POST['step'] : '';
-$end = isset($_POST['end']) ? $_POST['end'] : '';
+$end = isset($_POST['date_end']) ? $_POST['date_end'] : '';
 
 // Bet
 $bet = isset($_POST['bet']) ? $_POST['bet'] : '';
@@ -61,12 +61,12 @@ $rules_register = [
 
 $required_lot = [
   'lot', 'category',
-  'description', 'rate', 'step', 'end'
+  'description', 'rate', 'step', 'date_end'
 ];
 
 $rules_lot = [
   'rate' => 'validateLotRate',
-  'step' => 'validateLotStep', 'end' => 'validateDate'
+  'step' => 'validateLotStep', 'date_end' => 'validateDate'
 ];
 
 if (isset($_POST['lot'])) {
