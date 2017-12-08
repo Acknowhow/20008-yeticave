@@ -10,7 +10,7 @@
       <p class="lot-item__description"><?=$lot['description']; ?></p>
     </div>
     <div class="lot-item__right"><?if ($is_auth === true && empty($bet_made)) : ?>
-      <div class="lot-item__state <?if (!empty($errors_bet)) : ?>form__item--invalid<? endif; ?>">
+      <div class="lot-item__state <?if (!empty($errors)) : ?>form__item--invalid<? endif; ?>">
         <div class="lot-item__timer timer">
           10:54:12
         </div>
@@ -36,7 +36,7 @@
           <button type="submit" class="button">Сделать ставку</button>
         </form>
 
-        <span class="form__error"><?if (!empty($errors_bet)) : ?><?=$errors_bet['value']['error_message']; ?><? endif; ?></span>
+        <span class="form__error"><?if (!empty($errors)) : ?><?=$errors['value']['error_message']; ?><? endif; ?></span>
       </div><?endif; ?>
       <div class="history">
         <h3>История ставок (<span>4</span>)</h3>

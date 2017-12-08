@@ -29,10 +29,7 @@ $my_bets = [];
 $id = '';
 $form_data = [];
 
-$errors_login = [];
-$errors_register = [];
-$errors_lot = [];
-$errors_bet = [];
+$errors = [];
 
 $is_login = '';
 $is_register = '';
@@ -154,19 +151,19 @@ if (isset($_GET['bet_added'])) {
 
 // Set errors
 if (is_bool($is_login) && $is_login === false) {
-  $errors_login = $_SESSION['errors_login'];
+  $errors['login'] = $_SESSION['errors_login'];
 }
 
 if (is_bool($is_register) && $is_register === false) {
-  $errors_register = $_SESSION['errors_register'];
+  $errors['register'] = $_SESSION['errors_register'];
 }
 
 if (is_bool($lot_added) && $lot_added === false) {
-  $errors_lot = $_SESSION['errors_lot'];
+  $errors['lot'] = $_SESSION['errors_lot'];
 }
 
 if (is_bool($bet_added) && $bet_added === false) {
-  $errors_bet = $_SESSION['errors_bet'];
+  $errors['bet'] = $_SESSION['errors_bet'];
 }
 
 if (isset($_GET['id']) || isset($_GET['add'])
@@ -194,7 +191,6 @@ if (isset($_GET['id']) || is_bool($bet_added) && $bet_added === false){
 
   $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['form_data']['bet_id'];
   $bet = $form_defaults['bet'];
-  ob_end_flush();
 
   if (!isset($lots[$id])) {
     $title = $error_title;
@@ -217,6 +213,8 @@ if (is_bool($bet_added) && $bet_added === true || !empty($lot)) {
   $cookie_value = json_encode($cookie_value);
 }
 
+ob_end_flush();
+
 if (is_bool($bet_added) && $bet_added === true) {
   $index = false;
 
@@ -237,32 +235,32 @@ if (!empty($lot)){
     'nav' => $nav, 'is_auth' => $is_auth,
 
     'categories' => $categories, 'id' => $id, 'lot' => $lot,
-    'bet' => $bet, 'bets' => $bets, 'errors_bet' => $errors_bet, 'bet_made' => $bet_made
+    'bet' => $bet, 'bets' => $bets, 'errors' => $errors['bet'], 'bet_made' => $bet_made
   ]);
 }
 
-if (isset($_GET['login']) || !empty($errors_login)) {
+if (isset($_GET['login']) || isset($errors['login'])) {
   $index = false;
 
   $content = include_template('templates/login.php', [
     'nav' => $nav, 'email' => $form_defaults['email'],
 
-    'password' => $form_defaults['password'], 'errors_login' => $errors_login
+    'password' => $form_defaults['password'], 'errors' => $errors['login']
   ]);
 }
 
-if (isset($_GET['register']) || !empty($errors_register)) {
+if (isset($_GET['register']) || isset($errors['register'])) {
   $index = false;
 
   $content = include_template('templates/register.php', [
     'nav' => $nav, 'email' => $form_defaults['email'],
 
-    'password' => $form_defaults['password'], 'errors_register' => $errors_register
+    'password' => $form_defaults['password'], 'errors' => $errors['register']
   ]);
 
 }
 
-if (isset($_GET['add']) || !empty($errors_lot)) {
+if (isset($_GET['add']) || isset($errors['lot'])) {
   $index = false;
   $title = $add_lot_title;
 
@@ -274,7 +272,7 @@ if (isset($_GET['add']) || !empty($errors_lot)) {
     'file' => $form_defaults['file'], 'lot_rate' => $form_defaults['lot_rate'],
 
     'lot_step' => $form_defaults['lot_step'], 'lot_date' => $form_defaults['lot_date'],
-    'all' => $form_defaults['all'], 'message' => $form_defaults['message'], 'errors_lot' => $errors_lot
+    'all' => $form_defaults['all'], 'message' => $form_defaults['message'], 'errors' => $errors['lot']
   ]);
 }
 
