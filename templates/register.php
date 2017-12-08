@@ -7,7 +7,7 @@
            type="text"
            name="<?=$email['name']; ?>"
            placeholder="<?=$email['placeholder']; ?>"
-           value="<?=htmlspecialchars($email['input_data']); ?>">
+           value="<?htmlspecialchars($email['input']); ?>">
     <span class="form__error"><?if (isset($errors['email']['error_message'])) : ?><?=$errors['email']['error_message']; ?><?endif; ?></span>
   </div>
 
@@ -17,36 +17,36 @@
            type="text"
            name="<?=$password['name']; ?>"
            placeholder="<?=$password['placeholder']; ?>"
-           value="<?=htmlspecialchars($password['input_data']); ?>">
+           value="<?=htmlspecialchars($password['input']); ?>">
     <span class="form__error"><?if (isset($errors['password']['error_message'])) : ?><?=$errors['password']['error_message']; ?><?endif; ?></span>
   </div>
 
-  <div class="form__item <?if (!empty($errors['name'])) : ?>form__item--invalid<?endif; ?>">
+  <div class="form__item <?if (!empty($errors['name']['error_message'])) : ?>form__item--invalid<?endif; ?>">
     <label for="<?=$name['name']; ?>"><?=$name['title']; ?></label>
     <input id="<?=$name['name']; ?>"
            type="text"
            name="<?=$name['name']; ?>"
-           placeholder="<?=$name['placeholder']; ?>">
+           placeholder="<?=$name['placeholder']; ?>"
+           value="<?=htmlspecialchars($name['input']); ?>">
     <span class="form__error"><?if (isset($errors['name']['error_message'])) : ?><?=$errors['name']['error_message']; ?><?endif; ?></span>
   </div>
   <div class="form__item">
     <label for="<?=$contacts['name']; ?>"><?=$contacts['title']; ?></label>
     <textarea id="<?=$contacts['name']; ?>"
               name="<?=$contacts['name']; ?>"
-              placeholder="<?=$contacts['placeholder']?>">
-    </textarea>
+              placeholder="<?=$contacts['placeholder']?>"><?=htmlspecialchars($contacts['input']); ?></textarea>
     <span class="form__error"><?if (isset($errors['contacts']['error_message'])) : ?><?=$errors['contacts']['error_message']; ?><?endif; ?></span>
   </div>
   <div class="form__item form__item--file form__item--last">
-    <label>Аватар</label>
+    <label><?=$avatar['title']; ?></label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
       <div class="preview__img">
-        <img src="img/avatar.jpg" width="113" height="113" alt="Ваш аватар">
+        <img src="img/avatar.jpg" width="113" height="113" alt="<?=$avatar['alt']; ?>">
       </div>
     </div>
     <div class="form__input-file">
-      <input class="visually-hidden" type="file" id="photo2" value="">
+      <input class="visually-hidden" type="file" id="photo2" value="" <?=$avatar['name']; ?>>
       <label for="photo2">
         <span>+ Добавить</span>
       </label>

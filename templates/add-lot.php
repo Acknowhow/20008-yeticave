@@ -47,7 +47,7 @@
       </div>
     </div>
     <div class="form__input-file">
-      <input class="visually-hidden" type="file" id="photo2" name="photo">
+      <input class="visually-hidden" type="file" id="photo2" name="<?=$photo['name']; ?>">
       <span class="form_error"><?if (isset($errors['file']['error_message'])) : ?><?=$errors['file']['error_message']; ?><? endif; ?></span>
       <label for="photo2">
         <span>+ Добавить</span>
@@ -56,36 +56,36 @@
   </div>
 
   <div class="form__container-three">
-    <div class="form__item form__item--small <?if (!empty($errors['lot_rate'])) : ?>form__item--invalid<? endif; ?>">
-      <label for="<?=$lot_rate['name']; ?>"><?=$lot_rate['title']; ?></label>
-      <input id="<?=$lot_rate['name']; ?>"
+    <div class="form__item form__item--small <?if (!empty($errors['rate'])) : ?>form__item--invalid<? endif; ?>">
+      <label for="<?=$rate['name']; ?>"><?=$rate['title']; ?></label>
+      <input id="<?=$rate['name']; ?>"
              type="number"
-             name="<?=$lot_rate['name']; ?>"
+             name="<?=$rate['name']; ?>"
              placeholder="0"
              step="0.00001"
-             value="<?=htmlspecialchars($lot_rate['input']); ?>">
-      <span class="form__error"><? if(isset($errors['lot_rate']['error_message'])) : ?><?=$errors['lot_rate']['error_message']; ?><? endif; ?></span>
+             value="<?=htmlspecialchars($rate['input']); ?>">
+      <span class="form__error"><? if(isset($errors['rate']['error_message'])) : ?><?=$errors['rate']['error_message']; ?><? endif; ?></span>
     </div>
 
-    <div class="form__item form__item--small <?if (!empty($errors['lot_step'])) : ?>form__item--invalid<? endif; ?>">
-      <label for="<?=$lot_step['name']; ?>"><?=$lot_step['title']; ?></label>
-      <input id="<?=$lot_step['name']; ?>"
+    <div class="form__item form__item--small <?if (!empty($errors['step'])) : ?>form__item--invalid<? endif; ?>">
+      <label for="<?=$step['name']; ?>"><?=$step['title']; ?></label>
+      <input id="<?=$step['name']; ?>"
              type="number"
-             name="<?=$lot_step['name']; ?>"
+             name="<?=$step['name']; ?>"
              placeholder="0"
              step="0.00001"
-             value="<?=htmlspecialchars($lot_step['input']); ?>">
-      <span class="form__error"><?if (isset($errors['lot_step']['error_message'])) : ?><?=$errors['lot_step']['error_message']; ?><? endif; ?></span>
+             value="<?=htmlspecialchars($step['input']); ?>">
+      <span class="form__error"><?if (isset($errors['step']['error_message'])) : ?><?=$errors['step']['error_message']; ?><? endif; ?></span>
     </div>
 
-    <div class="form__item <?if (!empty($errors['lot_date'])) : ?>form__item--invalid<? endif; ?>">
-      <label for="<?=$lot_date['name']; ?>"><?=$lot_date['title']; ?></label>
+    <div class="form__item <?if (!empty($errors['date_end'])) : ?>form__item--invalid<? endif; ?>">
+      <label for="<?=$date_end['name']; ?>"><?=$date_end['title']; ?></label>
       <input class="form__input-date"
-             id="<?=$lot_date['name']; ?>"
+             id="<?=$date_end['name']; ?>"
              type="date"
-             name="<?=$lot_date['name']; ?>"
-             value="<?=$lot_date['input']; ?>">
-      <span class="form__error"><?if (isset($errors['lot_date']['error_message'])) : ?><?=$errors['lot_date']['error_message']; ?><? endif; ?></span>
+             name="<?=$date_end['name']; ?>"
+             value="<?=$date_end['input']; ?>">
+      <span class="form__error"><?if (isset($errors['date_end']['error_message'])) : ?><?=$errors['date_end']['error_message']; ?><? endif; ?></span>
     </div>
   </div>
 

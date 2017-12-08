@@ -19,6 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user']
 $email = isset($_POST['email']) ? $_POST['email'] : '';
 $password = null;
 
+$name = isset($_POST['name']) ? $_POST['name'] : '';
+$contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
+
 // Add lot
 $lot = isset($_POST['lot']) ? $_POST['lot'] : '';
 $category = $_POST['category'] === 'Выберите категорию' ?
@@ -46,13 +49,12 @@ $errors_bet = [];
 
 $url_param = '';
 
-$login = [
-  'email', 'password', 'name'
+$login_keys = [
+  'email', 'password'
 ];
 
-$register = [
-  'email' => ['validateEmail', 'searchUserByEmail'
-  ], 'password'
+$register_keys = [
+  'email', 'password', 'name', 'contacts'
 ];
 
 $rules_register = [
@@ -68,7 +70,7 @@ $rules_lot = [
   'rate' => 'validateLotRate',
   'step' => 'validateLotStep', 'date_end' => 'validateDate'
 ];
-
+// Also use this array for register form
 if (isset($_POST['lot'])) {
   if (isset($_FILES['photo'])) {
     $file = $_FILES['photo'];
@@ -123,7 +125,7 @@ if (isset($_POST['lot'])) {
 
 if (isset($_POST['login'])) {
   foreach ($_POST as $key => $value) {
-    if (in_array($key, $login) && $value == '') {
+    if (in_array($key, $login_keys) && $value == '') {
       $errors_login[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
   }
@@ -149,12 +151,13 @@ if (isset($_POST['login'])) {
 }
 
 if (isset($_POST['register'])) {
+
   $form_data['email'] = [];
   $form_data['password'] = [];
 
   foreach ($_POST as $key => $value) {
 
-    if (in_array($key, $login) && $value == '') {
+    if (in_array($key, $register_keys) && $value == '') {
       $errors_register[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
   }
@@ -179,13 +182,14 @@ if (isset($_POST['register'])) {
     elseif (is_array($password = call_user_func('validatePassword', $_POST['password']))){
       $form_data['password'] = $password;
     }
-
   }
+  $form_data['name'] = $name;
+  $form_data['contacts'] = $contacts;
 }
 
 if (isset($_POST['bet'])) {
   if (empty($bet)) {
-    $errors_bet['value']['error_message'] = 'Пожалуйста, введите минимальное значение ставки';
+    $errors_bet['bet']['error_message'] = 'Пожалуйста, введите минимальное значение ставки';
 
   }
   $form_data['bet'] = $bet;

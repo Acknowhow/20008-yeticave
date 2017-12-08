@@ -15,7 +15,7 @@
       <td class="rates__timer">
         <div class="timer timer--finishing">07:13:34</div>
       </td>
-      <td class="rates__price"><?=$value['value']; ?>
+      <td class="rates__price"><?=$value['bet']; ?>
       </td>
       <td class="rates__time"><?print(convertTimeStamp($value['date'])); ?>
       </td>

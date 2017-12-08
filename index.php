@@ -13,9 +13,9 @@ require 'init.php';
 error_reporting(-1);
 ini_set("display_errors", 1);
 
+// Make assoc array
 $categories = array_combine($categories_replacements, $categories);
 
-var_dump($categories);
 
 $cookie_name = 'cookie_bet';
 $cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
@@ -160,7 +160,7 @@ if (isset($_GET['bet_added'])) {
     $bet_added = true;
     $cookie_value = json_decode($cookie_value, true);
 
-    $cookie_value[$id]['value'] = $form_data['bet'];
+    $cookie_value[$id]['bet'] = $form_data['bet'];
     $cookie_value[$id]['date_added'] = strtotime('now');
 
     $cookie_value = json_encode($cookie_value);
@@ -201,7 +201,7 @@ if (is_bool($lot_added) && $lot_added === true) {
     'name' => $form_data['lot'], 'category' => $form_data['category'],
     'rate' => $form_data['rate'], 'step' => $form_data['step'],
 
-    'end' => $form_data['end'], 'url' => $form_data['lot_url'],
+    'date_end' => $form_data['date_end'], 'url' => $form_data['lot_url'],
     'alt' => $form_data['lot_alt'], 'description' => $form_data['description']
   ];
 }
@@ -274,11 +274,12 @@ if (isset($_GET['register']) || is_bool($is_register) && $is_register === false)
 
   $content = include_template('templates/register.php', [
     'nav' => $nav, 'email' => $form_defaults['email'],
+    'password' => $form_defaults['password'], 'all' => $form_defaults['all'],
 
-    'password' => $form_defaults['password'], 'name' => $form_defaults['name'],
+    'name' => $form_defaults['name'], 'avatar' => $form_defaults['avatar'],
     'contacts' => $form_defaults['contacts'], 'errors' => $errors
-  ]);
 
+  ]);
 }
 
 if (isset($_GET['add']) || is_bool($lot_added) && $lot_added === false) {
@@ -287,13 +288,15 @@ if (isset($_GET['add']) || is_bool($lot_added) && $lot_added === false) {
 
   $form_defaults['category']['input'] = 'Выберите категорию';
   $content = include_template('templates/add-lot.php', [
+    'nav' => $nav,
+    'categories' => $categories, 'lot' => $form_defaults['lot'],
 
-    'nav' => $nav, 'categories' => $categories,
-    'lot_name' => $form_defaults['lot_name'], 'category' => $form_defaults['category'],
-    'file' => $form_defaults['file'], 'lot_rate' => $form_defaults['lot_rate'],
+    'category' => $form_defaults['category'], 'photo' => $form_defaults['photo'],
+    'rate' => $form_defaults['rate'], 'step' => $form_defaults['step'],
 
-    'lot_step' => $form_defaults['lot_step'], 'lot_date' => $form_defaults['lot_date'],
-    'all' => $form_defaults['all'], 'message' => $form_defaults['message'], 'errors' => $errors
+    'date_end' => $form_defaults['date_end'], 'all' => $form_defaults['all'],
+    'description' => $form_defaults['description'], 'errors' => $errors
+
   ]);
 }
 

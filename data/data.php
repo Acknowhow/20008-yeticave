@@ -60,7 +60,8 @@ $form_defaults = [
   'contacts' => ['name' => 'contacts', 'title' => 'Контактные данные*',
     'placeholder' => 'Напишите как с вами связаться', 'input' => ''
   ],
-  'avatar' => ['name' => 'avatar', 'title' => 'Аватар'
+  'avatar' => ['name' => 'avatar',
+    'title' => 'Аватар', 'alt' => 'Ваш аватар'
   ],
   'bet' => ['name' => 'bet', 'input' => ''
   ],
