@@ -61,11 +61,11 @@ $form_defaults = [
   'contacts' => ['name' => 'contacts', 'title' => 'Контактные данные*',
     'placeholder' => 'Напишите как с вами связаться', 'input_data' => ''
   ],
-  'user_file' => ['name' => 'user_file', 'title' => 'Аватар'
+  'avatar' => ['name' => 'avatar', 'title' => 'Аватар'
   ],
   'bet' => ['name' => 'bet', 'input_data' => ''
   ],
-  'lot_name' => ['name' => 'lot_name', 'title' => 'Наименование',
+  'lot' => ['name' => 'lot', 'title' => 'Наименование',
     'input_data' => '', 'placeholder' => 'Введите наименование лота'
   ],
   'category' => ['name' => 'category',
@@ -74,16 +74,16 @@ $form_defaults = [
   'message' => ['name' => 'message', 'title' => 'Описание',
     'input_data' => '', 'placeholder' => 'Добавьте описание лота'
   ],
-  'file' => ['name' => 'file', 'title' => 'Изображение',
+  'photo' => ['name' => 'photo', 'title' => 'Изображение',
     'alt' => 'Изображение лота', 'input_data' => ''
   ],
-  'lot_rate' => ['name' => 'lot_rate',
+  'rate' => ['name' => 'rate',
     'title' => 'Начальная цена', 'input_data' => ''
   ],
-  'lot_step' => ['name' => 'lot_step',
+  'step' => ['name' => 'step',
     'title' => 'Шаг ставки', 'input_data' => ''
   ],
-  'lot_date' => ['name' => 'lot_date',
+  'date' => ['name' => 'date',
     'title' => 'Дата окончания торгов', 'input_data' => ''
   ],
   'all' => ['name' => 'all',

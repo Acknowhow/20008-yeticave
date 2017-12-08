@@ -109,8 +109,8 @@ if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
 
   if (is_bool($lot_added)) {
-    $form_defaults['lot_name']['input_data'] =
-      $form_data['lot_name'] ? $form_data['lot_name'] : '';
+    $form_defaults['lot']['input_data'] =
+      $form_data['lot'] ? $form_data['lot'] : '';
 
     $form_defaults['category']['input_data'] =
       $form_data['category'] ? $form_data['category'] : '';
@@ -118,14 +118,14 @@ if (isset($_SESSION['form_data'])) {
     $form_defaults['message']['input_data'] =
       $form_data['message'] ? $form_data['message'] : '';
 
-    $form_defaults['lot_rate']['input_data'] =
-      $form_data['lot_rate'] ? $form_data['lot_rate'] : '';
+    $form_defaults['rate']['input_data'] =
+      $form_data['rate'] ? $form_data['rate'] : '';
 
-    $form_defaults['lot_step']['input_data'] =
-      $form_data['lot_step'] ? $form_data['lot_step'] : '';
+    $form_defaults['step']['input_data'] =
+      $form_data['step'] ? $form_data['step'] : '';
 
-    $form_defaults['lot_date']['input_data'] =
-      $form_data['lot_date'] ? $form_data['lot_date'] : '';
+    $form_defaults['date']['input_data'] =
+      $form_data['date'] ? $form_data['date'] : '';
 
     // If is_auth is NOT empty, all data stored
     // in $_SESSION['form_data']['user']
@@ -194,8 +194,8 @@ if (is_bool($lot_added) && $lot_added === true) {
   $index = false;
 
   $lot = [
-    'name' => $form_data['lot_name'], 'category' => $form_data['category'],
-    'price' => $form_data['lot_rate'], 'step' => $form_data['lot_step'],
+    'name' => $form_data['lot'], 'category' => $form_data['category'],
+    'rate' => $form_data['lot_rate'], 'step' => $form_data['lot_step'],
 
     'date' => $form_data['lot_date'], 'img_url' => $form_data['lot_url'],
     'img_alt' => $form_data['lot_alt'], 'description' => $form_data['message']
