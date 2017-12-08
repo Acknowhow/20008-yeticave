@@ -20,8 +20,7 @@
            value="<?=htmlspecialchars($password['input']); ?>">
     <span class="form__error"><?if (isset($errors['password']['error_message'])) : ?><?=$errors['password']['error_message']; ?><?endif; ?></span>
   </div>
-
-  <div class="form__item <?if (!empty($errors['name']['error_message'])) : ?>form__item--invalid<?endif; ?>">
+  <div class="form__item <?if (!empty($errors['name'])) : ?>form__item--invalid<?endif; ?>">
     <label for="<?=$name['name']; ?>"><?=$name['title']; ?></label>
     <input id="<?=$name['name']; ?>"
            type="text"
@@ -30,7 +29,7 @@
            value="<?=htmlspecialchars($name['input']); ?>">
     <span class="form__error"><?if (isset($errors['name']['error_message'])) : ?><?=$errors['name']['error_message']; ?><?endif; ?></span>
   </div>
-  <div class="form__item">
+  <div class="form__item <?if (!empty($errors['contacts'])) : ?>form__item--invalid<?endif; ?>">
     <label for="<?=$contacts['name']; ?>"><?=$contacts['title']; ?></label>
     <textarea id="<?=$contacts['name']; ?>"
               name="<?=$contacts['name']; ?>"

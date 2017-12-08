@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user']
 
 // Login + Register
 $email = isset($_POST['email']) ? $_POST['email'] : '';
-$password = null;
+$password = isset($_POST['password']) ? $_POST['password'] : '';
 
 $name = isset($_POST['name']) ? $_POST['name'] : '';
 $contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
@@ -71,7 +71,7 @@ $rules_lot = [
   'step' => 'validateLotStep', 'date_end' => 'validateDate'
 ];
 // Also use this array for register form
-if (isset($_POST['lot'])) {
+if (isset($_FILES)) {
   if (isset($_FILES['photo'])) {
     $file = $_FILES['photo'];
 
