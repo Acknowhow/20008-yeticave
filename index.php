@@ -34,8 +34,8 @@ $errors_register = [];
 $errors_lot = [];
 $errors_bet = [];
 
-$user_added = '';
-$user_registered = '';
+$is_login = '';
+$is_register = '';
 $lot_added = '';
 $bet_added = '';
 
@@ -63,7 +63,6 @@ if (!empty($is_auth)) {
   $user = $_SESSION['form_data']['user'];
   $user_name = $user['name'];
 
-
   // Unset open password for security reasons
   unset($_SESSION['form_data']['email']);
   unset($_SESSION['form_data']['password']);
@@ -73,18 +72,27 @@ if (!empty($is_auth)) {
 if (isset($_GET['lot_added'])) {
   if ($_GET['lot_added'] === 'true') {
     $lot_added = true;
-  }
-  elseif ($_GET['lot_added'] === 'false') {
+
+  } elseif ($_GET['lot_added'] === 'false') {
     $lot_added = false;
   }
 }
 
-if (isset($_GET['user_added'])) {
-  if ($_GET['user_added'] === 'true') {
-    $user_added = true;
+if (isset($_GET['is_login'])) {
+  if ($_GET['is_login'] === 'true') {
+    $is_login = true;
+
+  } elseif ($_GET['is_login'] === 'false') {
+    $is_login = false;
   }
-  elseif ($_GET['user_added'] === 'false') {
-    $user_added = false;
+}
+
+if (isset($_GET['is_register'])) {
+  if ($_GET['is_register'] === 'true') {
+    $is_register = true;
+
+  } elseif ($_GET['is_register'] === 'false') {
+    $is_register = false;
   }
 }
 
@@ -113,7 +121,7 @@ if (isset($_SESSION['form_data'])) {
 
     // If is_auth is NOT empty, all data stored
     // in $_SESSION['form_data']['user']
-  } elseif (is_bool($user_added) && empty($is_auth)) {
+  } elseif (empty($is_auth) && (is_bool($is_login) || is_bool($is_register))) {
     $form_defaults['email']['input_data'] =
       $form_data['email'] ? $form_data['email'] : '';
 
@@ -123,6 +131,7 @@ if (isset($_SESSION['form_data'])) {
   } elseif (is_bool($bet_added)) {
     $form_defaults['bet']['input_data'] =
       $form_data['bet'] ? $form_data['bet'] : '';
+
   }
 }
 if (isset($_GET['bet_added'])) {
@@ -144,12 +153,16 @@ if (isset($_GET['bet_added'])) {
 }
 
 // Set errors
-if (is_bool($lot_added) && $lot_added === false) {
-  $errors_lot = $_SESSION['errors_lot'];
+if (is_bool($is_login) && $is_login === false) {
+  $errors_login = $_SESSION['errors_login'];
 }
 
-if (is_bool($user_added) && $user_added === false) {
-  $errors_login = $_SESSION['errors_login'];
+if (is_bool($is_register) && $is_register === false) {
+  $errors_register = $_SESSION['errors_register'];
+}
+
+if (is_bool($lot_added) && $lot_added === false) {
+  $errors_lot = $_SESSION['errors_lot'];
 }
 
 if (is_bool($bet_added) && $bet_added === false) {

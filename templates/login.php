@@ -2,7 +2,7 @@
 <form class="form container <?if (!empty($errors_login)) : ?>form__invalid<?endif; ?>" action="/add.php" method="post">
     <h2>Вход</h2>
     <div class="form__item <?if (!empty($errors_login['email'])) : ?>form__item--invalid<?endif; ?>">
-      <label for="<?=$email['name']?>"><?=$email['title']; ?></label>
+      <label for="<?=$email['name']; ?>"><?=$email['title']; ?></label>
       <input id="<?=$email['name']; ?>"
              type="text"
              name="<?=$email['name']; ?>"

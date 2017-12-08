@@ -145,20 +145,15 @@ if (isset($_POST['register'])) {
       $errors_register[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
   }
-
-  print_r($_POST);
 }
-
-
 
 if (isset($_POST['bet'])) {
   if (empty($bet)) {
-
     $errors_bet['value']['error_message'] = 'Пожалуйста, введите минимальное значение ставки';
+
   }
   $form_data['bet'] = $bet;
   $form_data['bet_id'] = $bet_id;
-
 }
 
 $_SESSION['form_data'] = $form_data;
@@ -174,7 +169,7 @@ if (isset($_POST['login'])) {
   $_SESSION['errors_login'] = $errors_login;
 
   $result = count($errors_login) ? 'false' : 'true';
-  $url_param = 'user_added=' . $result;
+  $url_param = 'is_login=' . $result;
 }
 
 if (isset($_POST['bet'])) {
@@ -182,6 +177,13 @@ if (isset($_POST['bet'])) {
 
   $result = count($errors_bet) ? 'false' : 'true';
   $url_param = 'bet_added=' . $result;
+}
+
+if (isset($_POST['register'])) {
+  $_SESSION['errors_register'] = $errors_register;
+
+  $result = count($errors_register) ? 'false' : 'true';
+  $url_param = 'is_register=' . $result;
 }
 
 header('Location: index.php?' . $url_param);

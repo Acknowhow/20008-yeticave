@@ -1,16 +1,26 @@
 <?=$nav?>
-<form class="form container" action="/add.php" method="post"> <!-- form--invalid -->
+<form class="form container <?if (!empty($errors_register)) : ?>form_invalid<?endif; ?>" action="/add.php" method="post">
   <h2>Регистрация нового аккаунта</h2>
-  <div class="form__item"> <!-- form__item--invalid -->
-    <label for="email">E-mail*</label>
-    <input id="email" type="text" name="email" placeholder="Введите e-mail" value="<?=htmlspecialchars($email['input_data']); ?>">
-    <span class="form__error">Введите e-mail</span>
+  <div class="form__item <?if (!empty($errors_register['email'])) : ?>form__item--invalid<?endif;?>">
+    <label for="<?=$email['name']; ?>"><?=$email['title']; ?></label>
+    <input id="<?=$email['name']; ?>"
+           type="text"
+           name="<?=$email['name']; ?>"
+           placeholder="<?=$email['placeholder']; ?>"
+           value="<?=htmlspecialchars($email['input_data']); ?>">
+    <span class="form__error"><?if (isset($errors_register['email']['error_message'])) : ?><?=$errors_register['email']['error_message']; ?><?endif; ?></span>
   </div>
-  <div class="form__item">
-    <label for="password">Пароль*</label>
-    <input id="password" type="text" name="password" placeholder="Введите пароль" value="<?=htmlspecialchars($password['input_data']); ?>">
-    <span class="form__error">Введите пароль</span>
+
+  <div class="form__item <?if (!empty($errors_register['password'])) : ?>form__item--invalid<?endif; ?>">
+    <label for="<?=$password['name']; ?>"><?=$password['title']; ?></label>
+    <input id="<?=$password['name']; ?>"
+           type="text"
+           name="<?=$password['name']; ?>"
+           placeholder="<?=$password['placeholder']; ?>"
+           value="<?=htmlspecialchars($password['input_data']); ?>">
+    <span class="form__error"><?if (isset($errors_register['password']['error_message'])) : ?><?=$errors_register['password']['error_message']; ?><?endif; ?></span>
   </div>
+
   <div class="form__item">
     <label for="name">Имя*</label>
     <input id="name" type="text" name="name" placeholder="Введите имя">
