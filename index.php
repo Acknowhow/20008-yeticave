@@ -19,7 +19,9 @@ $path = '/';
 
 $is_auth = isset($_SESSION['form_data']['user']) ? true : false;
 $index = true;
-$nav = null;
+
+$is_nav = null;
+$nav = [];
 
 $lot = [];
 $bet = [];
@@ -41,6 +43,18 @@ $user_name = '';
 
 $sql = '';
 $result = '';
+
+$get_keys = [
+  'id', 'add', 'login', 'register',
+  'lot_added', 'is_login', 'bet_added', 'is_register'
+];
+
+if(!empty($_GET)){
+  $get_keys = array_flip($get_keys);
+
+  $is_nav = array_intersect($_GET, $get_keys) ? 'true' : 'false';
+};
+
 
 error_reporting(-1);
 ini_set("display_errors", 1);
@@ -166,8 +180,7 @@ if (is_bool($bet_added) && $bet_added === false) {
   $errors = $_SESSION['errors_bet'];
 }
 
-if (isset($_GET['id']) || isset($_GET['add'])
-  || isset($_GET['login']) || isset($_GET['register'])) {
+if (!empty($is_nav)) {
 
   $nav = include_template('templates/nav.php', [
     'categories' => $categories
