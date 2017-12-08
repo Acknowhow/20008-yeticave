@@ -195,9 +195,9 @@ if (is_bool($lot_added) && $lot_added === true) {
 
   $lot = [
     'name' => $form_data['lot'], 'category' => $form_data['category'],
-    'rate' => $form_data['lot_rate'], 'step' => $form_data['lot_step'],
+    'rate' => $form_data['rate'], 'step' => $form_data['step'],
 
-    'date' => $form_data['lot_date'], 'img_url' => $form_data['lot_url'],
+    'date' => $form_data['date'], 'img_url' => $form_data['lot_url'],
     'img_alt' => $form_data['lot_alt'], 'description' => $form_data['message']
   ];
 }
