@@ -174,19 +174,20 @@ function validateUser($email, $users, $password){
 }
 
 function validatePassword($password){
+  $_result = [];
 
   if(strlen($password) < 11) {
-    $_result = 'Пожалуйста, укажите не меньше 11 символов в вашем пароле';
+    return 'Пожалуйста, укажите не меньше 11 символов в вашем пароле';
+
+  }
+  elseif(strlen($password) >= 11 && strlen($password) <= 72) {
+    $_result[] = password_hash($password, PASSWORD_DEFAULT);
 
     return $_result;
-  }
-  if(strlen($password) >= 11 && strlen($password) <= 72) {
-    $_result = password_hash($password, PASSWORD_DEFAULT);
-  } else {
-    $_result = 'Длина пароля должна быть не больше 72 символов';
+
   }
 
-  return $_result;
+  return 'Длина пароля должна быть не больше 72 символов';
 }
 
 

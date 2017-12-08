@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user']
 
 // Login + Register
 $email = isset($_POST['email']) ? $_POST['email'] : '';
-$password = isset($_POST['password']) ? $_POST['password'] : '';
+$password = null;
 
 // Add lot
 $lot_name = isset($_POST['lot_name']) ? $_POST['lot_name'] : '';
@@ -161,21 +161,22 @@ if (isset($_POST['register'])) {
     } elseif (!empty($result = call_user_func(
       'searchUserByEmail', $email, $users, true))) {
       $errors_register['email']['error_message'] = $result;
-
-    } else {
-      $form_data['email'] = $email;
     }
+
+    $form_data['email'] = $email;
   }
 
   if (!empty($_POST['password'])) {
-    if(is_string($result = call_user_func('validatePassword', $password))){
+    if (is_string($result = call_user_func('validatePassword', $_POST['password']))){
       $errors_register['password']['error_message'] = $result;
 
-    } else {
+    }
+    elseif (is_array($password = call_user_func('validatePassword', $_POST['password']))){
       $form_data['password'] = $password;
     }
-  }
 
+    $form_data['password'] = $password;
+  }
 }
 
 if (isset($_POST['bet'])) {
