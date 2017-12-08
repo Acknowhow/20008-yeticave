@@ -47,11 +47,15 @@ $errors_bet = [];
 $url_param = '';
 
 $login = [
-  'email', 'password'
+  'email', 'password', 'name'
 ];
 
 $register = [
   'email', 'password'
+];
+
+$rules_register = [
+  'email' => 'validateEmail', 'password' => 'validatePassword'
 ];
 
 $required_lot = [
@@ -121,7 +125,7 @@ if (isset($_POST['login'])) {
     }
   }
 
-  if (!empty($result = call_user_func(
+  if (!empty($_POST['email']) && !empty($result = call_user_func(
     'validateEmail', $email))) {
     $errors_login['email']['error_message'] = $result;
 
@@ -143,6 +147,11 @@ if (isset($_POST['register'])) {
 
     if (in_array($key, $login) && $value == '') {
       $errors_register[$key]['error_message'] = $form_errors[$key]['error_empty'];
+    }
+
+    if (array_key_exists($key, $rules_register)) {
+      $result = call_user_func($rules_lot[$key], $value);
+
     }
   }
 }

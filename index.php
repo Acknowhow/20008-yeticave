@@ -5,12 +5,13 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 session_start();
 require 'functions.php';
 require 'config.php';
-
 require 'data/data.php';
 require 'data/lot.php';
-
 require 'mysql_helper.php';
 require 'init.php';
+
+error_reporting(-1);
+ini_set("display_errors", 1);
 
 $cookie_name = 'cookie_bet';
 $cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
@@ -51,13 +52,8 @@ $get_keys = [
 
 if(!empty($_GET)){
   $get_keys = array_flip($get_keys);
-
   $is_nav = array_intersect($_GET, $get_keys) ? 'true' : 'false';
 };
-
-
-error_reporting(-1);
-ini_set("display_errors", 1);
 
 //$sql_lots = 'SELECT * FROM lots';
 //$result_lots = mysqli_query($link, $sql_lots);

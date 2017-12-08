@@ -125,6 +125,7 @@ function validateUpload($array, $fileType, $fileSize) {
 }
 
 function validateEmail($email) {
+  $_result = null;
   if(empty($_result = filter_var($email, FILTER_VALIDATE_EMAIL))) {
     $_result = 'Пожалуйста, введите правильный формат email';
 
@@ -160,6 +161,13 @@ function validateUser($email, $users, $password) {
     $is_user = 'Пароль неверный';
   }
   return $is_user;
+}
+
+function validatePassword($password) {
+  $_hashed = password_hash($password, PASSWORD_DEFAULT);
+
+  strlen($_hashed) <= 60 ? $_result = '' : $_result = 'password_error';
+  return $_result;
 }
 
 

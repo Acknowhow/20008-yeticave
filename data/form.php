@@ -1,5 +1,7 @@
 <?
 $form_errors = [
+  'name' => [
+    'name' => 'name', 'error_empty' => 'Введите ваше имя'],
   'email' => [
     'name' => 'email', 'error_empty' => 'Введите email'
   ],
