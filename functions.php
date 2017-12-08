@@ -135,14 +135,22 @@ function validateEmail($email) {
   return $_result;
 }
 
-function searchUserByEmail($email, $users) {
+function searchUserByEmail($email, $users, $register = false) {
   $_result = null;
   foreach ($users as $user) {
     if($user['email'] == $email) {
       $_result = $user;
+
+      if($register === true) {
+        $_result = 'Указанный вами email уже зарегистрирован';
+      }
       break;
     }
     $_result = 'Вы указали неверный пароль или email';
+
+    if($register === true) {
+      $_result = '';
+    }
   }
   return $_result;
 }

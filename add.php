@@ -51,7 +51,8 @@ $login = [
 ];
 
 $register = [
-  'email', 'password'
+  'email' => ['validateEmail', 'searchUserByEmail'
+  ], 'password'
 ];
 
 $rules_register = [
@@ -70,7 +71,6 @@ $rules_lot = [
 
 if (isset($_POST['lot_name'])) {
   if (isset($_FILES['photo'])) {
-
     $file = $_FILES['photo'];
     if ($file["error"] == 0) {
       $allowed = [
@@ -79,8 +79,10 @@ if (isset($_POST['lot_name'])) {
       ];
       $file_name = $file['name'];
       $file_name_tmp = $file['tmp_name'];
+
       $file_type = $file['type'];
       $file_size = $file['size'];
+
       $file_path = __DIR__ . '/img/';
       $file_url = 'img/' . $file_name;
       $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -111,7 +113,6 @@ if (isset($_POST['lot_name'])) {
       if (!empty($result)) {
         $errors_lot[$key]['error_message'] = $result;
       }
-
     }
     $form_data[$key] = $value;
   }
@@ -151,11 +152,17 @@ if (isset($_POST['register'])) {
     if (in_array($key, $login) && $value == '') {
       $errors_register[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
+  }
 
-    if (array_key_exists($key, $rules_register)) {
-      $result = call_user_func($rules_lot[$key], $value);
+    if(!empty($_POST['email'])){
+      if (!empty($result = call_user_func('validateEmail', $email))) {
+        $errors_register['email']['error_message'] = $result;
 
-    }
+      } elseif (!empty($result = call_user_func(
+        'searchUserByEmail', $email, $users, true))) {
+        $errors_register['email']['error_message'] = $result;
+
+      }
   }
 }
 
