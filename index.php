@@ -13,6 +13,10 @@ require 'init.php';
 error_reporting(-1);
 ini_set("display_errors", 1);
 
+$categories = array_combine($categories_replacements, $categories);
+
+var_dump($categories);
+
 $cookie_name = 'cookie_bet';
 $cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
 $expire = time() + 60 * 60 * 24 * 30;
@@ -109,42 +113,42 @@ if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
 
   if (is_bool($lot_added)) {
-    $form_defaults['lot']['input_data'] =
+    $form_defaults['lot']['input'] =
       $form_data['lot'] ? $form_data['lot'] : '';
 
-    $form_defaults['category']['input_data'] =
+    $form_defaults['category']['input'] =
       $form_data['category'] ? $form_data['category'] : '';
 
-    $form_defaults['message']['input_data'] =
-      $form_data['message'] ? $form_data['message'] : '';
+    $form_defaults['description']['input'] =
+      $form_data['description'] ? $form_data['description'] : '';
 
-    $form_defaults['rate']['input_data'] =
+    $form_defaults['rate']['input'] =
       $form_data['rate'] ? $form_data['rate'] : '';
 
-    $form_defaults['step']['input_data'] =
+    $form_defaults['step']['input'] =
       $form_data['step'] ? $form_data['step'] : '';
 
-    $form_defaults['date']['input_data'] =
-      $form_data['date'] ? $form_data['date'] : '';
+    $form_defaults['end']['input'] =
+      $form_data['end'] ? $form_data['end'] : '';
 
     // If is_auth is NOT empty, all data stored
     // in $_SESSION['form_data']['user']
   } elseif (empty($is_auth) && (is_bool($is_login) || is_bool($is_register))) {
 
-    $form_defaults['email']['input_data'] =
+    $form_defaults['email']['input'] =
       $form_data['email'] ? $form_data['email'] : '';
 
-    $form_defaults['password']['input_data'] =
+    $form_defaults['password']['input'] =
       $form_data['password'] ? $form_data['password'] : '';
 
-    $form_defaults['name']['input_data'] =
+    $form_defaults['name']['input'] =
       $form_data['name'] ? $form_data['name'] : '';
 
-    $form_defaults['contacts']['input_data'] =
+    $form_defaults['contacts']['input'] =
       $form_data['contacts'] ? $form_data['contacts'] : '';
 
   } elseif (is_bool($bet_added)) {
-    $form_defaults['bet']['input_data'] =
+    $form_defaults['bet']['input'] =
       $form_data['bet'] ? $form_data['bet'] : '';
 
   }
@@ -157,7 +161,7 @@ if (isset($_GET['bet_added'])) {
     $cookie_value = json_decode($cookie_value, true);
 
     $cookie_value[$id]['value'] = $form_data['bet'];
-    $cookie_value[$id]['date'] = strtotime('now');
+    $cookie_value[$id]['date_added'] = strtotime('now');
 
     $cookie_value = json_encode($cookie_value);
     setcookie($cookie_name, $cookie_value, $expire, $path);
@@ -197,8 +201,8 @@ if (is_bool($lot_added) && $lot_added === true) {
     'name' => $form_data['lot'], 'category' => $form_data['category'],
     'rate' => $form_data['rate'], 'step' => $form_data['step'],
 
-    'date' => $form_data['date'], 'img_url' => $form_data['lot_url'],
-    'img_alt' => $form_data['lot_alt'], 'description' => $form_data['message']
+    'end' => $form_data['end'], 'url' => $form_data['lot_url'],
+    'alt' => $form_data['lot_alt'], 'description' => $form_data['description']
   ];
 }
 
@@ -281,7 +285,7 @@ if (isset($_GET['add']) || is_bool($lot_added) && $lot_added === false) {
   $index = false;
   $title = $add_lot_title;
 
-  $form_defaults['category']['input_data'] = 'Выберите категорию';
+  $form_defaults['category']['input'] = 'Выберите категорию';
   $content = include_template('templates/add-lot.php', [
 
     'nav' => $nav, 'categories' => $categories,

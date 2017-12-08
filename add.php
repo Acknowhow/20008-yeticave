@@ -20,15 +20,15 @@ $email = isset($_POST['email']) ? $_POST['email'] : '';
 $password = null;
 
 // Add lot
-$lot_name = isset($_POST['lot_name']) ? $_POST['lot_name'] : '';
+$lot = isset($_POST['lot']) ? $_POST['lot'] : '';
 $category = $_POST['category'] === 'Выберите категорию' ?
   $_POST['category'] = '' : $_POST['category'];
 
-$message = isset($_POST['message']) ? $_POST['message'] : '';
-$lot_rate = isset($_POST['lot_rate']) ? $_POST['lot_rate'] : '';
+$description = isset($_POST['description']) ? $_POST['description'] : '';
+$rate = isset($_POST['rate']) ? $_POST['rate'] : '';
 
-$lot_step = isset($_POST['lot_step']) ? $_POST['lot_step'] : '';
-$lot_date = isset($_POST['lot_date']) ? $_POST['lot_date'] : '';
+$step = isset($_POST['step']) ? $_POST['step'] : '';
+$end = isset($_POST['end']) ? $_POST['end'] : '';
 
 // Bet
 $bet = isset($_POST['bet']) ? $_POST['bet'] : '';
@@ -60,19 +60,20 @@ $rules_register = [
 ];
 
 $required_lot = [
-  'lot_name', 'category',
-  'message', 'lot_rate', 'lot_step', 'lot_date'
+  'lot', 'category',
+  'description', 'rate', 'step', 'end'
 ];
 
 $rules_lot = [
-  'lot_rate' => 'validateLotRate',
-  'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate',
+  'rate' => 'validateLotRate',
+  'step' => 'validateLotStep', 'end' => 'validateDate'
 ];
 
-if (isset($_POST['lot_name'])) {
+if (isset($_POST['lot'])) {
   if (isset($_FILES['photo'])) {
     $file = $_FILES['photo'];
-    if ($file["error"] == 0) {
+
+    if ($file['error'] == 0) {
       $allowed = [
         'jpeg' => 'image/jpeg',
         'png' => 'image/png'
@@ -88,11 +89,13 @@ if (isset($_POST['lot_name'])) {
       $finfo = finfo_open(FILEINFO_MIME_TYPE);
       $file_type = finfo_file($finfo, $file_name);
       $result = validateUpload($allowed, $file_type, $file_size);
+
       if (!empty($result)) {
         $errors_lot['file']['error_message'] = $result;
       }
       $destination_path = $file_path . $file_name;
       move_uploaded_file($file_name_tmp, $destination_path);
+
       $form_data['lot_url'] = $file_url;
       $form_data['lot_alt'] = 'uploaded';
 
@@ -191,7 +194,7 @@ if (isset($_POST['bet'])) {
 
 $_SESSION['form_data'] = $form_data;
 
-if (isset($_POST['lot_name'])) {
+if (isset($_POST['lot'])) {
   $_SESSION['errors_lot'] = $errors_lot;
 
   $result = count($errors_lot) ? 'false' : 'true';

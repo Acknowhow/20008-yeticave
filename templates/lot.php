@@ -27,7 +27,7 @@
           <p class="lot-item__form-item">
             <label for="<?=$bet['name']?>">Ваша ставка</label>
             <input id="<?=$bet['name']?>" type="number" name="<?=$bet['name']?>"
-                   placeholder="<?=($lot['price'] + $lot['step']); ?>"
+                   placeholder="<?=($lot['rate'] + $lot['step']); ?>"
                    step="<?=$lot['step']; ?>"
                    min="<?=($lot['price'] + $lot['step']); ?>"
                    value="<?=$bet['input_data']; ?>">
