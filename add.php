@@ -129,11 +129,14 @@ if (isset($_POST['login'])) {
     'validateEmail', $email))) {
     $errors_login['email']['error_message'] = $result;
 
-  } elseif (is_string($validate = call_user_func(
+  }
+  if (!empty($_POST['password']) && is_string($validate = call_user_func(
     'validateUser', $email, $users, $password))) {
     $errors_login['password']['error_message'] = $validate;
 
-  } elseif (is_array($validate = call_user_func(
+  }
+
+  if (!empty($_POST['password']) && is_array($validate = call_user_func(
     'validateUser', $email, $users, $password))) {
     $form_data['user'] = $validate;
 
