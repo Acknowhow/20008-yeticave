@@ -127,18 +127,18 @@ if (isset($_POST['login'])) {
   }
 
   if (!empty($_POST['email']) && !empty($result = call_user_func(
-    'validateEmail', $email))) {
+      'validateEmail', $email))) {
     $errors_login['email']['error_message'] = $result;
 
   }
   if (!empty($_POST['password']) && is_string($validate = call_user_func(
-    'validateUser', $email, $users, $password))) {
+      'validateUser', $email, $users, $password))) {
     $errors_login['password']['error_message'] = $validate;
 
   }
 
   if (!empty($_POST['password']) && is_array($validate = call_user_func(
-    'validateUser', $email, $users, $password))) {
+      'validateUser', $email, $users, $password))) {
     $form_data['user'] = $validate;
 
   }
@@ -154,16 +154,28 @@ if (isset($_POST['register'])) {
     }
   }
 
-    if(!empty($_POST['email'])){
-      if (!empty($result = call_user_func('validateEmail', $email))) {
-        $errors_register['email']['error_message'] = $result;
+  if (!empty($_POST['email'])) {
+    if (!empty($result = call_user_func('validateEmail', $email))) {
+      $errors_register['email']['error_message'] = $result;
 
-      } elseif (!empty($result = call_user_func(
-        'searchUserByEmail', $email, $users, true))) {
-        $errors_register['email']['error_message'] = $result;
+    } elseif (!empty($result = call_user_func(
+      'searchUserByEmail', $email, $users, true))) {
+      $errors_register['email']['error_message'] = $result;
 
-      }
+    } else {
+      $form_data['email'] = $email;
+    }
   }
+
+  if (!empty($_POST['password'])) {
+    if(is_string($result = call_user_func('validatePassword', $password))){
+      $errors_register['password']['error_message'] = $result;
+
+    } else {
+      $form_data['password'] = $password;
+    }
+  }
+
 }
 
 if (isset($_POST['bet'])) {

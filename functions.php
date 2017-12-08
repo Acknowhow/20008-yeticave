@@ -1,20 +1,20 @@
 <?php
 date_default_timezone_set('Europe/Moscow');
-function convertTimeStamp($timeStamp) {
+function convertTimeStamp($timeStamp){
 // Elapsed timestamp
-$timeLapseStamp = strtotime('now') - $timeStamp;
+  $timeLapseStamp = strtotime('now') - $timeStamp;
 // Elapsed time in hours
-$timeLapseHours = round($timeLapseStamp/3600, 2);
+  $timeLapseHours = round($timeLapseStamp / 3600, 2);
 
-if ($timeLapseHours < 1) {
-  return date('i минут назад', $timeStamp);
+  if ($timeLapseHours < 1) {
+    return date('i минут назад', $timeStamp);
 
-} else if ($timeLapseHours > 24) {
-  return date('d-m-y в H:i', $timeStamp);
+  } else if ($timeLapseHours > 24) {
+    return date('d-m-y в H:i', $timeStamp);
 
-} else {
-  return date('H часов назад', $timeStamp);
-}
+  } else {
+    return date('H часов назад', $timeStamp);
+  }
 }
 
 function include_template($templatePath, $templateData){
@@ -31,7 +31,8 @@ function include_template($templatePath, $templateData){
   ob_clean();
   return $tpl;
 }
-function getDateFormat($date, $format = 'Y-m-d') {
+
+function getDateFormat($date, $format = 'Y-m-d'){
   $_date = DateTime::createFromFormat($format, $date);
 
   $_date && $_date->format($format) == $date ?
@@ -40,14 +41,14 @@ function getDateFormat($date, $format = 'Y-m-d') {
   return $_date;
 }
 
-function validateDate($date) {
+function validateDate($date){
   $now = strtotime('now');
 
   $_date = getDateFormat($date);
   if (empty($_date)) {
     $end = strtotime($date);
 
-    $min = round(($end - $now)/3600, 2);
+    $min = round(($end - $now) / 3600, 2);
 
     $is_day = $min > 24 ? '' :
       'Срок размещения лота должен быть больше одного дня';
@@ -57,7 +58,7 @@ function validateDate($date) {
   return $_date;
 }
 
-function get_integer($val) {
+function get_integer($val){
   $_val = $val + 0;
   if (is_int($_val)) {
     return $_val;
@@ -65,14 +66,15 @@ function get_integer($val) {
   return 0;
 }
 
-function get_numeric($val) {
+function get_numeric($val){
   if (is_numeric($val)) {
     return $val + 0;
+
   }
   return 0;
 }
 
-function validateLotRate($lotRate) {
+function validateLotRate($lotRate){
   $_lotRate = $lotRate;
 
   $is_numeric = get_numeric($_lotRate);
@@ -90,7 +92,7 @@ function validateLotRate($lotRate) {
   return '';
 }
 
-function validateLotStep($lotStep) {
+function validateLotStep($lotStep){
   $_lotStep = $lotStep;
 
   $is_integer = get_integer($_lotStep);
@@ -108,26 +110,25 @@ function validateLotStep($lotStep) {
   return '';
 }
 
-function validateUpload($array, $fileType, $fileSize) {
-  $_result = array_filter(array_values($array), function($value) use ($fileType) {
+function validateUpload($array, $fileType, $fileSize){
+  $_result = array_filter(array_values($array), function ($value) use ($fileType) {
 
     return $value == $fileType;
   }, ARRAY_FILTER_USE_KEY);
 
   if (empty($_result)) {
     return 'Пожалуйста, выберите файл правильного формата';
-  }
-
-  elseif ($fileSize > 200000) {
+  } elseif ($fileSize > 200000) {
     return 'Максимальный размер файла: 200Кб';
   }
   return '';
 }
 
-function validateEmail($email) {
+function validateEmail($email)
+{
   $_result = null;
-  if(empty($_result = filter_var($email, FILTER_VALIDATE_EMAIL))) {
-    $_result = 'Пожалуйста, введите правильный формат email';
+  if (empty($_result = filter_var($email, FILTER_VALIDATE_EMAIL))) {
+    $_result = 'Пожалуйста, укажите правильный формат email';
 
   } else {
     $_result = '';
@@ -135,46 +136,56 @@ function validateEmail($email) {
   return $_result;
 }
 
-function searchUserByEmail($email, $users, $register = false) {
+function searchUserByEmail($email, $users, $register = false)
+{
   $_result = null;
   foreach ($users as $user) {
-    if($user['email'] == $email) {
+    if ($user['email'] == $email) {
       $_result = $user;
 
-      if($register === true) {
+      if ($register === true) {
         $_result = 'Указанный вами email уже зарегистрирован';
       }
       break;
     }
     $_result = 'Вы указали неверный пароль или email';
 
-    if($register === true) {
+    if ($register === true) {
       $_result = '';
     }
   }
   return $_result;
 }
 
-function validateUser($email, $users, $password) {
+function validateUser($email, $users, $password){
   $is_user = null;
   $user = searchUserByEmail($email, $users);
 
-  if(is_string($user)) {
+  if (is_string($user)) {
     $is_user = $user;
-  }
-  elseif(is_array($user) && ($is_user = password_verify($password, $user['password']))) {
+
+  } elseif (is_array($user) && ($is_user = password_verify($password, $user['password']))) {
     $is_user = $user;
-  }
-  elseif(is_array($user) && empty($is_user = password_verify($password, $user['password']))) {
+
+  } elseif (is_array($user) && empty($is_user = password_verify($password, $user['password']))) {
     $is_user = 'Пароль неверный';
   }
   return $is_user;
 }
 
-function validatePassword($password) {
-  $_hashed = password_hash($password, PASSWORD_DEFAULT);
+function validatePassword($password){
 
-  strlen($_hashed) <= 60 ? $_result = '' : $_result = 'password_error';
+  if(strlen($password) < 11) {
+    $_result = 'Пожалуйста, укажите не меньше 11 символов в вашем пароле';
+
+    return $_result;
+  }
+  if(strlen($password) >= 11 && strlen($password) <= 72) {
+    $_result = password_hash($password, PASSWORD_DEFAULT);
+  } else {
+    $_result = 'Длина пароля должна быть не больше 72 символов';
+  }
+
   return $_result;
 }
 
