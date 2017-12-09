@@ -21,6 +21,8 @@ $password = isset($_POST['password']) ? $_POST['password'] : '';
 
 $name = isset($_POST['name']) ? $_POST['name'] : '';
 $contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
+$_POST['category'] === 'Выберите категорию' ?
+  $_POST['category'] = '' : $_POST['category'];
 
 $step = isset($_POST['step']) ? $_POST['step'] : '';
 $end = isset($_POST['date_end']) ? $_POST['date_end'] : '';
@@ -68,7 +70,6 @@ $rules_lot = [
   'rate' => 'validateLotRate',
   'step' => 'validateLotStep', 'date_end' => 'validateDate'
 ];
-
 
 if (isset($_FILES)) {
   if (isset($_FILES['photo'])) {

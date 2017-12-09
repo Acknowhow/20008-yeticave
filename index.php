@@ -133,7 +133,15 @@ if (isset($_SESSION['form_data'])) {
 
     // If is_auth is NOT empty, all data stored
     // in $_SESSION['form_data']['user']
-  } elseif (empty($is_auth) && (is_bool($is_login) || is_bool($is_register))) {
+  } elseif (empty($is_auth) && is_bool($is_login)) {
+
+    $form_defaults['email']['input'] =
+      $form_data['email'] ? $form_data['email'] : '';
+
+    $form_defaults['password']['input'] =
+      $form_data['password'] ? $form_data['password'] : '';
+
+  } elseif (empty($is_auth) && is_bool($is_register)) {
 
     $form_defaults['email']['input'] =
       $form_data['email'] ? $form_data['email'] : '';
@@ -147,7 +155,9 @@ if (isset($_SESSION['form_data'])) {
     $form_defaults['contacts']['input'] =
       $form_data['contacts'] ? $form_data['contacts'] : '';
 
-  } elseif (is_bool($bet_added)) {
+  }
+
+  elseif (is_bool($bet_added)) {
     $form_defaults['bet']['input'] =
       $form_data['bet'] ? $form_data['bet'] : '';
 
