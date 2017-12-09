@@ -38,7 +38,7 @@
     <span class="form__error"><?if (isset($errors['description']['error_message'])) : ?><?=$errors['description']['error_message']; ?><? endif; ?></span>
   </div>
 
-  <div class="form__item form__item--file"> <!-- form__item--uploaded -->
+  <div class="form__item form__item--file <?if (!empty($errors['file'])) : ?>form__item--invalid<? endif; ?>"> <!-- form__item--uploaded -->
     <label><?=$photo['title']; ?></label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>

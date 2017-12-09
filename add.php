@@ -74,11 +74,11 @@ $rules_lot = [
 if (isset($_FILES)) {
   if (isset($_FILES['photo'])) {
     $file['tag'] = 'photo';
-    $file['params'] = $_FILES['photo'];
+    $file_params = $_FILES['photo'];
   }
   if (isset($_FILES['avatar'])) {
     $file['tag'] = 'avatar';
-    $file['params'] = $_FILES['avatar'];
+    $file_params = $_FILES['avatar'];
   }
 }
 
@@ -112,7 +112,8 @@ if (isset($file_params['name'])) {
       $form_data['alt'] = 'uploaded';
 
     } elseif ($file['tag'] === 'photo' && $file_params['error'] !== 0) {
-      $errors_file['error_message'] = $form_errors['file']['error_empty'];
+
+      $errors_file['error_message'] = $form_errors['photo']['error_empty'];
 
     }
 }

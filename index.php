@@ -16,7 +16,6 @@ ini_set("display_errors", 1);
 // Make assoc array
 $categories = array_combine($categories_replacements, $categories);
 
-
 $cookie_name = 'cookie_bet';
 $cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
 $expire = time() + 60 * 60 * 24 * 30;
@@ -78,7 +77,6 @@ if (!empty($is_auth)) {
   unset($_SESSION['form_data']['email']);
   unset($_SESSION['form_data']['password']);
 }
-
 
 if (isset($_GET['lot_added'])) {
   if ($_GET['lot_added'] === 'true') {
@@ -180,16 +178,21 @@ if (isset($_GET['bet_added'])) {
 }
 
 // Set errors
+
 if (is_bool($is_login) && $is_login === false) {
   $errors = $_SESSION['errors_login'];
 }
 
 if (is_bool($is_register) && $is_register === false) {
   $errors = $_SESSION['errors_register'];
+  $errors['file'] = $_SESSION['errors_file'];
+
 }
 
 if (is_bool($lot_added) && $lot_added === false) {
   $errors = $_SESSION['errors_lot'];
+  $errors['file'] = $_SESSION['errors_file'];
+
 }
 
 if (is_bool($bet_added) && $bet_added === false) {

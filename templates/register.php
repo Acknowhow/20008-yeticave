@@ -49,6 +49,7 @@
       <label for="photo2">
         <span>+ Добавить</span>
       </label>
+      <?if (isset($errors['file']['error_message'])) : ?><span class="form_error"><?=$errors['file']['error_message']; ?><? endif; ?></span>
     </div>
   </div>
   <input type="hidden" name="register" value="">
