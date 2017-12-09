@@ -25,7 +25,6 @@ $path = '/';
 $is_auth = isset($_SESSION['form_data']['user']) ? true : false;
 $index = true;
 
-
 $is_nav = null;
 $nav = [];
 

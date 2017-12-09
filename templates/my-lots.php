@@ -6,7 +6,7 @@
       <tr class="rates__item">
       <td class="rates__info">
         <div class="rates__img">
-          <img src="<?=$lots[$key]['img_url']; ?>" width="54" height="40" alt="<?=$lots[$key]['img_alt']; ?>">
+          <img src="<?=$lots[$key]['url']; ?>" width="54" height="40" alt="<?=$lots[$key]['alt']; ?>">
         </div>
         <h3 class="rates__title"><a href="lot.html"><?=$lots[$key]['name']; ?></a></h3>
       </td>
@@ -17,7 +17,7 @@
       </td>
       <td class="rates__price"><?=$value['bet']; ?>
       </td>
-      <td class="rates__time"><?print(convertTimeStamp($value['date'])); ?>
+      <td class="rates__time"><?print(convertTimeStamp($value['date_added'])); ?>
       </td>
       </tr><?endforeach; ?>
 
