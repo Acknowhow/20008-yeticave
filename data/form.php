@@ -15,6 +15,9 @@ $form_errors = [
   'avatar' => [
     'name' => 'avatar', 'error_empty' => ''
   ],
+  'photo' => [
+    'name' => 'photo', 'error_empty' => 'Добавьте изображение лота'
+  ],
   'lot' => [
     'name' => 'lot', 'error_empty' => 'Введите наименование лота'
   ],
@@ -23,9 +26,6 @@ $form_errors = [
   ],
   'description' => [
     'name' => 'description', 'error_empty' => 'Добавьте описание лота'
-  ],
-  'photo' => [
-    'name' => 'photo', 'error_empty' => 'Добавьте изображение лота'
   ],
   'rate' => [
     'name' => 'rate', 'error_empty' => ''

@@ -30,7 +30,7 @@
                    placeholder="<?=($lot['rate'] + $lot['step']); ?>"
                    step="<?=$lot['step']; ?>"
                    min="<?=($lot['rate'] + $lot['step']); ?>"
-                   value="<?=$bet['input_data']; ?>">
+                   value="<?=$bet['input']; ?>">
             <input type="hidden" name="bet_id" value="<?=$id; ?>">
           </p>
           <button type="submit" class="button">Сделать ставку</button>

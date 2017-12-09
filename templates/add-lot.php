@@ -88,7 +88,7 @@
       <span class="form__error"><?if (isset($errors['date_end']['error_message'])) : ?><?=$errors['date_end']['error_message']; ?><? endif; ?></span>
     </div>
   </div>
-
+  <input type="hidden" name="lot" value="">
   <span class="form__error form__error--bottom"><?if (!empty($errors)) : ?><?=$all['error_message']; ?><? endif; ?></span>
   <button type="submit" class="button">Добавить лот</button>
 </form>

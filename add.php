@@ -22,14 +22,6 @@ $password = isset($_POST['password']) ? $_POST['password'] : '';
 $name = isset($_POST['name']) ? $_POST['name'] : '';
 $contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
 
-// Add lot
-$lot = isset($_POST['lot']) ? $_POST['lot'] : '';
-$category = $_POST['category'] === 'Выберите категорию' ?
-  $_POST['category'] = '' : $_POST['category'];
-
-$description = isset($_POST['description']) ? $_POST['description'] : '';
-$rate = isset($_POST['rate']) ? $_POST['rate'] : '';
-
 $step = isset($_POST['step']) ? $_POST['step'] : '';
 $end = isset($_POST['date_end']) ? $_POST['date_end'] : '';
 
@@ -39,7 +31,13 @@ $bet_id = isset($_POST['bet_id']) ? $_POST['bet_id'] : '';
 
 $form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
 
+// Files
+$file = [];
+$file_params = isset($file['params']) ? $file['params'] : '';
+
 // Form errors
+
+$errors_file = [];
 
 $errors_login = [];
 $errors_register = [];
@@ -72,25 +70,30 @@ $rules_lot = [
 ];
 
 
+if (isset($_FILES)) {
+  if (isset($_FILES['photo'])) {
+    $file['tag'] = 'photo';
+    $file['params'] = $_FILES['photo'];
+  }
+  if (isset($_FILES['avatar'])) {
+    $file['tag'] = 'avatar';
+    $file['params'] = $_FILES['avatar'];
+  }
+}
 
 // Also use this array for register form
-if (isset($_FILES)) {
-  if (isset($_FILES['photo']) || isset($_FILES['avatar'])) {
+if (isset($file_params['name'])) {
 
-    $file = $_FILES['photo'] ? $_FILES['photo'] : $_FILES['avatar'];
-
-    print_r($file);
-
-    if ($file['error'] == 0) {
+    if ($file_params['error'] == 0) {
       $allowed = [
         'jpeg' => 'image/jpeg',
         'png' => 'image/png'
       ];
-      $file_name = $file['name'];
-      $file_name_tmp = $file['tmp_name'];
+      $file_name = $file_params['name'];
+      $file_name_tmp = $file_params['tmp_name'];
 
-      $file_type = $file['type'];
-      $file_size = $file['size'];
+      $file_type = $file_params['type'];
+      $file_size = $file_params['size'];
 
       $file_path = __DIR__ . '/img/';
       $file_url = 'img/' . $file_name;
@@ -99,7 +102,7 @@ if (isset($_FILES)) {
       $result = validateUpload($allowed, $file_type, $file_size);
 
       if (!empty($result)) {
-        $errors_lot['file']['error_message'] = $result;
+        $errors_file['error_message'] = $result;
       }
       $destination_path = $file_path . $file_name;
       move_uploaded_file($file_name_tmp, $destination_path);
@@ -107,13 +110,15 @@ if (isset($_FILES)) {
       $form_data['url'] = $file_url;
       $form_data['alt'] = 'uploaded';
 
-    } else {
-      $errors_lot['file']['error_message'] = $form_errors['file']['error_empty'];
+    } elseif ($file['tag'] === 'photo' && $file_params['error'] !== 0) {
+      $errors_file['error_message'] = $form_errors['file']['error_empty'];
 
     }
-  }
+}
 
+if (isset($_POST['lot'])) {
   foreach ($_POST as $key => $value) {
+
     if (in_array($key, $required_lot) && $value == '') {
       $errors_lot[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
@@ -206,8 +211,9 @@ $_SESSION['form_data'] = $form_data;
 
 if (isset($_POST['lot'])) {
   $_SESSION['errors_lot'] = $errors_lot;
+  $_SESSION['errors_file'] = $errors_file;
 
-  $result = count($errors_lot) ? 'false' : 'true';
+  $result = count($errors_lot) || count($errors_file) ? 'false' : 'true';
   $url_param = 'lot_added=' . $result;
 }
 
@@ -227,6 +233,7 @@ if (isset($_POST['bet'])) {
 
 if (isset($_POST['register'])) {
   $_SESSION['errors_register'] = $errors_register;
+  $_SESSION['errors_file'] = $errors_file;
 
   $result = count($errors_register) ? 'false' : 'true';
   $url_param = 'is_register=' . $result;
