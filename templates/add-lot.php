@@ -43,7 +43,7 @@
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
       <div class="preview__img">
-        <img src="img/avatar.jpg" width="113" height="113" alt="<?=$photo['alt']; ?>">
+        <img src="" width="113" height="113" alt="<?=$photo['alt']; ?>">
       </div>
     </div>
     <div class="form__input-file">

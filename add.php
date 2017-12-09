@@ -70,10 +70,16 @@ $rules_lot = [
   'rate' => 'validateLotRate',
   'step' => 'validateLotStep', 'date_end' => 'validateDate'
 ];
+
+
+
 // Also use this array for register form
 if (isset($_FILES)) {
-  if (isset($_FILES['photo'])) {
-    $file = $_FILES['photo'];
+  if (isset($_FILES['photo']) || isset($_FILES['avatar'])) {
+
+    $file = $_FILES['photo'] ? $_FILES['photo'] : $_FILES['avatar'];
+
+    print_r($file);
 
     if ($file['error'] == 0) {
       $allowed = [
@@ -98,8 +104,8 @@ if (isset($_FILES)) {
       $destination_path = $file_path . $file_name;
       move_uploaded_file($file_name_tmp, $destination_path);
 
-      $form_data['lot_url'] = $file_url;
-      $form_data['lot_alt'] = 'uploaded';
+      $form_data['url'] = $file_url;
+      $form_data['alt'] = 'uploaded';
 
     } else {
       $errors_lot['file']['error_message'] = $form_errors['file']['error_empty'];

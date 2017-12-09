@@ -63,6 +63,9 @@ $form_defaults = [
   'avatar' => ['name' => 'avatar',
     'title' => 'Аватар', 'alt' => 'Ваш аватар'
   ],
+  'photo' => ['name' => 'photo', 'title' => 'Изображение',
+    'alt' => 'Изображение лота', 'input' => ''
+  ],
   'bet' => ['name' => 'bet', 'input' => ''
   ],
   'lot' => ['name' => 'lot', 'title' => 'Наименование',
@@ -73,9 +76,6 @@ $form_defaults = [
   ],
   'description' => ['name' => 'description', 'title' => 'Описание',
     'input' => '', 'placeholder' => 'Добавьте описание лота'
-  ],
-  'photo' => ['name' => 'photo', 'title' => 'Изображение',
-    'alt' => 'Изображение лота', 'input' => ''
   ],
   'rate' => ['name' => 'rate',
     'title' => 'Начальная цена', 'input' => ''

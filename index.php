@@ -201,8 +201,8 @@ if (is_bool($lot_added) && $lot_added === true) {
     'name' => $form_data['lot'], 'category' => $form_data['category'],
     'rate' => $form_data['rate'], 'step' => $form_data['step'],
 
-    'date_end' => $form_data['date_end'], 'url' => $form_data['lot_url'],
-    'alt' => $form_data['lot_alt'], 'description' => $form_data['description']
+    'date_end' => $form_data['date_end'], 'url' => $form_data['url'],
+    'alt' => $form_data['alt'], 'description' => $form_data['description']
   ];
 }
 

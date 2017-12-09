@@ -1,5 +1,5 @@
 <?=$nav?>
-<form class="form container <?if (!empty($errors)) : ?>form_invalid<?endif; ?>" action="/add.php" method="post">
+<form class="form container <?if (!empty($errors)) : ?>form_invalid<?endif; ?>" action="/add.php" method="POST" enctype="multipart/form-data">
   <h2>Регистрация нового аккаунта</h2>
   <div class="form__item <?if (!empty($errors['email'])) : ?>form__item--invalid<?endif;?>">
     <label for="<?=$email['name']; ?>"><?=$email['title']; ?></label>
@@ -7,7 +7,7 @@
            type="text"
            name="<?=$email['name']; ?>"
            placeholder="<?=$email['placeholder']; ?>"
-           value="<?htmlspecialchars($email['input']); ?>">
+           value="<?=htmlspecialchars($email['input']); ?>">
     <span class="form__error"><?if (isset($errors['email']['error_message'])) : ?><?=$errors['email']['error_message']; ?><?endif; ?></span>
   </div>
 
@@ -41,11 +41,11 @@
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
       <div class="preview__img">
-        <img src="img/avatar.jpg" width="113" height="113" alt="<?=$avatar['alt']; ?>">
+        <img src="" width="113" height="113" alt="<?=$avatar['alt']; ?>">
       </div>
     </div>
     <div class="form__input-file">
-      <input class="visually-hidden" type="file" id="photo2" value="" <?=$avatar['name']; ?>>
+      <input class="visually-hidden" type="file" id="photo2" value="" name="<?=$avatar['name']; ?>">
       <label for="photo2">
         <span>+ Добавить</span>
       </label>
