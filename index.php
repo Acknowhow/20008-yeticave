@@ -63,11 +63,24 @@ if (!empty($_GET)) {
 //
 //$rows_lots = mysqli_fetch_all($result_lots, MYSQLI_ASSOC);
 //print_r($rows_lots[0]);
-//
-//$sql_users = 'SELECT * FROM users';
-//$result_users = mysqli_query($link, $sql_users);
-//$rows_users = mysqli_fetch_all($result_users, MYSQLI_ASSOC);
-//print_r($rows_users[0]);
+
+$sql_users = 'SELECT * FROM users';
+$result_users = mysqli_query($link, $sql_users);
+$rows_users = mysqli_fetch_all($result_users, MYSQLI_ASSOC);
+//print_r($rows_users);
+
+$sql_categories = 'SELECT * FROM categories';
+$result_categories = mysqli_query($link, $sql_categories);
+$rows_categories = mysqli_fetch_all($result_categories, MYSQLI_ASSOC);
+
+
+foreach($rows_categories as $row => $value){
+
+  print_r($value);
+
+}
+
+
 
 if (!empty($is_auth)) {
   $user = $_SESSION['form_data']['user'];
@@ -292,6 +305,11 @@ if (isset($_GET['register']) || is_bool($is_register) && $is_register === false)
     'contacts' => $form_defaults['contacts'], 'errors' => $errors
 
   ]);
+}
+
+if (is_bool($is_register) && $is_register === true) {
+
+//  var_dump($_SESSION);
 }
 
 if (isset($_GET['add']) || is_bool($lot_added) && $lot_added === false) {
