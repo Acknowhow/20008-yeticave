@@ -46,7 +46,6 @@ $sql = '';
 $result = '';
 
 $categories = [];
-
 // All keys for $_GET array
 $get_keys = [
   'id', 'add', 'login', 'register',
@@ -66,6 +65,19 @@ $categories_eng = [
 $categories_insert_id = insert_data($link, 'categories', [
   'name' => 'Доски и лыжи']
 );
+
+if (!is_int($categories_insert_id)) {
+  mysqli_close($link);
+
+  $error = mysqli_connect_error();
+
+  print include_template('templates/404.php',[
+    'container' => $container,
+    'error' => $error
+  ]);
+  exit();
+
+}
 $categories_insert_id = insert_data($link, 'categories', [
   'name' => 'Крепления']
 );
@@ -86,6 +98,19 @@ $categories_insert_id = insert_data($link, 'categories', [
 if (($categories_insert_id === 6)) {
   $categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
   $categories_fetched = select_data($link, $categories_sql, []);
+
+  if (!$categories_fetched) {
+    mysqli_close($link);
+
+    $error = mysqli_connect_error();
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
 
 // Make associated array
   $categories = makeAssocArray($categories_fetched, $categories_eng, 'name');

@@ -234,15 +234,8 @@ function exec_query($link, $sql, $data){
   while($row = mysqli_fetch_assoc($result)){
     $arr[] = $row;
   };
-  if(!$result){
-    mysqli_close($link);
-    $error = mysqli_connect_error();
-
-    print include_template('templates/404.php',[
-      'container' => $container,
-      'error' => $error
-    ]);
-    exit();
+  if (!$result) {
+    return false;
   }
 
   return $_array;
@@ -255,16 +248,8 @@ function select_data($link, $sql, $data){
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 
-  if(!$result){
-    mysqli_close($link);
-
-    $error = mysqli_connect_error();
-
-    print include_template('templates/404.php',[
-      'container' => $container,
-      'error' => $error
-    ]);
-    exit();
+  if (!$result) {
+    return false;
 
   }
   while($row = mysqli_fetch_assoc($result)){
@@ -285,15 +270,9 @@ function insert_data($link, $table, $arr){
   $stmt = db_get_prepare_stmt($link, $sql, $arr); // Prepare query
   $result = mysqli_stmt_execute($stmt);
 
-  if(!$result){
-    mysqli_close($link);
-    $error = mysqli_connect_error();
+  if (!$result) {
 
-    print include_template('templates/404.php',[
-      'container' => $container,
-      'error' => $error
-    ]);
-    exit();
+    return false;
   }
   return mysqli_insert_id($link);
 }
