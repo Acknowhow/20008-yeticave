@@ -68,6 +68,21 @@ $categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
 if (!empty(select_data($link, $categories_sql, []))) {
 
   $categories_fetched = select_data($link, $categories_sql, []);
+  $categories = makeAssocArray($categories_fetched, $categories_eng, 'name');
+
+  if (empty($categories)) {
+    mysqli_close($link);
+
+    $error = 'Can\'t resolve categories list';
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+
 }  else {
   // Insert default categories
   $categories_insert_id = insert_data($link, 'categories', [
@@ -118,8 +133,20 @@ if (!empty(select_data($link, $categories_sql, []))) {
   }
 
   $categories = makeAssocArray($categories_fetched, $categories_eng, 'name');
-}
 
+  if (empty($categories)) {
+    mysqli_close($link);
+
+    $error = 'Can\'t resolve categories list';
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+}
 
 if (!empty($is_auth)) {
   $user = $_SESSION['form_data']['user'];
@@ -227,7 +254,6 @@ if (isset($_GET['bet_added'])) {
     $bet_added = false;
   }
 }
-
 // Set errors
 
 if (is_bool($is_login) && $is_login === false) {
@@ -380,5 +406,5 @@ print include_template('templates/layout.php', [
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
 
-
+session_destroy();
 
