@@ -12,8 +12,6 @@ $lot_default_description = 'Легкий маневренный сноуборд
   А если к концу катального дня сил совсем не останется, просто посмотрите на Вашу доску 
   и улыбнитесь, крутая графика от Шона Кливера еще никого не оставляла равнодушным.';
 
-// Remake into simple array, and build id's into strings
-$categories = ['boards','attachment','boots','clothing','tools','other'];
 
 $lots = [
   ['name' => '2014 Rossignol District Snowboard', 'category' =>	'Доски и лыжи',

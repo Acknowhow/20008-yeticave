@@ -3,11 +3,13 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 session_start();
+ob_start();
+require 'init.php';
 require 'functions.php';
 require 'config.php';
 require 'data/data.php';
 require 'data/lot.php';
-require 'init.php';
+
 
 error_reporting(-1);
 ini_set("display_errors", 1);
@@ -49,13 +51,18 @@ $get_keys = [
   'lot_added', 'is_login', 'bet_added', 'is_register'
 ];
 
-$categories_assoc = [];
-$combined = [];
-
 if (!empty($_GET)) {
   $get_keys = array_flip($get_keys);
   $is_nav = array_intersect($_GET, $get_keys) ? 'true' : 'false';
 };
+
+$categories = ['boards','attachment','boots','clothing','tools','other'];
+
+// Insert default categories
+$categories = insert_data($link, 'categories', [
+  'name' => 'Доски и Лыжи']
+);
+
 // Select categories query
 
 $categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
@@ -101,7 +108,7 @@ if (isset($_GET['is_register'])) {
   }
 }
 
-ob_start();
+
 if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
 

@@ -240,18 +240,22 @@ function makeAssocArray($sourceArray, $targetArray, $columnName){
 
 }
 
-$i = 0;
-while ($i < count($categories)) {
-  $categories_assoc[]['name'] = 'name';
-  $i++;
+// Inserts data
+function insert_data($link, $table, $arr){
+  $columns = implode(", ",array_keys($arr));
+  $values = implode("', '",array_values($arr));
+
+  $sql = "INSERT into $table ($columns) VALUES ('$values')";
+  $stmt = db_get_prepare_stmt($link, $sql, $arr); // Prepare query
+  $result = mysqli_stmt_execute($stmt);
+
+  if(!$result){
+    mysqli_close($link);
+    $error = mysqli_connect_error();
+
+    header(`Location: templates/error.php?=$error`);
+    exit();
+
+  }
+  return mysqli_insert_id($link);
 }
-foreach($categories_assoc as $key => $value){
-  $categories_assoc[$key]['name'] = $categories[$key];
-}
-$categories = $categories_assoc;
-
-$column_categories = array_column($categories, 'name');
-$column_fetched = array_column($categories_fetched, 'name');
-
-$categories = array_combine($column_categories, $column_fetched);
-
