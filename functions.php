@@ -192,29 +192,6 @@ function validatePassword($password){
   return 'Длина пароля должна быть не больше 72 символов';
 }
 
-// MySQL functions
-// Select data function
-
-function select_data($link, $sql, $data){
-  $arr = [];
-  $stmt = db_get_prepare_stmt($link, $sql, $data);
-
-  mysqli_stmt_execute($stmt);
-  $result = mysqli_stmt_get_result($stmt);
-
-  if(!$result){
-    mysqli_close($link);
-
-    header('Location: templates/error.php');
-    exit();
-
-  }
-  while($row = mysqli_fetch_assoc($result)){
-    $arr[] = $row;
-  };
-  return $arr;
-}
-
 // Combines associated array
 // Expects 3 args: associated array(source), simple array(target), columnName
 function makeAssocArray($sourceArray, $targetArray, $columnName){
@@ -240,12 +217,71 @@ function makeAssocArray($sourceArray, $targetArray, $columnName){
 
 }
 
+// MySQL functions
+// Select data function
+
+// Exec query
+function exec_query($link, $sql, $data){
+  $_array = [];
+  $stmt = db_get_prepare_stmt($link, $sql, $data);
+
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+
+  print_r('Result is');
+  print_r($result);
+
+  while($row = mysqli_fetch_assoc($result)){
+    $arr[] = $row;
+  };
+  if(!$result){
+    mysqli_close($link);
+    $error = mysqli_connect_error();
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+  }
+
+  return $_array;
+}
+// Select data
+function select_data($link, $sql, $data){
+  $arr = [];
+  $stmt = db_get_prepare_stmt($link, $sql, $data);
+
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+
+  if(!$result){
+    mysqli_close($link);
+
+    $error = mysqli_connect_error();
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+  while($row = mysqli_fetch_assoc($result)){
+    $arr[] = $row;
+  };
+  return $arr;
+}
+
 // Inserts data
 function insert_data($link, $table, $arr){
   $columns = implode(", ",array_keys($arr));
-//  $values = implode("', '",array_values($arr));
+  $values = array_values($arr);
 
-  $sql = "INSERT into $table ($columns) VALUES (?)";
+  $values_fill = array_fill_keys(array_keys($values), '?');
+  $values_implode = implode(", ", $values_fill);
+
+  $sql = "INSERT into $table ($columns) VALUES ($values_implode)";
   $stmt = db_get_prepare_stmt($link, $sql, $arr); // Prepare query
   $result = mysqli_stmt_execute($stmt);
 
@@ -257,6 +293,7 @@ function insert_data($link, $table, $arr){
       'container' => $container,
       'error' => $error
     ]);
+    exit();
   }
   return mysqli_insert_id($link);
 }

@@ -10,7 +10,6 @@ require 'config.php';
 require 'data/data.php';
 require 'data/lot.php';
 
-
 error_reporting(-1);
 ini_set("display_errors", 1);
 
@@ -46,6 +45,9 @@ $user_name = '';
 $sql = '';
 $result = '';
 
+$categories = [];
+
+// All keys for $_GET array
 $get_keys = [
   'id', 'add', 'login', 'register',
   'lot_added', 'is_login', 'bet_added', 'is_register'
@@ -56,21 +58,38 @@ if (!empty($_GET)) {
   $is_nav = array_intersect($_GET, $get_keys) ? 'true' : 'false';
 };
 
-$categories = ['boards','attachment','boots','clothing','tools','other'];
+$categories_eng = [
+  'boards', 'attachment', 'boots', 'clothing', 'tools', 'other'
+];
 
 // Insert default categories
-$categories = insert_data($link, 'categories', [
-  'name' => 'Ботиночadfadsfнк']
+$categories_insert_id = insert_data($link, 'categories', [
+  'name' => 'Доски и лыжи']
+);
+$categories_insert_id = insert_data($link, 'categories', [
+  'name' => 'Крепления']
+);
+$categories_insert_id = insert_data($link, 'categories', [
+    'name' => 'Ботинки']
+);
+$categories_insert_id = insert_data($link, 'categories', [
+    'name' => 'Одежда']
+);
+$categories_insert_id = insert_data($link, 'categories', [
+    'name' => 'Инструменты']
+);
+$categories_insert_id = insert_data($link, 'categories', [
+    'name' => 'Разное']
 );
 
 // Select categories query
-
-$categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
-$categories_fetched = select_data($link, $categories_sql, []);
+if (($categories_insert_id === 6)) {
+  $categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
+  $categories_fetched = select_data($link, $categories_sql, []);
 
 // Make associated array
-$categories = makeAssocArray($categories_fetched, $categories, 'name');
-
+  $categories = makeAssocArray($categories_fetched, $categories_eng, 'name');
+}
 
 if (!empty($is_auth)) {
   $user = $_SESSION['form_data']['user'];
