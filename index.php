@@ -116,7 +116,10 @@ if (!empty(select_data($link, $categories_sql, []))) {
     exit();
 
   }
+
+  $categories = makeAssocArray($categories_fetched, $categories_eng, 'name');
 }
+
 
 if (!empty($is_auth)) {
   $user = $_SESSION['form_data']['user'];
@@ -153,7 +156,6 @@ if (isset($_GET['is_register'])) {
     $is_register = false;
   }
 }
-
 
 if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];

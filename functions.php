@@ -228,9 +228,6 @@ function exec_query($link, $sql, $data){
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 
-  print_r('Result is');
-  print_r($result);
-
   while($row = mysqli_fetch_assoc($result)){
     $arr[] = $row;
   };
