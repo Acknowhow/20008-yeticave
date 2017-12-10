@@ -13,9 +13,6 @@ require 'init.php';
 error_reporting(-1);
 ini_set("display_errors", 1);
 
-// Make assoc array
-$categories = array_combine($categories_replacements, $categories);
-
 $cookie_name = 'cookie_bet';
 $cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
 $expire = time() + 60 * 60 * 24 * 30;
@@ -53,32 +50,34 @@ $get_keys = [
   'lot_added', 'is_login', 'bet_added', 'is_register'
 ];
 
+$categories_assoc = [];
+$combined = [];
+
 if (!empty($_GET)) {
   $get_keys = array_flip($get_keys);
   $is_nav = array_intersect($_GET, $get_keys) ? 'true' : 'false';
 };
 
-//$sql_lots = 'SELECT * FROM lots';
-//$result_lots = mysqli_query($link, $sql_lots);
-//
-//$rows_lots = mysqli_fetch_all($result_lots, MYSQLI_ASSOC);
-//print_r($rows_lots[0]);
+$categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
+$categories_result = mysqli_query($link, $categories_sql);
+$categories_fetched = mysqli_fetch_all($categories_result, MYSQLI_ASSOC);
 
-$sql_users = 'SELECT * FROM users';
-$result_users = mysqli_query($link, $sql_users);
-$rows_users = mysqli_fetch_all($result_users, MYSQLI_ASSOC);
-//print_r($rows_users);
-
-$sql_categories = 'SELECT * FROM categories';
-$result_categories = mysqli_query($link, $sql_categories);
-$rows_categories = mysqli_fetch_all($result_categories, MYSQLI_ASSOC);
-
-
-foreach($rows_categories as $row => $value){
-
-  print_r($value);
-
+$i = 0;
+while ($i < count($categories)) {
+  $categories_assoc[]['name'] = 'name';
+  $i++;
 }
+
+foreach($categories_assoc as $key => $value){
+  $categories_assoc[$key]['name'] = $categories[$key];
+}
+$categories = $categories_assoc;
+
+$column_categories = array_column($categories, 'name');
+$column_fetched = array_column($categories_fetched, 'name');
+
+$categories = array_combine($column_categories, $column_fetched);
+
 
 
 
