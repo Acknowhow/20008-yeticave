@@ -57,6 +57,7 @@ if (!empty($_GET)) {
   $get_keys = array_flip($get_keys);
   $is_nav = array_intersect($_GET, $get_keys) ? 'true' : 'false';
 };
+// Select categories query
 
 $categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
 $categories_result = mysqli_query($link, $categories_sql);
