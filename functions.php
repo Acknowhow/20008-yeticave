@@ -1,5 +1,8 @@
 <?php
+require 'mysql_helper.php';
+
 date_default_timezone_set('Europe/Moscow');
+
 function convertTimeStamp($timeStamp){
 // Elapsed timestamp
   $timeLapseStamp = strtotime('now') - $timeStamp;
@@ -190,5 +193,28 @@ function validatePassword($password){
   return 'Длина пароля должна быть не больше 72 символов';
 }
 
+// MySQL functions
+// Select data function
+
+function select_data($link, $sql, $data){
+  $arr = [];
+  $stmt = db_get_prepare_stmt($link, $sql, $data);
+
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+
+  if(!$result){
+    mysqli_close($link);
+
+    print mysqli_insert_id($link);
+    header('Location: templates/error.php');
+    exit();
+
+  }
+  while($row = mysqli_fetch_assoc($result)){
+    $arr[] = $row;
+  };
+  return $arr;
+}
 
 

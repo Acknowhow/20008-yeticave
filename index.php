@@ -7,7 +7,6 @@ require 'functions.php';
 require 'config.php';
 require 'data/data.php';
 require 'data/lot.php';
-require 'mysql_helper.php';
 require 'init.php';
 
 error_reporting(-1);
@@ -60,8 +59,7 @@ if (!empty($_GET)) {
 // Select categories query
 
 $categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
-$categories_result = mysqli_query($link, $categories_sql);
-$categories_fetched = mysqli_fetch_all($categories_result, MYSQLI_ASSOC);
+$categories_fetched = select_data($link, $categories_sql, []);
 
 $i = 0;
 while ($i < count($categories)) {
