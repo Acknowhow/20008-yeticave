@@ -61,23 +61,8 @@ if (!empty($_GET)) {
 $categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
 $categories_fetched = select_data($link, $categories_sql, []);
 
-$i = 0;
-while ($i < count($categories)) {
-  $categories_assoc[]['name'] = 'name';
-  $i++;
-}
-
-foreach($categories_assoc as $key => $value){
-  $categories_assoc[$key]['name'] = $categories[$key];
-}
-$categories = $categories_assoc;
-
-$column_categories = array_column($categories, 'name');
-$column_fetched = array_column($categories_fetched, 'name');
-
-$categories = array_combine($column_categories, $column_fetched);
-
-
+// Make associated array
+$categories = makeAssocArray($categories_fetched, $categories, 'name');
 
 
 if (!empty($is_auth)) {

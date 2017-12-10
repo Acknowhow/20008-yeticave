@@ -185,7 +185,6 @@ function validatePassword($password){
   }
   elseif(strlen($password) >= 11 && strlen($password) <= 72) {
     $_result[] = password_hash($password, PASSWORD_DEFAULT);
-
     return $_result;
 
   }
@@ -206,7 +205,6 @@ function select_data($link, $sql, $data){
   if(!$result){
     mysqli_close($link);
 
-    print mysqli_insert_id($link);
     header('Location: templates/error.php');
     exit();
 
@@ -217,4 +215,43 @@ function select_data($link, $sql, $data){
   return $arr;
 }
 
+// Combines associated array
+// Expects 3 args: associated array(source), simple array(target), columnName
+function makeAssocArray($sourceArray, $targetArray, $columnName){
+  $i = 0;
+  $_array = [];
+  $_name = $columnName;
+
+  // Make required number of columnNames
+  while ($i < count($targetArray)) {
+    $_array[][$_name] = $_name;
+    $i++;
+  }
+  foreach($_array as $key => $value){
+    $_array[$key][$_name] = $targetArray[$key];
+  }
+  $targetArray = $_array;
+
+  $targetArray_column = array_column($targetArray, 'name');
+  $sourceArray_column = array_column($sourceArray, 'name');
+
+  $targetArray = array_combine($targetArray_column, $sourceArray_column);
+  return $targetArray;
+
+}
+
+$i = 0;
+while ($i < count($categories)) {
+  $categories_assoc[]['name'] = 'name';
+  $i++;
+}
+foreach($categories_assoc as $key => $value){
+  $categories_assoc[$key]['name'] = $categories[$key];
+}
+$categories = $categories_assoc;
+
+$column_categories = array_column($categories, 'name');
+$column_fetched = array_column($categories_fetched, 'name');
+
+$categories = array_combine($column_categories, $column_fetched);
 
