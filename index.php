@@ -60,7 +60,7 @@ $categories = ['boards','attachment','boots','clothing','tools','other'];
 
 // Insert default categories
 $categories = insert_data($link, 'categories', [
-  'name' => 'Доски и Лыжи']
+  'name' => 'Ботиночadfadsfнк']
 );
 
 // Select categories query

@@ -243,9 +243,9 @@ function makeAssocArray($sourceArray, $targetArray, $columnName){
 // Inserts data
 function insert_data($link, $table, $arr){
   $columns = implode(", ",array_keys($arr));
-  $values = implode("', '",array_values($arr));
+//  $values = implode("', '",array_values($arr));
 
-  $sql = "INSERT into $table ($columns) VALUES ('$values')";
+  $sql = "INSERT into $table ($columns) VALUES (?)";
   $stmt = db_get_prepare_stmt($link, $sql, $arr); // Prepare query
   $result = mysqli_stmt_execute($stmt);
 
@@ -253,9 +253,10 @@ function insert_data($link, $table, $arr){
     mysqli_close($link);
     $error = mysqli_connect_error();
 
-    header(`Location: templates/error.php?=$error`);
-    exit();
-
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
   }
   return mysqli_insert_id($link);
 }
