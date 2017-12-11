@@ -45,12 +45,3 @@ CREATE TABLE lots (
 );
 ALTER TABLE bets ADD lot_id INT not null AFTER bet_id;
 ALTER TABLE bets ADD FOREIGN KEY (lot_id) REFERENCES lots(lot_id);
-
-
-
-
-
-
-
-
-

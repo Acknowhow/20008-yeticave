@@ -241,7 +241,6 @@ if (isset($_GET['is_register'])) {
 
     $_SESSION['form_data']['user'] = $_SESSION['form_data'];
 
-    var_dump($_SESSION['form_data']['user']);
     $is_auth = true;
 
 
@@ -262,6 +261,7 @@ if (isset($_GET['lot_added'])) {
 if (isset($_GET['is_login'])) {
   if ($_GET['is_login'] === 'true') {
     $is_login = true;
+
 
   } elseif ($_GET['is_login'] === 'false') {
     $is_login = false;
