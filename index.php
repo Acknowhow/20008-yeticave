@@ -342,23 +342,23 @@ if (isset($_GET['bet_added'])) {
 }
 // Set errors
 
-if (is_bool($is_login) && $is_login === false) {
+if ($is_login === false) {
   $errors = $_SESSION['errors_login'];
 }
 
-if (is_bool($is_register) && $is_register === false) {
+if ($is_register === false) {
   $errors = $_SESSION['errors_register'];
   $errors['file'] = $_SESSION['errors_file'];
 
 }
 
-if (is_bool($lot_added) && $lot_added === false) {
+if ($lot_added === false) {
   $errors = $_SESSION['errors_lot'];
   $errors['file'] = $_SESSION['errors_file'];
 
 }
 
-if (is_bool($bet_added) && $bet_added === false) {
+if ($bet_added === false) {
   $errors = $_SESSION['errors_bet'];
 }
 
@@ -369,7 +369,7 @@ if (!empty($is_nav)) {
   ]);
 }
 
-if (is_bool($lot_added) && $lot_added === true) {
+if ($lot_added === true) {
   $index = false;
 
   $lot = [
@@ -381,7 +381,7 @@ if (is_bool($lot_added) && $lot_added === true) {
   ];
 }
 
-if (isset($_GET['id']) || is_bool($bet_added) && $bet_added === false) {
+if (isset($_GET['id']) || $bet_added === false) {
   $index = false;
 
   $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['form_data']['bet_id'];
@@ -401,7 +401,7 @@ if (isset($_GET['id']) || is_bool($bet_added) && $bet_added === false) {
   }
 }
 
-if (is_bool($bet_added) && $bet_added === true || !empty($lot)) {
+if ($bet_added === true || !empty($lot)) {
   $cookie_value = json_decode($cookie_value, true);
 
   $my_bets = $cookie_value;
@@ -410,7 +410,7 @@ if (is_bool($bet_added) && $bet_added === true || !empty($lot)) {
 
 ob_end_flush();
 
-if (is_bool($bet_added) && $bet_added === true) {
+if ($bet_added === true) {
   $index = false;
 
   $content = include_template('templates/my-lots.php', [
@@ -434,7 +434,7 @@ if (!empty($lot)) {
   ]);
 }
 
-if (isset($_GET['login']) || is_bool($is_login) && $is_login === false) {
+if (isset($_GET['login']) || $is_login === false) {
   $index = false;
 
   $content = include_template('templates/login.php', [
@@ -444,7 +444,7 @@ if (isset($_GET['login']) || is_bool($is_login) && $is_login === false) {
   ]);
 }
 
-if (isset($_GET['register']) || is_bool($is_register) && $is_register === false) {
+if (isset($_GET['register']) || $is_register === false) {
   $index = false;
 
   $content = include_template('templates/register.php', [
@@ -457,12 +457,7 @@ if (isset($_GET['register']) || is_bool($is_register) && $is_register === false)
   ]);
 }
 
-if (is_bool($is_register) && $is_register === true) {
-
-//  var_dump($_SESSION);
-}
-
-if (isset($_GET['add']) || is_bool($lot_added) && $lot_added === false) {
+if (isset($_GET['add']) || $lot_added === false) {
   $index = false;
   $title = $add_lot_title;
 
