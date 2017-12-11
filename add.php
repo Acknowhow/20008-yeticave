@@ -5,13 +5,35 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 session_start();
 require 'functions.php';
 require 'data/form.php';
-require 'data/users.php';
 require 'init.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user'])) {
   http_response_code(403);
   die();
 }
+$users = [];
+
+$users_sql = 'SELECT * FROM users ORDER BY user_id ASC;';
+if (!empty(select_data($link, $users_sql, []))) {
+
+  $users_fetched = select_data($link, $users_sql, []);
+  $users = $users_fetched;
+
+  if (empty($users)) {
+    mysqli_close($link);
+
+    $error = 'Can\'t resolve users list';
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+}
+var_dump($users);
+
 
 // Login + Register
 $email = isset($_POST['email']) ? $_POST['email'] : '';
@@ -38,7 +60,6 @@ $file_params = isset($file['params']) ? $file['params'] : '';
 // Form errors
 
 $errors_file = [];
-
 $errors_login = [];
 $errors_register = [];
 

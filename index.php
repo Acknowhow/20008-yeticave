@@ -210,8 +210,6 @@ if (isset($_GET['is_register'])) {
     $_SESSION['form_data']['user'] = $_SESSION['form_data'];
     $is_auth = true;
 
-
-
   } elseif ($_GET['is_register'] === 'false') {
     $is_register = false;
   }
