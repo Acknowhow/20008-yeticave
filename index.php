@@ -139,7 +139,6 @@ if (!empty(select_data($link, $categories_sql, []))) {
     mysqli_close($link);
 
     $error = mysqli_connect_error();
-
     print include_template('templates/404.php',[
       'container' => $container,
       'error' => $error
@@ -149,7 +148,6 @@ if (!empty(select_data($link, $categories_sql, []))) {
   }
 
   $categories = makeAssocArray($categories_fetched, $categories_eng, 'name');
-
   if (empty($categories)) {
     mysqli_close($link);
 
@@ -169,6 +167,7 @@ l.date_end,l.description,l.url,l.rate,l.step,l.author_id,
 l.category_id,c.name as category from lots l JOIN
  categories c ON l.category_id=c.category_id
   WHERE l.date_add < l.date_end ORDER BY l.date_add DESC;';
+
 
 if (!empty(select_data($link, $lots_sql, []))) {
 
@@ -482,7 +481,7 @@ if (isset($_GET['add']) || is_bool($lot_added) && $lot_added === false) {
 if (!empty($index)) {
   $content = include_template('templates/index.php', [
 
-    'categories' => $categories, 'lots' => $lots, 'lot_time_remaining' => $lot_time_remaining
+    'categories' => $categories, 'lots' => $lots
   ]);
 }
 

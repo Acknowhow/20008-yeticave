@@ -28,7 +28,7 @@
             <span class="lot__cost"><?=$value['rate']; ?><b class="rub">р</b></span>
           </div>
           <div class="lot__timer timer">
-            <?=$lot_time_remaining; ?>
+            <?=convertTimeStamp(convertTimeStampMySQL($value['date_end'], false)); ?>
           </div>
         </div>
       </div>
