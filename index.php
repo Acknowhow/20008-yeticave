@@ -60,10 +60,15 @@ $result = '';
 $categories = [];
 $categories_fetched = [];
 $categories_eng = [];
+
 $categories_insert_id = '';
+$category_id_sql = '';
+$category_id_fetched = '';
+$category_id = '';
 
 // Lots
 $lots = [];
+$lot_insert_id = '';
 
 // All keys for $_GET array
 $get_keys = [
@@ -154,8 +159,7 @@ if (isset($_GET['is_register'])) {
     $user_insert_id = insert_data($link, 'users', [
         'name' => $name, 'email' => $email, 'password' => $password,
         'contacts' => $contacts, 'date_add' => $date_add, 'url' => $url
-      ]
-    );
+      ]);
 
     if (!is_int($user_insert_id)) {
       mysqli_close($link);
@@ -186,11 +190,10 @@ if (isset($_GET['lot_added'])) {
   if ($_GET['lot_added'] === 'true') {
     $lot_added = true;
 
+    $name = $_SESSION['form_data']['name'];
     // Add current timestamp in MySQL format
     $date_add = convertTimeStampMySQL(
       strtotime('now'));
-
-    $name = $_SESSION['form_data']['name'];
     $date_end = $_SESSION['form_data']['date_end'];
 
     $description = $_SESSION['form_data']['description'];
@@ -199,7 +202,44 @@ if (isset($_GET['lot_added'])) {
     $rate = $_SESSION['form_data']['rate'];
     $step = $_SESSION['form_data']['step'];
 
-    // Send queries for user_id and category_id ?
+    $author_id = $_SESSION['form_data']['user_id'];
+
+    $category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?;';
+    $category_id_fetched = select_data($link, $category_id_sql, [$_SESSION['user']['user_id']]);
+
+    if (!is_int($category_id_fetched)) {
+      mysqli_close($link);
+
+      $error = mysqli_connect_error() . 'Can\'t get category id';
+
+      print include_template('templates/404.php',[
+        'container' => $container,
+        'error' => $error
+      ]);
+      exit();
+
+    }
+
+    $category_id = $category_id_fetched;
+
+    $lot_insert_id = insert_data($link, 'lots', [
+      'name' => $name, 'date_add' => $date_add, 'date_end' => $date_end,
+      'description' => $description, 'url' => $url, 'rate' => $rate,
+      'step' => $step, 'author_id' => $author_id, 'category_id' => $category_id
+    ]);
+
+    if (!is_int($lot_insert_id)) {
+      mysqli_close($link);
+
+      $error = mysqli_connect_error() . 'Can\'t insert lot';
+
+      print include_template('templates/404.php',[
+        'container' => $container,
+        'error' => $error
+      ]);
+      exit();
+
+    }
 
 
     var_dump($_SESSION['form_data']);
