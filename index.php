@@ -65,8 +65,6 @@ $categories_insert_id = '';
 // Lots
 $lots = [];
 
-var_dump($_SESSION);
-
 // All keys for $_GET array
 $get_keys = [
   'id', 'add', 'login', 'register',
@@ -166,7 +164,12 @@ if (!empty(select_data($link, $categories_sql, []))) {
   }
 }
 
-$lots_sql = 'SELECT * FROM lots WHERE date_add < date_end ORDER BY date_add DESC;';
+$lots_sql = 'SELECT l.lot_id,l.name,l.date_add,
+l.date_end,l.description,l.url,l.rate,l.step,l.author_id,
+l.category_id,c.name as category from lots l JOIN
+ categories c ON l.category_id=c.category_id
+  WHERE l.date_add < l.date_end ORDER BY l.date_add DESC;';
+
 if (!empty(select_data($link, $lots_sql, []))) {
 
   $lots_fetched = select_data($link, $lots_sql, []);
