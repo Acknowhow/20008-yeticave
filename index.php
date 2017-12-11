@@ -1,25 +1,28 @@
-<?php
+<?
 header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 session_start();
+ob_start();
+require 'init.php';
 require 'functions.php';
 require 'config.php';
-
 require 'data/data.php';
 require 'data/lot.php';
 
-require 'mysql_helper.php';
-require 'init.php';
+error_reporting(-1);
+ini_set("display_errors", 1);
 
 $cookie_name = 'cookie_bet';
 $cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
-$expire = time()+60*60*24*30;
+$expire = time() + 60 * 60 * 24 * 30;
 $path = '/';
 
 $is_auth = isset($_SESSION['form_data']['user']) ? true : false;
 $index = true;
-$nav = null;
+
+$is_nav = null;
+$nav = [];
 
 $lot = [];
 $bet = [];
@@ -29,85 +32,298 @@ $my_bets = [];
 $id = '';
 $form_data = [];
 
-$errors_lot = [];
-$errors_user = [];
-$errors_bet = [];
+$errors = [];
 
+$is_login = '';
+$is_register = '';
 $lot_added = '';
-$user_added = '';
 $bet_added = '';
 
+// Form data user
 $user = [];
-$user_name = '';
+$name = '';
+$avatar = '';
+$user_insert_id = '';
+$email = '';
+$password = '';
+$name = '';
+$contacts = '';
+$date_add = '';
+$url = '';
 
-error_reporting(-1);
-ini_set("display_errors", 1);
+// MySQL vars
+$categories_sql = '';
+$lots_sql = '';
+$result = '';
 
-if(!empty($is_auth)) {
+// Categories
+$categories = [];
+$categories_fetched = [];
+$categories_eng = [];
+$categories_insert_id = '';
+
+// Lots
+$lots = [];
+
+
+// All keys for $_GET array
+$get_keys = [
+  'id', 'add', 'login', 'register',
+  'lot_added', 'is_login', 'bet_added', 'is_register'
+];
+
+if (!empty($_GET)) {
+  $get_keys = array_flip($get_keys);
+  $is_nav = array_intersect($_GET, $get_keys) ? 'true' : 'false';
+};
+
+$categories_eng = [
+  'boards', 'attachment', 'boots', 'clothing', 'tools', 'other'
+];
+
+$categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
+if (!empty(select_data($link, $categories_sql, []))) {
+
+  $categories_fetched = select_data($link, $categories_sql, []);
+  $categories = makeAssocArray($categories_fetched, $categories_eng, 'name');
+
+  if (empty($categories)) {
+    mysqli_close($link);
+
+    $error = 'Can\'t resolve categories list';
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+
+}  else {
+  // Insert default categories
+  $categories_insert_id = insert_data($link, 'categories', [
+      'name' => 'Доски и лыжи']
+  );
+
+  if (!is_int($categories_insert_id)) {
+    mysqli_close($link);
+
+    $error = mysqli_connect_error();
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+  $categories_insert_id = insert_data($link, 'categories', [
+      'name' => 'Крепления']
+  );
+  $categories_insert_id = insert_data($link, 'categories', [
+      'name' => 'Ботинки']
+  );
+  $categories_insert_id = insert_data($link, 'categories', [
+      'name' => 'Одежда']
+  );
+  $categories_insert_id = insert_data($link, 'categories', [
+      'name' => 'Инструменты']
+  );
+  $categories_insert_id = insert_data($link, 'categories', [
+      'name' => 'Разное']
+  );
+
+  $categories_fetched = select_data($link, $categories_sql, []);
+
+  if (!$categories_fetched) {
+    mysqli_close($link);
+
+    $error = mysqli_connect_error();
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+
+  $categories = makeAssocArray($categories_fetched, $categories_eng, 'name');
+  if (empty($categories)) {
+    mysqli_close($link);
+
+    $error = 'Can\'t resolve categories list';
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+}
+
+$lots_sql = 'SELECT l.lot_id,l.name,l.date_add,
+l.date_end,l.description,l.url,l.rate,l.step,l.author_id,
+l.category_id,c.name as category from lots l JOIN
+ categories c ON l.category_id=c.category_id
+  WHERE l.date_add < l.date_end ORDER BY l.date_add DESC;';
+
+
+if (!empty(select_data($link, $lots_sql, []))) {
+
+  $lots_fetched = select_data($link, $lots_sql, []);
+  $lots = $lots_fetched;
+
+  if (empty($lots)) {
+    mysqli_close($link);
+
+    $error = 'Can\'t resolve lots list';
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+}
+
+if (!empty($is_auth)) {
   $user = $_SESSION['form_data']['user'];
-  $user_name = $user['name'];
+  $name = $user['name'];
+
+  $avatar = $user['url'];
 
   // Unset open password for security reasons
   unset($_SESSION['form_data']['email']);
   unset($_SESSION['form_data']['password']);
 }
 
-if (isset($_SESSION['form_data'])) {
-  $form_data = $_SESSION['form_data'];
+if (isset($_GET['is_register'])) {
+  if ($_GET['is_register'] === 'true') {
+    $is_register = true;
 
-  if(is_bool($lot_added)) {
-    $form_defaults['lot_name']['input_data'] =
-      $form_data['lot_name'] ? $form_data['lot_name'] : '';
+    // Add current timestamp in MySQL format
+    $date_add = convertTimeStampMySQL(
+      strtotime('now'));
 
-    $form_defaults['category']['input_data'] =
-      $form_data['category'] ? $form_data['category'] : '';
+    $_SESSION['form_data']['date_add'] = $date_add;
 
-    $form_defaults['message']['input_data'] =
-      $form_data['message'] ? $form_data['message'] : '';
+    $name = $_SESSION['form_data']['name'];
+    $email = $_SESSION['form_data']['email'];
 
-    $form_defaults['lot_rate']['input_data'] =
-      $form_data['lot_rate'] ? $form_data['lot_rate'] : '';
+    $password = $_SESSION['form_data']['password'];
+    $contacts = $_SESSION['form_data']['contacts'];
 
-    $form_defaults['lot_step']['input_data'] =
-      $form_data['lot_step'] ? $form_data['lot_step'] : '';
+    $date_add = $_SESSION['form_data']['date_add'];
+    $url = $_SESSION['form_data']['url'];
 
-    $form_defaults['lot_date']['input_data'] =
-      $form_data['lot_date'] ? $form_data['lot_date'] : '';
+    $user_insert_id = insert_data($link, 'users', [
+        'name' => $name, 'email' => $email, 'password' => $password,
+        'contacts' => $contacts, 'date_add' => $date_add, 'url' => $url
+      ]
+    );
 
-    // If is_auth is NOT empty, all data stored
-    // in $_SESSION['form_data']['user']
-  } elseif (is_bool($user_added) && empty($is_auth)) {
-    $form_defaults['email']['input_data'] =
-      $form_data['email'] ? $form_data['email'] : '';
+    if (!is_int($user_insert_id)) {
+      mysqli_close($link);
 
-    $form_defaults['password']['input_data'] =
-      $form_data['password'] ? $form_data['password'] : '';
+      $error = mysqli_connect_error() . 'Can\'t insert user';
 
-  } elseif (is_bool($bet_added)) {
-    $form_defaults['bet']['input_data'] =
-      $form_data['bet'] ? $form_data['bet'] : '';
+      print include_template('templates/404.php',[
+        'container' => $container,
+        'error' => $error
+      ]);
+      exit();
+
+    }
+    $_SESSION['form_data']['user_id'] = $user_insert_id;
+    $avatar = $_SESSION['form_data']['url'];
+
+    $_SESSION['form_data']['user'] = $_SESSION['form_data'];
+
+    $is_auth = true;
+
+
+  } elseif ($_GET['is_register'] === 'false') {
+    $is_register = false;
   }
 }
 
 if (isset($_GET['lot_added'])) {
+
   if ($_GET['lot_added'] === 'true') {
     $lot_added = true;
-  }
-  elseif ($_GET['lot_added'] === 'false') {
+
+  } elseif ($_GET['lot_added'] === 'false') {
     $lot_added = false;
   }
 }
 
-if (isset($_GET['user_added'])) {
-  if ($_GET['user_added'] === 'true') {
-    $user_added = true;
-  }
-  elseif ($_GET['user_added'] === 'false') {
-    $user_added = false;
+if (isset($_GET['is_login'])) {
+  if ($_GET['is_login'] === 'true') {
+    $is_login = true;
+
+
+  } elseif ($_GET['is_login'] === 'false') {
+    $is_login = false;
   }
 }
 
-ob_start();
+if (isset($_SESSION['form_data'])) {
+  $form_data = $_SESSION['form_data'];
+
+  if (is_bool($lot_added)) {
+    $form_defaults['lot']['input'] =
+      $form_data['lot'] ? $form_data['lot'] : '';
+
+    $form_defaults['category']['input'] =
+      $form_data['category'] ? $form_data['category'] : '';
+
+    $form_defaults['description']['input'] =
+      $form_data['description'] ? $form_data['description'] : '';
+
+    $form_defaults['rate']['input'] =
+      $form_data['rate'] ? $form_data['rate'] : '';
+
+    $form_defaults['step']['input'] =
+      $form_data['step'] ? $form_data['step'] : '';
+
+    $form_defaults['date_end']['input'] =
+      $form_data['date_end'] ? $form_data['date_end'] : '';
+
+    // If is_auth is NOT empty, all data stored
+    // in $_SESSION['form_data']['user']
+  } elseif (empty($is_auth) && is_bool($is_login)) {
+
+    $form_defaults['email']['input'] =
+      $form_data['email'] ? $form_data['email'] : '';
+
+    $form_defaults['password']['input'] =
+      $form_data['password'] ? $form_data['password'] : '';
+
+  } elseif (empty($is_auth) && is_bool($is_register)) {
+
+    $form_defaults['email']['input'] =
+      $form_data['email'] ? $form_data['email'] : '';
+
+    $form_defaults['password']['input'] =
+      $form_data['password'] ? $form_data['password'] : '';
+
+    $form_defaults['name']['input'] =
+      $form_data['name'] ? $form_data['name'] : '';
+
+    $form_defaults['contacts']['input'] =
+      $form_data['contacts'] ? $form_data['contacts'] : '';
+
+  }
+
+  elseif (is_bool($bet_added)) {
+    $form_defaults['bet']['input'] =
+      $form_data['bet'] ? $form_data['bet'] : '';
+
+  }
+}
 if (isset($_GET['bet_added'])) {
   $id = $_SESSION['form_data']['bet_id'];
 
@@ -115,33 +331,40 @@ if (isset($_GET['bet_added'])) {
     $bet_added = true;
     $cookie_value = json_decode($cookie_value, true);
 
-    $cookie_value[$id]['value'] = $form_data['bet'];
-    $cookie_value[$id]['date'] = strtotime('now');
+    $cookie_value[$id]['bet'] = $form_data['bet'];
+    $cookie_value[$id]['date_add'] = strtotime('now');
 
     $cookie_value = json_encode($cookie_value);
     setcookie($cookie_name, $cookie_value, $expire, $path);
-  }
-  elseif ($_GET['bet_added'] === 'false') {
+  } elseif ($_GET['bet_added'] === 'false') {
     $bet_added = false;
   }
 }
-
 // Set errors
-if (is_bool($lot_added) && $lot_added === false) {
-  $errors_lot = $_SESSION['errors_lot'];
+
+if (is_bool($is_login) && $is_login === false) {
+  $errors = $_SESSION['errors_login'];
 }
 
-if (is_bool($user_added) && $user_added === false) {
-  $errors_user = $_SESSION['errors_user'];
+if (is_bool($is_register) && $is_register === false) {
+  $errors = $_SESSION['errors_register'];
+  $errors['file'] = $_SESSION['errors_file'];
+
+}
+
+if (is_bool($lot_added) && $lot_added === false) {
+  $errors = $_SESSION['errors_lot'];
+  $errors['file'] = $_SESSION['errors_file'];
+
 }
 
 if (is_bool($bet_added) && $bet_added === false) {
-  $errors_bet = $_SESSION['errors_bet'];
+  $errors = $_SESSION['errors_bet'];
 }
 
-if (isset($_GET['id']) || isset($_GET['add']) || isset($_GET['login'])) {
-  $nav = include_template('templates/nav.php', [
+if (!empty($is_nav)) {
 
+  $nav = include_template('templates/nav.php', [
     'categories' => $categories
   ]);
 }
@@ -150,20 +373,19 @@ if (is_bool($lot_added) && $lot_added === true) {
   $index = false;
 
   $lot = [
-    'name' => $form_data['lot_name'], 'category' => $form_data['category'],
-    'price' => $form_data['lot_rate'], 'step' => $form_data['lot_step'],
+    'name' => $form_data['lot'], 'category' => $form_data['category'],
+    'rate' => $form_data['rate'], 'step' => $form_data['step'],
 
-    'date' => $form_data['lot_date'], 'img_url' => $form_data['lot_url'],
-    'img_alt' => $form_data['lot_alt'], 'description' => $form_data['message']
+    'date_end' => $form_data['date_end'], 'url' => $form_data['url'],
+    'alt' => $form_data['alt'], 'description' => $form_data['description']
   ];
 }
 
-if (isset($_GET['id']) || is_bool($bet_added) && $bet_added === false){
+if (isset($_GET['id']) || is_bool($bet_added) && $bet_added === false) {
   $index = false;
 
   $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['form_data']['bet_id'];
   $bet = $form_defaults['bet'];
-  ob_end_flush();
 
   if (!isset($lots[$id])) {
     $title = $error_title;
@@ -186,6 +408,8 @@ if (is_bool($bet_added) && $bet_added === true || !empty($lot)) {
   $cookie_value = json_encode($cookie_value);
 }
 
+ob_end_flush();
+
 if (is_bool($bet_added) && $bet_added === true) {
   $index = false;
 
@@ -194,7 +418,7 @@ if (is_bool($bet_added) && $bet_added === true) {
   ]);
 }
 
-if (!empty($lot)){
+if (!empty($lot)) {
   $index = false;
   $title = $lot['name'];
 
@@ -206,46 +430,66 @@ if (!empty($lot)){
     'nav' => $nav, 'is_auth' => $is_auth,
 
     'categories' => $categories, 'id' => $id, 'lot' => $lot,
-    'bet' => $bet, 'bets' => $bets, 'errors_bet' => $errors_bet, 'bet_made' => $bet_made
+    'bet' => $bet, 'bets' => $bets, 'errors' => $errors, 'bet_made' => $bet_made
   ]);
 }
 
-if (isset($_GET['login']) || !empty($errors_user)) {
+if (isset($_GET['login']) || is_bool($is_login) && $is_login === false) {
   $index = false;
 
   $content = include_template('templates/login.php', [
     'nav' => $nav, 'email' => $form_defaults['email'],
 
-    'password' => $form_defaults['password'], 'errors_user' => $errors_user
+    'password' => $form_defaults['password'], 'errors' => $errors
   ]);
 }
 
-if (isset($_GET['add']) || !empty($errors_lot)) {
+if (isset($_GET['register']) || is_bool($is_register) && $is_register === false) {
+  $index = false;
+
+  $content = include_template('templates/register.php', [
+    'nav' => $nav, 'email' => $form_defaults['email'],
+    'password' => $form_defaults['password'], 'all' => $form_defaults['all'],
+
+    'name' => $form_defaults['name'], 'avatar' => $form_defaults['avatar'],
+    'contacts' => $form_defaults['contacts'], 'errors' => $errors
+
+  ]);
+}
+
+if (is_bool($is_register) && $is_register === true) {
+
+//  var_dump($_SESSION);
+}
+
+if (isset($_GET['add']) || is_bool($lot_added) && $lot_added === false) {
   $index = false;
   $title = $add_lot_title;
 
-  $form_defaults['category']['input_data'] = 'Выберите категорию';
+  $form_defaults['category']['input'] = 'Выберите категорию';
   $content = include_template('templates/add-lot.php', [
+    'nav' => $nav,
+    'categories' => $categories, 'lot' => $form_defaults['lot'],
 
-    'nav' => $nav, 'categories' => $categories,
-    'lot_name' => $form_defaults['lot_name'], 'category' => $form_defaults['category'],
-    'file' => $form_defaults['file'], 'lot_rate' => $form_defaults['lot_rate'],
+    'category' => $form_defaults['category'], 'photo' => $form_defaults['photo'],
+    'rate' => $form_defaults['rate'], 'step' => $form_defaults['step'],
 
-    'lot_step' => $form_defaults['lot_step'], 'lot_date' => $form_defaults['lot_date'],
-    'all' => $form_defaults['all'], 'message' => $form_defaults['message'], 'errors_lot' => $errors_lot
+    'date_end' => $form_defaults['date_end'], 'all' => $form_defaults['all'],
+    'description' => $form_defaults['description'], 'errors' => $errors
+
   ]);
 }
 
 if (!empty($index)) {
   $content = include_template('templates/index.php', [
 
-    'categories' => $categories, 'lots' => $lots, 'lot_time_remaining' => $lot_time_remaining
+    'categories' => $categories, 'lots' => $lots
   ]);
 }
 
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
-  'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
+  'avatar' => $avatar, 'name' => $name, 'categories' => $categories, 'year_now' => $year_now
 ]);
 
 

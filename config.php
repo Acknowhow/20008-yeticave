@@ -1,7 +1,4 @@
 <?php
-$user_name = 'Вадим';
-$user_avatar = 'img/user.jpg';
-
 // устанавливаем часовой пояс в Московское время
 date_default_timezone_set('Europe/Moscow');
 
@@ -20,3 +17,4 @@ $year_now = date('Y', $now);
 
 // далее нужно вычислить оставшееся время до начала следующих суток и записать его в переменную $lot_time_remaining
 $lot_time_remaining = date('H:i', $tomorrow - $now);
+

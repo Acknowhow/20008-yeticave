@@ -1,23 +1,24 @@
 <?=$nav; ?>
-<form class="form container <?if (!empty($errors_user)) : ?>form__invalid<?endif; ?>" action="/add.php" method="post">
+<form class="form container <?if (!empty($errors)) : ?>form__invalid<?endif; ?>" action="/add.php" method="post">
     <h2>Вход</h2>
-    <div class="form__item <?if (!empty($errors_user['email'])) : ?>form__item--invalid<?endif; ?>">
-      <label for="<?=$email['name']?>"><?=$email['title']; ?></label>
+    <div class="form__item <?if (!empty($errors['email'])) : ?>form__item--invalid<?endif; ?>">
+      <label for="<?=$email['name']; ?>"><?=$email['title']; ?></label>
       <input id="<?=$email['name']; ?>"
              type="text"
              name="<?=$email['name']; ?>"
              placeholder="<?=$email['placeholder']; ?>"
-             value="<?=htmlspecialchars($email['input_data']); ?>">
-      <span class="form__error"><?if (isset($errors_user['email']['error_message'])) : ?><?=$errors_user['email']['error_message']; ?><?endif; ?></span>
+             value="<?=htmlspecialchars($email['input']); ?>">
+      <span class="form__error"><?if (isset($errors['email']['error_message'])) : ?><?=$errors['email']['error_message']; ?><?endif; ?></span>
     </div>
-    <div class="form__item form__item--last <?if (!empty($errors_user['password'])) : ?>form__item--invalid<?endif; ?>">
+    <div class="form__item form__item--last <?if (!empty($errors['password'])) : ?>form__item--invalid<?endif; ?>">
       <label for="<?=$password['name']; ?>"><?=$password['title']; ?></label>
       <input id="<?=$password['name']; ?>"
              type="text"
              name="<?=$password['name']; ?>"
              placeholder="<?=$password['placeholder']; ?>"
-             value="<?=htmlspecialchars($password['input_data']); ?>">
-      <span class="form__error"><?if (isset($errors_user['password']['error_message'])) : ?><?=$errors_user['password']['error_message']; ?><?endif; ?></span>
+             value="<?=htmlspecialchars($password['input']); ?>">
+      <span class="form__error"><?if (isset($errors['password']['error_message'])) : ?><?=$errors['password']['error_message']; ?><?endif; ?></span>
+      <input type="hidden" name="login" value="">
     </div>
     <button type="submit" class="button">Войти</button>
   </form>
