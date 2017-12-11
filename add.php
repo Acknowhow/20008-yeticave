@@ -34,11 +34,13 @@ if (!empty(select_data($link, $users_sql, []))) {
 }
 
 // Login + Register
+$name = isset($_POST['name']) ? $_POST['name'] : '';
+$contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
 $email = isset($_POST['email']) ? $_POST['email'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
 
-$name = isset($_POST['name']) ? $_POST['name'] : '';
-$contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
+// Lot
+$lot = isset($_POST['lot']) ? $_POST['lot'] : '';
 $_POST['category'] === 'Выберите категорию' ?
   $_POST['category'] = '' : $_POST['category'];
 
@@ -152,6 +154,7 @@ if (isset($_POST['lot'])) {
     $form_data[$key] = $value;
   }
 }
+
 
 if (isset($_POST['login'])) {
   foreach ($_POST as $key => $value) {

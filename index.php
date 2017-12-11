@@ -65,6 +65,7 @@ $categories_insert_id = '';
 // Lots
 $lots = [];
 
+
 // All keys for $_GET array
 $get_keys = [
   'id', 'add', 'login', 'register',
@@ -250,6 +251,7 @@ if (isset($_GET['is_register'])) {
 }
 
 if (isset($_GET['lot_added'])) {
+
   if ($_GET['lot_added'] === 'true') {
     $lot_added = true;
 
