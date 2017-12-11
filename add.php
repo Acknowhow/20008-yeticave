@@ -32,8 +32,6 @@ if (!empty(select_data($link, $users_sql, []))) {
 
   }
 }
-var_dump($users);
-
 
 // Login + Register
 $email = isset($_POST['email']) ? $_POST['email'] : '';

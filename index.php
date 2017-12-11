@@ -39,10 +39,10 @@ $is_register = '';
 $lot_added = '';
 $bet_added = '';
 
-$user = [];
-$user_name = '';
-
 // Form data user
+$user = [];
+$name = '';
+$avatar = '';
 $user_insert_id = '';
 $email = '';
 $password = '';
@@ -162,7 +162,9 @@ if (!empty(select_data($link, $categories_sql, []))) {
 
 if (!empty($is_auth)) {
   $user = $_SESSION['form_data']['user'];
-  $user_name = $user['name'];
+  $name = $user['name'];
+
+  $avatar = $user['url'];
 
   // Unset open password for security reasons
   unset($_SESSION['form_data']['email']);
@@ -206,9 +208,14 @@ if (isset($_GET['is_register'])) {
       exit();
 
     }
+    $_SESSION['form_data']['user_id'] = $user_insert_id;
+    $avatar = $_SESSION['form_data']['url'];
 
     $_SESSION['form_data']['user'] = $_SESSION['form_data'];
+
+    var_dump($_SESSION['form_data']['user']);
     $is_auth = true;
+
 
   } elseif ($_GET['is_register'] === 'false') {
     $is_register = false;
@@ -232,7 +239,6 @@ if (isset($_GET['is_login'])) {
     $is_login = false;
   }
 }
-
 
 if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
@@ -453,7 +459,7 @@ if (!empty($index)) {
 
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
-  'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
+  'avatar' => $avatar, 'name' => $name, 'categories' => $categories, 'year_now' => $year_now
 ]);
 
 
