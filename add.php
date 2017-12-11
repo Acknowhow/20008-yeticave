@@ -33,6 +33,8 @@ if (!empty(select_data($link, $users_sql, []))) {
   }
 }
 
+var_dump($_POST);
+
 // Login + Register
 $name = isset($_POST['name']) ? $_POST['name'] : '';
 $contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
@@ -127,8 +129,8 @@ if (isset($file_params['name'])) {
       $destination_path = $file_path . $file_name;
       move_uploaded_file($file_name_tmp, $destination_path);
 
-      $form_data['file']['url'] = $file_url;
-      $form_data['file']['alt'] = 'uploaded';
+      $form_data['url'] = $file_url;
+      $form_data['alt'] = 'uploaded';
 
     } elseif ($file['tag'] === 'photo' && $file_params['error'] !== 0) {
 
@@ -151,7 +153,7 @@ if (isset($_POST['lot'])) {
         $errors_lot[$key]['error_message'] = $result;
       }
     }
-    $form_data['lot'][$key] = $value;
+    $form_data[$key] = $value;
   }
 }
 
