@@ -20,6 +20,18 @@ function convertTimeStamp($timeStamp){
   }
 }
 
+function convertTimeStampMySQL($time, $timeStamp = true){
+  if(!empty($timeStamp)) {
+    $_date = new DateTime();
+
+    $_date->setTimestamp($time);
+    return $_date->format('Y-m-d H:i:s');
+
+  }
+  $_timeStamp = strtotime($time);
+  return $_timeStamp;
+}
+
 function include_template($templatePath, $templateData){
   if (!file_exists($templatePath)) {
     return '';

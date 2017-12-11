@@ -42,12 +42,21 @@ $bet_added = '';
 $user = [];
 $user_name = '';
 
-$sql = '';
+// Form data
+$email = '';
+$password = '';
+$name = '';
+$contacts = '';
+$date_add = '';
+
+// MySQL vars
+$categories_sql = '';
 $result = '';
 
 // Categories
 $categories = [];
 $categories_fetched = [];
+$categories_eng = [];
 
 // All keys for $_GET array
 $get_keys = [
@@ -178,6 +187,14 @@ if (isset($_GET['is_login'])) {
 if (isset($_GET['is_register'])) {
   if ($_GET['is_register'] === 'true') {
     $is_register = true;
+
+    // Add current timestamp in MySQL format
+    $date_add = convertTimeStampMySQL(
+      strtotime('now'));
+
+    var_dump($date_add);
+
+//    var_dump($_SESSION);
 
   } elseif ($_GET['is_register'] === 'false') {
     $is_register = false;
@@ -406,5 +423,4 @@ print include_template('templates/layout.php', [
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
 
-session_destroy();
 
