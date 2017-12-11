@@ -65,7 +65,6 @@ $categories_insert_id = '';
 // Lots
 $lots = [];
 
-
 // All keys for $_GET array
 $get_keys = [
   'id', 'add', 'login', 'register',
@@ -82,85 +81,19 @@ $categories_eng = [
 ];
 
 $categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
-if (!empty(select_data($link, $categories_sql, []))) {
+$categories_fetched = select_data($link, $categories_sql, []);
+$categories = makeAssocArray($categories_fetched, $categories_eng, 'name');
 
-  $categories_fetched = select_data($link, $categories_sql, []);
-  $categories = makeAssocArray($categories_fetched, $categories_eng, 'name');
+if (empty($categories)) {
+  mysqli_close($link);
 
-  if (empty($categories)) {
-    mysqli_close($link);
+  $error = 'Can\'t resolve categories list';
+  print include_template('templates/404.php',[
+    'container' => $container,
+    'error' => $error
+  ]);
+  exit();
 
-    $error = 'Can\'t resolve categories list';
-
-    print include_template('templates/404.php',[
-      'container' => $container,
-      'error' => $error
-    ]);
-    exit();
-
-  }
-
-}  else {
-  // Insert default categories
-  $categories_insert_id = insert_data($link, 'categories', [
-      'name' => 'Доски и лыжи']
-  );
-
-  if (!is_int($categories_insert_id)) {
-    mysqli_close($link);
-
-    $error = mysqli_connect_error();
-
-    print include_template('templates/404.php',[
-      'container' => $container,
-      'error' => $error
-    ]);
-    exit();
-
-  }
-  $categories_insert_id = insert_data($link, 'categories', [
-      'name' => 'Крепления']
-  );
-  $categories_insert_id = insert_data($link, 'categories', [
-      'name' => 'Ботинки']
-  );
-  $categories_insert_id = insert_data($link, 'categories', [
-      'name' => 'Одежда']
-  );
-  $categories_insert_id = insert_data($link, 'categories', [
-      'name' => 'Инструменты']
-  );
-  $categories_insert_id = insert_data($link, 'categories', [
-      'name' => 'Разное']
-  );
-
-  $categories_fetched = select_data($link, $categories_sql, []);
-
-  if (!$categories_fetched) {
-    mysqli_close($link);
-
-    $error = mysqli_connect_error();
-    print include_template('templates/404.php',[
-      'container' => $container,
-      'error' => $error
-    ]);
-    exit();
-
-  }
-
-  $categories = makeAssocArray($categories_fetched, $categories_eng, 'name');
-  if (empty($categories)) {
-    mysqli_close($link);
-
-    $error = 'Can\'t resolve categories list';
-
-    print include_template('templates/404.php',[
-      'container' => $container,
-      'error' => $error
-    ]);
-    exit();
-
-  }
 }
 
 $lots_sql = 'SELECT l.lot_id,l.name,l.date_add,
