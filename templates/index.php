@@ -13,6 +13,7 @@
     <h2>Открытые лоты</h2>
   </div>
   <ul class="lots__list">
+    <? if (empty($lots)) : ?><h3>На данный момент нет открытых лотов</h3><? else : ?>
     <? foreach ($lots as $lot => $value) :?>
       <li class="lots__item lot">
       <div class="lot__image">
@@ -31,6 +32,6 @@
           </div>
         </div>
       </div>
-      </li><? endforeach; ?>
+      </li><? endforeach; ?><? endif; ?>
   </ul>
 </section>

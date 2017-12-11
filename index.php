@@ -53,6 +53,7 @@ $url = '';
 
 // MySQL vars
 $categories_sql = '';
+$lots_sql = '';
 $result = '';
 
 // Categories
@@ -60,6 +61,11 @@ $categories = [];
 $categories_fetched = [];
 $categories_eng = [];
 $categories_insert_id = '';
+
+// Lots
+$lots = [];
+
+var_dump($_SESSION);
 
 // All keys for $_GET array
 $get_keys = [
@@ -150,6 +156,26 @@ if (!empty(select_data($link, $categories_sql, []))) {
     mysqli_close($link);
 
     $error = 'Can\'t resolve categories list';
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+}
+
+$lots_sql = 'SELECT * FROM lots WHERE date_add < date_end ORDER BY date_add DESC;';
+if (!empty(select_data($link, $lots_sql, []))) {
+
+  $lots_fetched = select_data($link, $lots_sql, []);
+  $lots = $lots_fetched;
+
+  if (empty($lots)) {
+    mysqli_close($link);
+
+    $error = 'Can\'t resolve lots list';
 
     print include_template('templates/404.php',[
       'container' => $container,
