@@ -33,7 +33,6 @@ if (!empty(select_data($link, $users_sql, []))) {
   }
 }
 
-var_dump($_POST);
 
 // Login + Register
 $name = isset($_POST['name']) ? $_POST['name'] : '';
@@ -91,6 +90,7 @@ $rules_lot = [
   'rate' => 'validateLotRate',
   'step' => 'validateLotStep', 'date_end' => 'validateDate'
 ];
+
 
 if (isset($_FILES)) {
   if (isset($_FILES['photo'])) {
