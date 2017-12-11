@@ -169,24 +169,6 @@ if (!empty($is_auth)) {
   unset($_SESSION['form_data']['password']);
 }
 
-if (isset($_GET['lot_added'])) {
-  if ($_GET['lot_added'] === 'true') {
-    $lot_added = true;
-
-  } elseif ($_GET['lot_added'] === 'false') {
-    $lot_added = false;
-  }
-}
-
-if (isset($_GET['is_login'])) {
-  if ($_GET['is_login'] === 'true') {
-    $is_login = true;
-
-  } elseif ($_GET['is_login'] === 'false') {
-    $is_login = false;
-  }
-}
-
 if (isset($_GET['is_register'])) {
   if ($_GET['is_register'] === 'true') {
     $is_register = true;
@@ -225,12 +207,34 @@ if (isset($_GET['is_register'])) {
 
     }
 
-//    var_dump($_SESSION);
+    $_SESSION['form_data']['user'] = $_SESSION['form_data'];
+    $is_auth = true;
+
+
 
   } elseif ($_GET['is_register'] === 'false') {
     $is_register = false;
   }
 }
+
+if (isset($_GET['lot_added'])) {
+  if ($_GET['lot_added'] === 'true') {
+    $lot_added = true;
+
+  } elseif ($_GET['lot_added'] === 'false') {
+    $lot_added = false;
+  }
+}
+
+if (isset($_GET['is_login'])) {
+  if ($_GET['is_login'] === 'true') {
+    $is_login = true;
+
+  } elseif ($_GET['is_login'] === 'false') {
+    $is_login = false;
+  }
+}
+
 
 if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
