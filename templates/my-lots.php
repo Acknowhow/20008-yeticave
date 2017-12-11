@@ -17,7 +17,7 @@
       </td>
       <td class="rates__price"><?=$value['bet']; ?>
       </td>
-      <td class="rates__time"><?print(convertTimeStamp($value['date_added'])); ?>
+      <td class="rates__time"><?print(convertTimeStamp($value['date_add'])); ?>
       </td>
       </tr><?endforeach; ?>
 

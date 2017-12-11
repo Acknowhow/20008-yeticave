@@ -192,9 +192,9 @@ if (isset($_GET['is_register'])) {
     $date_add = convertTimeStampMySQL(
       strtotime('now'));
 
-    var_dump($date_add);
+    $_SESSION['form_data']['date_add'] = $date_add;
 
-//    var_dump($_SESSION);
+    var_dump($_SESSION);
 
   } elseif ($_GET['is_register'] === 'false') {
     $is_register = false;
@@ -263,7 +263,7 @@ if (isset($_GET['bet_added'])) {
     $cookie_value = json_decode($cookie_value, true);
 
     $cookie_value[$id]['bet'] = $form_data['bet'];
-    $cookie_value[$id]['date_added'] = strtotime('now');
+    $cookie_value[$id]['date_add'] = strtotime('now');
 
     $cookie_value = json_encode($cookie_value);
     setcookie($cookie_name, $cookie_value, $expire, $path);
@@ -422,5 +422,6 @@ print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
+
 
 

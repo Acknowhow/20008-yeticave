@@ -191,7 +191,7 @@ if (isset($_POST['register'])) {
 
     }
     elseif (is_array($password = call_user_func('validatePassword', $_POST['password']))){
-      $form_data['password'] = $password;
+      $form_data['password'] = $password[0];
     }
   }
   $form_data['name'] = $name;
