@@ -233,6 +233,7 @@ if (isset($_POST['bet'])) {
 $_SESSION['form_data'] = $form_data;
 
 
+
 if (isset($_POST['lot'])) {
   $_SESSION['errors_lot'] = $errors_lot;
   $_SESSION['errors_file'] = $errors_file;

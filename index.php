@@ -190,7 +190,9 @@ if (isset($_GET['lot_added'])) {
   if ($_GET['lot_added'] === 'true') {
     $lot_added = true;
 
-    $name = $_SESSION['form_data']['name'];
+    var_dump($_SESSION['form_data']);
+
+    $name = $_SESSION['form_data']['lot'];
     // Add current timestamp in MySQL format
     $date_add = convertTimeStampMySQL(
       strtotime('now'));
@@ -202,12 +204,13 @@ if (isset($_GET['lot_added'])) {
     $rate = $_SESSION['form_data']['rate'];
     $step = $_SESSION['form_data']['step'];
 
-    $author_id = $_SESSION['form_data']['user_id'];
+    $author_id = $_SESSION['form_data']['user']['user_id'];
 
-    $category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?;';
-    $category_id_fetched = select_data($link, $category_id_sql, [$_SESSION['user']['user_id']]);
+    $category_id_sql = 'SELECT category_id FROM categories WHERE name=?;';
+    $category_id_fetched = select_data($link, $category_id_sql, [$_SESSION['form_data']['category']]);
 
-    if (!is_int($category_id_fetched)) {
+
+    if (!$category_id_fetched) {
       mysqli_close($link);
 
       $error = mysqli_connect_error() . 'Can\'t get category id';
@@ -220,7 +223,7 @@ if (isset($_GET['lot_added'])) {
 
     }
 
-    $category_id = $category_id_fetched;
+    $category_id = $category_id_fetched[0]['category_id'];
 
     $lot_insert_id = insert_data($link, 'lots', [
       'name' => $name, 'date_add' => $date_add, 'date_end' => $date_end,
@@ -240,9 +243,6 @@ if (isset($_GET['lot_added'])) {
       exit();
 
     }
-
-
-    var_dump($_SESSION['form_data']);
 
   } elseif ($_GET['lot_added'] === 'false') {
     $lot_added = false;
@@ -359,6 +359,8 @@ if (!empty($is_nav)) {
 
 if ($lot_added === true) {
   $index = false;
+
+  // Here must add all data from the current session
 
   $lot = [
     'name' => $form_data['lot'], 'category' => $form_data['category'],
