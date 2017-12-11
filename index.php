@@ -42,12 +42,14 @@ $bet_added = '';
 $user = [];
 $user_name = '';
 
-// Form data
+// Form data user
+$user_insert_id = '';
 $email = '';
 $password = '';
 $name = '';
 $contacts = '';
 $date_add = '';
+$url = '';
 
 // MySQL vars
 $categories_sql = '';
@@ -57,6 +59,7 @@ $result = '';
 $categories = [];
 $categories_fetched = [];
 $categories_eng = [];
+$categories_insert_id = '';
 
 // All keys for $_GET array
 $get_keys = [
@@ -194,7 +197,35 @@ if (isset($_GET['is_register'])) {
 
     $_SESSION['form_data']['date_add'] = $date_add;
 
-    var_dump($_SESSION);
+    $name = $_SESSION['form_data']['name'];
+    $email = $_SESSION['form_data']['email'];
+
+    $password = $_SESSION['form_data']['password'];
+    $contacts = $_SESSION['form_data']['contacts'];
+
+    $date_add = $_SESSION['form_data']['date_add'];
+    $url = $_SESSION['form_data']['url'];
+
+    $user_insert_id = insert_data($link, 'users', [
+        'name' => $name, 'email' => $email, 'password' => $password,
+        'contacts' => $contacts, 'date_add' => $date_add, 'url' => $url
+      ]
+    );
+
+    if (!is_int($user_insert_id)) {
+      mysqli_close($link);
+
+      $error = mysqli_connect_error() . 'Can\'t insert user';
+
+      print include_template('templates/404.php',[
+        'container' => $container,
+        'error' => $error
+      ]);
+      exit();
+
+    }
+
+//    var_dump($_SESSION);
 
   } elseif ($_GET['is_register'] === 'false') {
     $is_register = false;
