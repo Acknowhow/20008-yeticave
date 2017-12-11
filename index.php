@@ -102,7 +102,6 @@ l.category_id,c.name as category from lots l JOIN
  categories c ON l.category_id=c.category_id
   WHERE l.date_add < l.date_end ORDER BY l.date_add DESC;';
 
-
 if (!empty(select_data($link, $lots_sql, []))) {
 
   $lots_fetched = select_data($link, $lots_sql, []);
@@ -177,7 +176,6 @@ if (isset($_GET['is_register'])) {
 
     $is_auth = true;
 
-
   } elseif ($_GET['is_register'] === 'false') {
     $is_register = false;
   }
@@ -188,6 +186,24 @@ if (isset($_GET['lot_added'])) {
   if ($_GET['lot_added'] === 'true') {
     $lot_added = true;
 
+    // Add current timestamp in MySQL format
+    $date_add = convertTimeStampMySQL(
+      strtotime('now'));
+
+    $name = $_SESSION['form_data']['name'];
+    $date_end = $_SESSION['form_data']['date_end'];
+
+    $description = $_SESSION['form_data']['description'];
+    $url = $_SESSION['form_data']['url'];
+
+    $rate = $_SESSION['form_data']['rate'];
+    $step = $_SESSION['form_data']['step'];
+
+    // Send queries for user_id and category_id ?
+
+
+    var_dump($_SESSION['form_data']);
+
   } elseif ($_GET['lot_added'] === 'false') {
     $lot_added = false;
   }
@@ -196,7 +212,6 @@ if (isset($_GET['lot_added'])) {
 if (isset($_GET['is_login'])) {
   if ($_GET['is_login'] === 'true') {
     $is_login = true;
-
 
   } elseif ($_GET['is_login'] === 'false') {
     $is_login = false;
