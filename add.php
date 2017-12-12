@@ -35,11 +35,11 @@ if (!empty(select_data($link, $users_sql, []))) {
 
 
 // Login + Register
-$name = isset($_POST['name']) ? $_POST['name'] : '';
-$password = isset($_POST['password']) ? $_POST['password'] : '';
+$user_name = isset($_POST['name']) ? $_POST['name'] : '';
+$user_password = isset($_POST['password']) ? $_POST['password'] : '';
 
-$contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
-$email = isset($_POST['email']) ? $_POST['email'] : '';
+$user_contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
+$user_email = isset($_POST['email']) ? $_POST['email'] : '';
 
 
 // Lot
@@ -51,7 +51,7 @@ $end = isset($_POST['date_end']) ? $_POST['date_end'] : '';
 
 // Bet
 $bet = isset($_POST['bet']) ? $_POST['bet'] : '';
-$bet_id = isset($_POST['bet_id']) ? $_POST['bet_id'] : '';
+$bet_id = isset($_POST['bet_add']) ? $_POST['bet_add'] : '';
 
 $form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
 
@@ -232,7 +232,7 @@ if (isset($_POST['bet_add'])) {
 
 $_SESSION['form_data'] = $form_data;
 
-if (isset($_POST['lot_add'])) {
+if (isset($form_data['lot_add'])) {
   $_SESSION['errors_lot'] = $errors_lot;
   $_SESSION['errors_file'] = $errors_file;
 
@@ -240,21 +240,21 @@ if (isset($_POST['lot_add'])) {
   $url_param = 'lot_added=' . $result;
 }
 
-if (isset($_POST['login'])) {
+if (isset($form_data['login'])) {
   $_SESSION['errors_login'] = $errors_login;
 
   $result = count($errors_login) ? 'false' : 'true';
   $url_param = 'is_login=' . $result;
 }
 
-if (isset($_POST['bet_add'])) {
+if (isset($form_data['bet_add'])) {
   $_SESSION['errors_bet'] = $errors_bet;
 
   $result = count($errors_bet) ? 'false' : 'true';
   $url_param = 'bet_added=' . $result;
 }
 
-if (isset($_POST['register'])) {
+if (isset($form_data['register'])) {
   $_SESSION['errors_register'] = $errors_register;
   $_SESSION['errors_file'] = $errors_file;
 

@@ -34,7 +34,6 @@ $is_nav = null;
 $nav = [];
 
 // Helper vars
-$name = '';
 $url = '';
 $date_add = '';
 
@@ -42,6 +41,10 @@ $date_add = '';
 $bet = [];
 $bet_made = false;
 $my_bets = [];
+
+// Lots
+$lots = [];
+$lot_name = '';
 
 // Form
 $form_data = [];
@@ -69,14 +72,9 @@ $categories_sql = '';
 $lots_sql = '';
 $result = '';
 
-// Lots
-$lots = [];
-
-
 // Categories
 $categories = [];
 $category_id_sql = '';
-
 
 // All keys for $_GET array
 $get_keys = [
@@ -140,7 +138,7 @@ if (!empty($is_auth)) {
 
   $user_name = $user['name'];
 
-  $avatar = $user['url'];
+  $user_avatar = $user['url'];
 
   // Unset open password for security reasons
   unset($_SESSION['form_data']['email']);
@@ -157,18 +155,18 @@ if (isset($_GET['is_register'])) {
     $date_add = convertTimeStampMySQL(
       strtotime('now'));
 
-    $name = $user['name'];
-    $email = $user['email'];
+    $user_name = $user['name'];
+    $user_email = $user['email'];
 
-    $password = $user['password'];
-    $contacts = $user['contacts'];
+    $user_password = $user['password'];
+    $user_contacts = $user['contacts'];
 
     $date_add = $user['date_add'];
-    $avatar = $user['url'];
+    $user_avatar = $user['url'];
 
     $user_id = insert_data($link, 'users', [
-        'name' => $name, 'email' => $email, 'password' => $password,
-        'contacts' => $contacts, 'date_add' => $date_add, 'url' => $url
+        'name' => $user_name, 'email' => $user_email, 'password' => $user_password,
+        'contacts' => $user_contacts, 'date_add' => $date_add, 'url' => $url
       ]);
 
     if (!is_int($user_id)) {
@@ -211,8 +209,6 @@ if (isset($_GET['lot_added'])) {
     $rate = $_SESSION['form_data']['rate'];
     $step = $_SESSION['form_data']['step'];
 
-    $author_id = $user_id;
-
     $category_id_sql = 'SELECT category_id FROM categories WHERE name=?;';
     $category_id = select_data($link, $category_id_sql, [$_SESSION['form_data']['category']]);
 
@@ -233,9 +229,9 @@ if (isset($_GET['lot_added'])) {
     $category_id = $category_id[0]['category_id'];
 
     $lot_id = insert_data($link, 'lots', [
-      'name' => $name, 'date_add' => $date_add, 'date_end' => $date_end,
+      'name' => $lot_name, 'date_add' => $date_add, 'date_end' => $date_end,
       'description' => $description, 'url' => $url, 'rate' => $rate,
-      'step' => $step, 'author_id' => $author_id, 'category_id' => $category_id
+      'step' => $step, 'author_id' => $user_id, 'category_id' => $category_id
     ]);
 
     if (!is_int($lot_id)) {
@@ -482,7 +478,7 @@ if (!empty($index)) {
 
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
-  'avatar' => $user_avatar, 'name' => $name, 'categories' => $categories, 'year_now' => $year_now
+  'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
 
 
