@@ -31,7 +31,7 @@
                    step="<?=$lot['step']; ?>"
                    min="<?=($lot['rate'] + $lot['step']); ?>"
                    value="<?=$bet['input']; ?>">
-            <input type="hidden" name="bet_id" value="<?=$id; ?>">
+            <input type="hidden" name="bet_id" value="<?=$bet_id; ?>">
           </p>
           <button type="submit" class="button">Сделать ставку</button>
         </form>

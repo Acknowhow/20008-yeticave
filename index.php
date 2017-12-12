@@ -13,26 +13,40 @@ require 'data/lot.php';
 error_reporting(-1);
 ini_set("display_errors", 1);
 
-
 $cookie_name = 'cookie_bet';
-$cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
+$cookie_value = isset($_COOKIE['cookie_bet']) ?
+  $_COOKIE['cookie_bet'] : '';
 $expire = time() + 60 * 60 * 24 * 30;
 $path = '/';
 
-$is_auth = isset($_SESSION['form_data']['user']) ? true : false;
-$index = true;
+$is_auth = isset($_SESSION['form_data']['user']) ?
+  true : false;
 
+// id
+$user_id = null;
+$lot_id = null;
+$bet_id = null;
+$category_id = null;
+
+// Templates
+$index = true;
 $is_nav = null;
 $nav = [];
 
-$lot = [];
+// Helper vars
+$name = '';
+$url = '';
+$date_add = '';
+
+// Bets
 $bet = [];
 $bet_made = false;
 $my_bets = [];
 
-$id = '';
+// Form
 $form_data = [];
 
+$error = '';
 $errors = [];
 
 $is_login = '';
@@ -42,34 +56,27 @@ $bet_added = '';
 
 // Form data user
 $user = [];
-$name = '';
-$avatar = '';
-$user_insert_id = '';
-$email = '';
-$password = '';
-$name = '';
-$contacts = '';
-$date_add = '';
-$url = '';
+$user_name = '';
+
+$user_avatar = '';
+
+$user_email = '';
+$user_password = '';
+$user_contacts = '';
 
 // MySQL vars
 $categories_sql = '';
 $lots_sql = '';
 $result = '';
 
-// Categories
-$categories = [];
-$categories_fetched = [];
-$categories_eng = [];
-
-$categories_insert_id = '';
-$category_id_sql = '';
-$category_id_fetched = '';
-$category_id = '';
-
 // Lots
 $lots = [];
-$lot_insert_id = '';
+
+
+// Categories
+$categories = [];
+$category_id_sql = '';
+
 
 // All keys for $_GET array
 $get_keys = [
@@ -77,18 +84,18 @@ $get_keys = [
   'lot_added', 'is_login', 'bet_added', 'is_register'
 ];
 
+$categories_eng = [
+  'boards', 'attachment', 'boots', 'clothing', 'tools', 'other'
+];
+
 if (!empty($_GET)) {
   $get_keys = array_flip($get_keys);
   $is_nav = array_intersect($_GET, $get_keys) ? 'true' : 'false';
 };
 
-$categories_eng = [
-  'boards', 'attachment', 'boots', 'clothing', 'tools', 'other'
-];
-
 $categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC;';
-$categories_fetched = select_data($link, $categories_sql, []);
-$categories = makeAssocArray($categories_fetched, $categories_eng, 'name');
+$categories = select_data($link, $categories_sql, []);
+$categories = makeAssocArray($categories, $categories_eng, 'name');
 
 if (empty($categories)) {
   mysqli_close($link);
@@ -110,8 +117,8 @@ l.category_id,c.name as category from lots l JOIN
 
 if (!empty(select_data($link, $lots_sql, []))) {
 
-  $lots_fetched = select_data($link, $lots_sql, []);
-  $lots = $lots_fetched;
+  $lots = select_data($link, $lots_sql, []);
+
 
   if (empty($lots)) {
     mysqli_close($link);
@@ -129,7 +136,9 @@ if (!empty(select_data($link, $lots_sql, []))) {
 
 if (!empty($is_auth)) {
   $user = $_SESSION['form_data']['user'];
-  $name = $user['name'];
+  $user_id = $user['id'];
+
+  $user_name = $user['name'];
 
   $avatar = $user['url'];
 
@@ -141,28 +150,28 @@ if (!empty($is_auth)) {
 if (isset($_GET['is_register'])) {
   if ($_GET['is_register'] === 'true') {
     $is_register = true;
+    $is_auth = true;
 
+    $user = $_SESSION['form_data']['register'];
     // Add current timestamp in MySQL format
     $date_add = convertTimeStampMySQL(
       strtotime('now'));
 
-    $_SESSION['form_data']['date_add'] = $date_add;
+    $name = $user['name'];
+    $email = $user['email'];
 
-    $name = $_SESSION['form_data']['name'];
-    $email = $_SESSION['form_data']['email'];
+    $password = $user['password'];
+    $contacts = $user['contacts'];
 
-    $password = $_SESSION['form_data']['password'];
-    $contacts = $_SESSION['form_data']['contacts'];
+    $date_add = $user['date_add'];
+    $avatar = $user['url'];
 
-    $date_add = $_SESSION['form_data']['date_add'];
-    $url = $_SESSION['form_data']['url'];
-
-    $user_insert_id = insert_data($link, 'users', [
+    $user_id = insert_data($link, 'users', [
         'name' => $name, 'email' => $email, 'password' => $password,
         'contacts' => $contacts, 'date_add' => $date_add, 'url' => $url
       ]);
 
-    if (!is_int($user_insert_id)) {
+    if (!is_int($user_id)) {
       mysqli_close($link);
 
       $error = mysqli_connect_error() . 'Can\'t insert user';
@@ -174,26 +183,23 @@ if (isset($_GET['is_register'])) {
       exit();
 
     }
-    $_SESSION['form_data']['user_id'] = $user_insert_id;
-    $avatar = $_SESSION['form_data']['url'];
 
-    $_SESSION['form_data']['user'] = $_SESSION['form_data'];
+    // Assign id into SESSION
+    $user['id'] = $user_id;
 
-    $is_auth = true;
 
   } elseif ($_GET['is_register'] === 'false') {
     $is_register = false;
   }
 }
 
+// Add to database
 if (isset($_GET['lot_added'])) {
 
   if ($_GET['lot_added'] === 'true') {
     $lot_added = true;
 
-    var_dump($_SESSION['form_data']);
-
-    $name = $_SESSION['form_data']['lot'];
+    $lot_name = $_SESSION['form_data']['lot'];
     // Add current timestamp in MySQL format
     $date_add = convertTimeStampMySQL(
       strtotime('now'));
@@ -205,13 +211,13 @@ if (isset($_GET['lot_added'])) {
     $rate = $_SESSION['form_data']['rate'];
     $step = $_SESSION['form_data']['step'];
 
-    $author_id = $_SESSION['form_data']['user']['user_id'];
+    $author_id = $user_id;
 
     $category_id_sql = 'SELECT category_id FROM categories WHERE name=?;';
-    $category_id_fetched = select_data($link, $category_id_sql, [$_SESSION['form_data']['category']]);
+    $category_id = select_data($link, $category_id_sql, [$_SESSION['form_data']['category']]);
 
 
-    if (!$category_id_fetched) {
+    if (!$category_id) {
       mysqli_close($link);
 
       $error = mysqli_connect_error() . 'Can\'t get category id';
@@ -223,16 +229,16 @@ if (isset($_GET['lot_added'])) {
       exit();
 
     }
+    // Get category id from fetched MySQL data
+    $category_id = $category_id[0]['category_id'];
 
-    $category_id = $category_id_fetched[0]['category_id'];
-
-    $lot_insert_id = insert_data($link, 'lots', [
+    $lot_id = insert_data($link, 'lots', [
       'name' => $name, 'date_add' => $date_add, 'date_end' => $date_end,
       'description' => $description, 'url' => $url, 'rate' => $rate,
       'step' => $step, 'author_id' => $author_id, 'category_id' => $category_id
     ]);
 
-    if (!is_int($lot_insert_id)) {
+    if (!is_int($lot_id)) {
       mysqli_close($link);
 
       $error = mysqli_connect_error() . 'Can\'t insert lot';
@@ -262,7 +268,7 @@ if (isset($_GET['is_login'])) {
 if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
 
-  if (is_bool($lot_added)) {
+  if ($lot_added === false) {
     $form_defaults['lot']['input'] =
       $form_data['lot'] ? $form_data['lot'] : '';
 
@@ -283,7 +289,7 @@ if (isset($_SESSION['form_data'])) {
 
     // If is_auth is NOT empty, all data stored
     // in $_SESSION['form_data']['user']
-  } elseif (empty($is_auth) && is_bool($is_login)) {
+  } elseif ($is_login === false) {
 
     $form_defaults['email']['input'] =
       $form_data['email'] ? $form_data['email'] : '';
@@ -291,7 +297,7 @@ if (isset($_SESSION['form_data'])) {
     $form_defaults['password']['input'] =
       $form_data['password'] ? $form_data['password'] : '';
 
-  } elseif (empty($is_auth) && is_bool($is_register)) {
+  } elseif ($is_register === false) {
 
     $form_defaults['email']['input'] =
       $form_data['email'] ? $form_data['email'] : '';
@@ -314,19 +320,20 @@ if (isset($_SESSION['form_data'])) {
   }
 }
 if (isset($_GET['bet_added'])) {
-  $id = $_SESSION['form_data']['bet_id'];
+  $bet_id = $form_data['bet_add']['bet_id'];
 
   if ($_GET['bet_added'] === 'true') {
     $bet_added = true;
     $cookie_value = json_decode($cookie_value, true);
 
-    $cookie_value[$id]['bet'] = $form_data['bet'];
-    $cookie_value[$id]['date_add'] = strtotime('now');
+    $cookie_value[$bet_id]['bet_value'] = $form_data['bet_add']['bet_value'];
+    $cookie_value[$bet_id]['date_add'] = strtotime('now');
 
     $cookie_value = json_encode($cookie_value);
     setcookie($cookie_name, $cookie_value, $expire, $path);
   } elseif ($_GET['bet_added'] === 'false') {
     $bet_added = false;
+
   }
 }
 // Set errors
@@ -414,13 +421,13 @@ if (!empty($lot)) {
   $title = $lot['name'];
 
   if (!empty($my_bets)) {
-    $bet_made = array_key_exists($id, $my_bets) ? true : false;
+    $bet_made = array_key_exists($bet_id, $my_bets) ? true : false;
   }
-
+  // Here must set current bet value instead of id
   $content = include_template('templates/lot.php', [
     'nav' => $nav, 'is_auth' => $is_auth,
 
-    'categories' => $categories, 'id' => $id, 'lot' => $lot,
+    'categories' => $categories, 'bet_id' => $bet_id, 'lot' => $lot,
     'bet' => $bet, 'bets' => $bets, 'errors' => $errors, 'bet_made' => $bet_made
   ]);
 }

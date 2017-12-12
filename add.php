@@ -130,8 +130,8 @@ if (isset($file_params['name'])) {
       $destination_path = $file_path . $file_name;
       move_uploaded_file($file_name_tmp, $destination_path);
 
-      $form_data['url'] = $file_url;
-      $form_data['alt'] = 'uploaded';
+      $form_data['file']['url'] = $file_url;
+      $form_data['file']['alt'] = 'uploaded';
 
     } elseif ($file['tag'] === 'photo' && $file_params['error'] !== 0) {
 
@@ -154,7 +154,7 @@ if (isset($_POST['lot_add'])) {
         $errors_lot[$key]['error_message'] = $result;
       }
     }
-    $form_data[$key] = $value;
+    $form_data['lot_add'][$key] = $value;
   }
 }
 
@@ -183,14 +183,11 @@ if (isset($_POST['login'])) {
     $form_data['user'] = $validate;
 
   }
-  $form_data['email'] = $email;
-  $form_data['password'] = $password;
+  $form_data['login']['email'] = $email;
+  $form_data['login']['password'] = $password;
 }
 
 if (isset($_POST['register'])) {
-
-  $form_data['email'] = [];
-  $form_data['password'] = [];
 
   foreach ($_POST as $key => $value) {
 
@@ -208,29 +205,29 @@ if (isset($_POST['register'])) {
       $errors_register['email']['error_message'] = $result;
     }
 
-    $form_data['email'] = $email;
+    $form_data['register']['email'] = $email;
   }
 
   if (!empty($_POST['password'])) {
-    if (is_string($result = call_user_func('validatePassword', $_POST['password']))){
+    if (is_string($result = call_user_func('validatePassword', $password))){
       $errors_register['password']['error_message'] = $result;
 
     }
-    elseif (is_array($password = call_user_func('validatePassword', $_POST['password']))){
-      $form_data['password'] = $password[0];
+    elseif (is_array($password = call_user_func('validatePassword', $password))){
+      $form_data['register']['password'] = $password;
     }
   }
-  $form_data['name'] = $name;
-  $form_data['contacts'] = $contacts;
+  $form_data['register']['name'] = $name;
+  $form_data['register']['contacts'] = $contacts;
 }
 
 if (isset($_POST['bet_add'])) {
   if (empty($bet)) {
-    $errors_bet['bet']['error_message'] = 'Пожалуйста, введите минимальное значение ставки';
+    $errors_bet['error_message'] = 'Пожалуйста, введите минимальное значение ставки';
 
   }
-  $form_data['bet'] = $bet;
-  $form_data['bet_id'] = $bet_id;
+  $form_data['bet_add']['bet_value'] = $bet;
+  $form_data['bet_add']['bet_id'] = $bet_id;
 }
 
 $_SESSION['form_data'] = $form_data;
