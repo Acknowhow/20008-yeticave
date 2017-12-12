@@ -36,12 +36,13 @@ if (!empty(select_data($link, $users_sql, []))) {
 
 // Login + Register
 $name = isset($_POST['name']) ? $_POST['name'] : '';
-$contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
-$email = isset($_POST['email']) ? $_POST['email'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
 
+$contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
+$email = isset($_POST['email']) ? $_POST['email'] : '';
+
+
 // Lot
-$lot = isset($_POST['lot']) ? $_POST['lot'] : '';
 $_POST['category'] === 'Выберите категорию' ?
   $_POST['category'] = '' : $_POST['category'];
 
@@ -81,7 +82,7 @@ $rules_register = [
   'email' => 'validateEmail', 'password' => 'validatePassword'
 ];
 
-$required_lot = [
+$lot_keys = [
   'lot', 'category',
   'description', 'rate', 'step', 'date_end'
 ];
@@ -139,10 +140,10 @@ if (isset($file_params['name'])) {
     }
 }
 
-if (isset($_POST['lot'])) {
+if (isset($_POST['lot_add'])) {
   foreach ($_POST as $key => $value) {
 
-    if (in_array($key, $required_lot) && $value == '') {
+    if (in_array($key, $lot_keys) && $value == '') {
       $errors_lot[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
 
@@ -158,7 +159,9 @@ if (isset($_POST['lot'])) {
 }
 
 if (isset($_POST['login'])) {
+
   foreach ($_POST as $key => $value) {
+
     if (in_array($key, $login_keys) && $value == '') {
       $errors_login[$key]['error_message'] = $form_errors[$key]['error_empty'];
     }
@@ -221,7 +224,7 @@ if (isset($_POST['register'])) {
   $form_data['contacts'] = $contacts;
 }
 
-if (isset($_POST['bet'])) {
+if (isset($_POST['bet_add'])) {
   if (empty($bet)) {
     $errors_bet['bet']['error_message'] = 'Пожалуйста, введите минимальное значение ставки';
 
@@ -232,9 +235,7 @@ if (isset($_POST['bet'])) {
 
 $_SESSION['form_data'] = $form_data;
 
-
-
-if (isset($_POST['lot'])) {
+if (isset($_POST['lot_add'])) {
   $_SESSION['errors_lot'] = $errors_lot;
   $_SESSION['errors_file'] = $errors_file;
 
@@ -249,7 +250,7 @@ if (isset($_POST['login'])) {
   $url_param = 'is_login=' . $result;
 }
 
-if (isset($_POST['bet'])) {
+if (isset($_POST['bet_add'])) {
   $_SESSION['errors_bet'] = $errors_bet;
 
   $result = count($errors_bet) ? 'false' : 'true';

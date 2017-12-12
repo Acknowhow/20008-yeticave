@@ -13,6 +13,7 @@ require 'data/lot.php';
 error_reporting(-1);
 ini_set("display_errors", 1);
 
+
 $cookie_name = 'cookie_bet';
 $cookie_value = isset($_COOKIE['cookie_bet']) ? $_COOKIE['cookie_bet'] : '';
 $expire = time() + 60 * 60 * 24 * 30;
