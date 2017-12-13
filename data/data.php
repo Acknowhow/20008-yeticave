@@ -6,24 +6,53 @@ $add_lot_title = 'Добавление лота';
 $container = 'main';
 
 $form_defaults = [
-  'user' => ['name' => 'user', 'title' => 'Имя*',
-    'placeholder' => 'Введите имя', 'input' => ''
+  'login' => [
+    'user_email' => ['title' => 'E-mail*',
+      'placeholder' => 'Введите e-mail', 'input' => ''
+    ],
+    'user_password' => ['title' => 'Пароль*',
+      'placeholder' => 'Введите пароль', 'input' =>''
+    ],
   ],
-  'user_email' => ['name' => 'user_email', 'title' => 'E-mail*',
-    'placeholder' => 'Введите e-mail', 'input' => ''
+  'register' => [
+    'user_email' => ['title' => 'E-mail*',
+      'placeholder' => 'Введите e-mail', 'input' => ''
+    ],
+    'user_password' => ['title' => 'Пароль*',
+      'placeholder' => 'Введите пароль', 'input' =>''
+    ],
+    'user_name' => ['title' => 'Имя*',
+      'placeholder' => 'Введите имя', 'input' => ''
+    ],
+    'user_contacts' => [
+      'title' => 'Контактные данные*',
+      'placeholder' => 'Напишите как с вами связаться', 'input' => ''
+    ],
+    'user_avatar' => [
+      'title' => 'Аватар', 'alt' => 'Ваш аватар'
+    ],
   ],
-  'user_password' => ['name' => 'user_password', 'title' => 'Пароль*',
-    'placeholder' => 'Введите пароль', 'input' => ''
+  'lot_add' => [
+    'lot_name' => ['title' => 'Наименование',
+      'input' => '', 'placeholder' => 'Введите наименование лота'
+    ],
+    'lot_description' => ['title' => 'Описание',
+      'input' => '', 'placeholder' => 'Добавьте описание лота'
+    ],
+    'lot_photo' => ['title' => 'Изображение',
+      'alt' => 'Изображение лота', 'input' => ''
+    ],
+    'lot_category' => [
+      'title' => 'Категория', 'input' => 'Выберите категорию'
+    ],
+    'lot_rate' => ['title' => 'Начальная цена', 'input' => ''
+    ],
+    'lot_step' => ['title' => 'Шаг ставки', 'input' => ''
+    ]
   ],
-  'user_contacts' => ['name' => 'user_contacts', 'title' => 'Контактные данные*',
-    'placeholder' => 'Напишите как с вами связаться', 'input' => ''
-  ],
-  'user_avatar' => ['name' => 'user_avatar',
-    'title' => 'Аватар', 'alt' => 'Ваш аватар'
-  ],
-  'lot_photo' => ['name' => 'lot_photo', 'title' => 'Изображение',
-    'alt' => 'Изображение лота', 'input' => ''
-  ],
+
+
+
   'bet' => ['name' => 'bet', 'input' => ''
   ],
   'lot' => ['name' => 'lot', 'title' => 'Наименование',
