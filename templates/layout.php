@@ -18,7 +18,7 @@
       <input type="search" name="search" placeholder="Поиск лота" value="">
       <input class="main-header__search-btn" type="submit" name="find" value="Найти">
     </form>
-    <?if ($is_auth === true) : ?><a class="main-header__add-lot button" href="index.php?add=true">Добавить лот</a><?endif; ?>
+    <?if ($is_auth === true) : ?><a class="main-header__add-lot button" href="index.php?lot_add=true">Добавить лот</a><?endif; ?>
 
     <nav class="user-menu">
       <?if ($is_auth === true) : ?>

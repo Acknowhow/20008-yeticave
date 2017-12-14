@@ -48,7 +48,7 @@
     </div>
     <div class="form__input-file">
       <input class="visually-hidden" type="file" id="photo2" name="<?=$url; ?>">
-      <span class="form_error"><?if (isset($errors['file'])) : ?><?=$errors['file']; ?><? endif; ?></span>
+      <span class="form_error"><?if (isset($errors_upload)) : ?><?=$errors_upload['add_lot']; ?><? endif; ?></span>
       <label for="photo2">
         <span>+ Добавить</span>
       </label>

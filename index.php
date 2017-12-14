@@ -141,8 +141,12 @@ if (!empty($is_auth)) {
   $user = $_SESSION['user'];
   $user_id = $user['user_id'];
 
+
+
   $name = $user['name'];
   $url = $user['url'];
+
+  var_dump($user);
 
 }
 
@@ -164,6 +168,8 @@ if (isset($_GET['is_register'])) {
     $password = $user['password'];
     $contacts = $user['contacts'];
 
+    $url = isset($user['url']) ? $user['url'] : $url_default;
+
     $user_id = insert_data($link, 'users', [
         'name' => $name, 'email' => $email, 'password' => $password,
         'contacts' => $contacts, 'date_add' => $date_add, 'url' => $url
@@ -182,7 +188,8 @@ if (isset($_GET['is_register'])) {
     }
 
     // Assign id into SESSION
-    $user['user_id'] = $user_id;
+    $_SESSION['user']['user_id'] = $user_id;
+    $_SESSION['user']['url'] = $url;
 
     $form_data['register'] = [];
 
@@ -378,7 +385,7 @@ if (isset($_GET['login']) || $is_login === false) {
   ]);
 }
 
-// Must select index beforehand
+
 if (isset($_GET['register']) || $is_register === false) {
   $index = false;
 
@@ -411,7 +418,7 @@ if (isset($_GET['lot_add']) || $is_lot_add === false) {
 
     'date_end' => $defaults['date_end'],
     'description' => $defaults['description'], 'errors' => $errors,
-    'errors_upload' => $errors_upload['lot_add']
+    'errors_upload' => $errors_upload
 
   ]);
 }
