@@ -98,7 +98,7 @@ if (!isset($_FILES)) {
       $file_name_tmp = $file['tmp_name'];
 
       $file_type = $file['type'];
-      $file_size = $file_params['size'];
+      $file_size = $file['size'];
 
       $file_path = __DIR__ . '/img/';
       $file_url = 'img/' . $file_name;
