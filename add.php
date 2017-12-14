@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user']
 $form_data = [];
 $users = [];
 $errors = [];
-$check_key = '';
 
 $name = isset($_POST['name']) ? $_POST['name'] : '';
 
@@ -53,9 +52,11 @@ if (!empty(select_data($link, $users_sql, []))) {
 if(isset($_POST['category'])) {
   $_POST['category'] === 'Выберите категорию' ?
     $_POST['category'] = '' : $_POST['category'];
-
 }
 
+$check_empty = [
+  'lot_add', 'login', 'register'
+];
 // Photo and avatar validates separately
 $login_keys = [
   'email', 'password'
@@ -74,12 +75,10 @@ $rules_register = [
   'email' => 'validateEmail', 'password' => 'validatePassword'
 ];
 
-
 $rules_lot = [
   'rate' => 'validateLotRate',
   'step' => 'validateLotStep', 'date_end' => 'validateDate'
 ];
-
 
 // Also use this array for register form
 if (!isset($_FILES)) {
@@ -118,20 +117,24 @@ if (!isset($_FILES)) {
     }
 }
 
+if (isset($_POST['lot_add']) || isset($_POST['login']) || isset($_POST['register'])) {
+//  $check_key = array_filter()
+}
+
 if (isset($_POST['lot_add'])) {
   $check_key = 'lot_add';
 
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $lot_keys) && $value == '') {
-      $errors_lot[$key] = $form_errors[$check_key][$key]['empty'];
+      $errors[$check_key] = $form_errors[$check_key][$key]['empty'];
     }
 
     if (array_key_exists($key, $rules_lot)) {
       $result = call_user_func($rules_lot[$key], $value);
 
       if (!empty($result)) {
-        $errors_lot[$key] = $form_errors[$check_key][$key][$result];
+        $errors[$check_key][$key] = $form_errors[$check_key][$key][$result];
       }
     }
     $form_data['lot_add'][$key] = $value;
@@ -144,7 +147,7 @@ if (isset($_POST['login'])) {
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $login_keys) && $value == '') {
-      $errors_login[$key] = $form_errors[$check_key][$key]['empty'];
+      $errors[$check_key] = $form_errors[$check_key][$key]['empty'];
     }
   }
 
@@ -174,7 +177,7 @@ if (isset($_POST['register'])) {
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $register_keys) && $value == '') {
-      $errors_register[$key]['error_message'] = $form_errors[$key]['error_empty'];
+      $errors[$check_key][$key] = $form_errors[$check_key][$key]['error_empty'];
     }
   }
 
