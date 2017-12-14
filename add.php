@@ -55,7 +55,7 @@ if(isset($_POST['category'])) {
 }
 
 $check_key = '';
-// Photo and avatar validates separately
+
 $login_keys = [
   'email', 'password'
 ];
@@ -78,7 +78,7 @@ $rules_lot = [
   'step' => 'validateLotStep', 'date_end' => 'validateDate'
 ];
 
-// Also use this array for register form
+// Photo and avatar validates separately
 if (!isset($_FILES)) {
   $file = $_FILES['url'];
 
@@ -121,7 +121,7 @@ if (isset($_POST['lot_add'])) {
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $lot_keys) && $value == '') {
-      $errors[$check_key] = $form_errors[$check_key][$key]['empty'];
+      $errors[$check_key][$key] = $form_errors[$check_key][$key]['empty'];
     }
 
     if (array_key_exists($key, $rules_lot)) {
@@ -131,7 +131,7 @@ if (isset($_POST['lot_add'])) {
         $errors[$check_key][$key] = $form_errors[$check_key][$key][$result];
       }
     }
-    $form_data['lot_add'][$key] = $value;
+    $form_data[$check_key][$key] = $value;
   }
 }
 
@@ -141,19 +141,19 @@ if (isset($_POST['login'])) {
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $login_keys) && $value == '') {
-      $errors[$check_key] = $form_errors[$check_key][$key]['empty'];
+      $errors[$check_key][$key] = $form_errors[$check_key][$key]['empty'];
     }
     $form_data[$check_key][$key] = $value;
   }
 
   if (!empty($_POST['email']) && !empty($result = call_user_func(
       'validateEmail', $email))) {
-    $errors['email'] = $form_errors[$check_key]['email'][$result];
+    $errors[$check_key]['email'] = $form_errors[$check_key]['email'][$result];
 
   }
   if (!empty($_POST['password']) && is_string($validate = call_user_func(
       'validateUser', $email, $users, $password))) {
-    $errors['password'] = $form_errors[$check_key]['password'][$validate];
+    $errors[$check_key]['password'] = $form_errors[$check_key]['password'][$validate];
 
   }
 
@@ -169,7 +169,7 @@ if (isset($_POST['register'])) {
 
   foreach ($_POST as $key => $value) {
     if (in_array($key, $register_keys) && $value == '') {
-      $errors[$check_key][$key] = $form_errors[$check_key][$key]['error'];
+      $errors[$check_key][$key] = $form_errors[$check_key][$key]['empty'];
     }
 
     $form_data[$check_key][$key] = $value;
@@ -194,27 +194,29 @@ if (isset($_POST['register'])) {
     }
     elseif (is_array($password = call_user_func('validatePassword', $password))){
       $form_data[$check_key][$key] = $password[0];
+
     }
   }
 }
 
 if (isset($_POST['bet_add'])) {
+  $check_key = 'bet_add';
+
   if (empty($bet)) {
-    $errors_bet['error_message'] = $form_errors['bet_add']['bet']['error_empty'];
+    $errors[$check_key] = $form_errors[$check_key]['bet']['empty'];
 
   }
-  $form_data['bet_add']['bet'] = $bet;
-  $form_data['bet_add']['bet_id'] = $id;
+  $form_data[$check_key]['bet'] = $bet;
+  $form_data[$check_key]['bet_id'] = $id;
 }
 
 if(!empty($errors_lot) || !empty($errors_register)) {
-  $errors_all = $form_errors['all'];
+  $errors['all'] = $form_errors['all'];
 }
 
 $_SESSION['form_data'] = $form_data;
 $_SESSION['errors'] = $errors;
 
-$errors['all'] = $errors_all;
 
 if (isset($form_data['lot_add'])) {
   $result = count($errors['lot_add']) ||
