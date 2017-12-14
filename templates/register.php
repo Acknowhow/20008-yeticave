@@ -37,15 +37,15 @@
     <span class="form__error"><?if (isset($errors['contacts']['error_message'])) : ?><?=$errors['contacts']['error_message']; ?><?endif; ?></span>
   </div>
   <div class="form__item form__item--file form__item--last">
-    <label><?=$avatar['title']; ?></label>
+    <label><?=$url['title']; ?></label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
       <div class="preview__img">
-        <img src="" width="113" height="113" alt="<?=$avatar['alt']; ?>">
+        <img src="" width="113" height="113" alt="<?=$url['alt']; ?>">
       </div>
     </div>
     <div class="form__input-file">
-      <input class="visually-hidden" type="file" id="photo2" value="" name="<?=$avatar['name']; ?>">
+      <input class="visually-hidden" type="file" id="photo2" value="" name="<?=$url['name']; ?>">
       <label for="photo2">
         <span>+ Добавить</span>
       </label>

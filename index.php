@@ -49,14 +49,13 @@ $my_bets = [];
 // Lots
 $lots = [];
 
-
 // Form
 $check_key = '';
-$form_data = [];
+$form_data = isset($_SESSION['form_data']) ?
+  $_SESSION['form_data'] : [];
 
 $error = '';
 $errors = [];
-$errors_all =
 
 $is_login = '';
 $is_register = '';
@@ -65,9 +64,6 @@ $is_bet_add = '';
 
 // Form data user
 $user = [];
-$user_name = '';
-
-$avatar = '';
 
 $email = '';
 $password = '';
@@ -193,6 +189,7 @@ if (isset($_GET['is_register'])) {
 
   } elseif ($_GET['is_register'] === 'false') {
     $is_register = false;
+    $check_key = 'register';
   }
 }
 
@@ -202,69 +199,21 @@ if (isset($_GET['is_lot_add'])) {
   if ($_GET['is_lot_add'] === 'true') {
     $is_lot_add = true;
 
-    $name = $form_data['lot'];
-    // Add current timestamp in MySQL format
-    $date_add = convertTimeStampMySQL(
-      strtotime('now'));
-    $date_end = $form_data['date_end'];
-
-    $description = $form_data['description'];
-    $url = $_SESSION['form_data']['url'];
-
-    $rate = $_SESSION['form_data']['rate'];
-    $step = $_SESSION['form_data']['step'];
-
-    $category_id_sql = 'SELECT category_id FROM categories WHERE name=?;';
-    $category_id = select_data($link, $category_id_sql, [$_SESSION['form_data']['category']]);
-
-
-    if (!$category_id) {
-      mysqli_close($link);
-
-      $error = mysqli_connect_error() . 'Can\'t get category id';
-
-      print include_template('templates/404.php',[
-        'container' => $container,
-        'error' => $error
-      ]);
-      exit();
-
-    }
-    // Get category id from fetched MySQL data
-    $category_id = $category_id[0]['category_id'];
-
-    $lot_id = insert_data($link, 'lots', [
-      'name' => $lot_name, 'date_add' => $date_add, 'date_end' => $date_end,
-      'description' => $description, 'url' => $url, 'rate' => $rate,
-      'step' => $step, 'author_id' => $user_id, 'category_id' => $category_id
-    ]);
-
-    if (!is_int($lot_id)) {
-      mysqli_close($link);
-
-      $error = mysqli_connect_error() . 'Can\'t insert lot';
-
-      print include_template('templates/404.php',[
-        'container' => $container,
-        'error' => $error
-      ]);
-      exit();
-
-    }
-
-  } elseif ($_GET['lot_added'] === 'false') {
+  } elseif ($_GET['is_lot_add'] === 'false') {
     $is_lot_add = false;
+    $check_key = 'lot_add';
   }
 }
 
 if (isset($_GET['is_login'])) {
   if ($_GET['is_login'] === 'true') {
     $is_login = true;
-    $_SESSION['login'] = [];
 
+    $form_data['login'] = [];
 
   } elseif ($_GET['is_login'] === 'false') {
     $is_login = false;
+    $check_key = 'login';
   }
 }
 
@@ -282,25 +231,15 @@ if (isset($_GET['is_bet_add'])) {
     $cookie_value = json_encode($cookie_value);
     setcookie($cookie_name, $cookie_value, $expire, $path);
 
+    $form_data['bet_add'] = [];
+
   } elseif ($_GET['is_bet_add'] === 'false') {
     $is_bet_add = false;
+    $check_key = 'bet_add';
   }
 }
 
 if (isset($_SESSION['form_data'])) {
-
-  if ($is_lot_add === false) {
-    $check_key = 'lot_add';
-
-  } elseif ($is_login === false) {
-    $check_key = 'login';
-
-  } elseif ($is_register === false) {
-    $check_key = 'register';
-
-  } elseif ($is_bet_add === false) {
-    $check_key = 'bet_add';
-  }
   $errors = $form_data['errors'];
 
   // Can use foreach function here
@@ -323,15 +262,61 @@ if (!empty($is_nav)) {
 if ($is_lot_add === true) {
   $index = false;
 
-  // Here must add all data from the current session
+  $lot = $form_data['lot_add'];
 
-  $lot = [
-    'name' => $form_data['lot'], 'category' => $form_data['category'],
-    'rate' => $form_data['rate'], 'step' => $form_data['step'],
+  $name = $lot['name'];
+  // Add current timestamp in MySQL format
+  $date_add = convertTimeStampMySQL(
+    strtotime('now'));
 
-    'date_end' => $form_data['date_end'], 'url' => $form_data['url'],
-    'alt' => $form_data['alt'], 'description' => $form_data['description']
-  ];
+  $date_end = $lot['date_end'];
+
+  $description = $lot['description'];
+  $url = $lot['url'];
+
+  $rate = $lot['rate'];
+  $step = $lot['step'];
+
+  $category_id_sql = 'SELECT category_id FROM categories WHERE name=?;';
+  $category_id = select_data($link, $category_id_sql, [$_SESSION['form_data']['category']]);
+
+
+  if (!$category_id) {
+    mysqli_close($link);
+
+    $error = mysqli_connect_error() . 'Can\'t get category id';
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+  // Get category id from fetched MySQL data
+  $category_id = $category_id[0]['category_id'];
+
+  $lot_id = insert_data($link, 'lots', [
+    'name' => $name, 'date_add' => $date_add, 'date_end' => $date_end,
+    'description' => $description, 'url' => $url, 'rate' => $rate,
+    'step' => $step, 'author_id' => $user_id, 'category_id' => $category_id
+  ]);
+
+  if (!is_int($lot_id)) {
+    mysqli_close($link);
+
+    $error = mysqli_connect_error() . 'Can\'t insert lot';
+
+    print include_template('templates/404.php',[
+      'container' => $container,
+      'error' => $error
+    ]);
+    exit();
+
+  }
+
+  $form_data['lot_add'] = [];
+
 }
 
 if (isset($_GET['lot_id'])) {
@@ -349,13 +334,12 @@ if (isset($_GET['lot_id'])) {
     ]);
 
   } else {
-    $lot = $lots[$id];
+    $lot = $lots[$lot_id];
   }
 }
 
 if ($is_bet_add === true || !empty($lot)) {
   $cookie_value = json_decode($cookie_value, true);
-
 
   $my_bets = $cookie_value;
   $cookie_value = json_encode($cookie_value);
@@ -376,7 +360,7 @@ if (!empty($lot)) {
   $title = $lot['name'];
 
   if (!empty($my_bets)) {
-    $bet_made = array_key_exists($bet_id, $my_bets) ? true : false;
+    $bet_made = array_key_exists($lot_id, $my_bets) ? true : false;
   }
   // Here must set current bet value instead of id
   $content = include_template('templates/lot.php', [
@@ -392,9 +376,9 @@ if (isset($_GET['login']) || $is_login === false) {
   $defaults = $form_defaults['login'];
 
   $content = include_template('templates/login.php', [
-    'nav' => $nav, 'email' => $form_defaults['email'],
+    'nav' => $nav, 'email' => $defaults['email'],
 
-    'password' => $form_defaults['password'], 'errors' => $errors
+    'password' => $defaults['password'], 'errors' => $errors
   ]);
 }
 
@@ -405,7 +389,7 @@ if (isset($_GET['register']) || $is_register === false) {
 
   $content = include_template('templates/register.php', [
     'nav' => $nav, 'email' => $defaults['email'],
-    'password' => $defaults['password'], 'all' => $defaults['all'],
+    'password' => $defaults['password'],
 
     'name' => $defaults['name'], 'url' => $defaults['url'],
     'contacts' => $defaults['contacts'], 'errors' => $errors

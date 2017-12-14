@@ -25,7 +25,7 @@ $category = isset($_POST['category']) ? $_POST['category'] : '';
 $step = isset($_POST['step']) ? $_POST['step'] : '';
 $bet = isset($_POST['bet']) ? $_POST['bet'] : '';
 
-$bet_id = isset($_POST['id']) ? $_POST['id'] : '';
+$bet_id = isset($_POST['bet_id']) ? $_POST['bet_id'] : '';
 $date_end = isset($_POST['date_end']) ? $_POST['date_end'] : '';
 
 $url_param = '';
