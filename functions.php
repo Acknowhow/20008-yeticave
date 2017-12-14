@@ -51,7 +51,7 @@ function getDateFormat($date, $format = 'Y-m-d'){
   $_date = DateTime::createFromFormat($format, $date);
 
   $_date && $_date->format($format) == $date ?
-    $_date = '' : $_date = 'error_date';
+    $_date = '' : $_date = 'invalid';
 
   return $_date;
 }
@@ -66,7 +66,7 @@ function validateDate($date){
     $min = round(($end - $now) / 3600, 2);
 
     $is_day = $min > 24 ? '' :
-      'Срок размещения лота должен быть больше одного дня';
+      'duration';
 
     return $is_day;
   }
@@ -95,14 +95,11 @@ function validateLotRate($lotRate){
   $is_numeric = get_numeric($_lotRate);
   $is_positive = $_lotRate > 0;
 
-  if (empty($_lotRate)) {
-    return 'Введите начальную цену';
-  }
   if (!$is_numeric) {
-    return 'Введите числовое значение';
+    return 'numeric';
 
   } elseif (!$is_positive) {
-    return 'Введите число больше нуля';
+    return 'positive';
   }
   return '';
 }
@@ -113,14 +110,11 @@ function validateLotStep($lotStep){
   $is_integer = get_integer($_lotStep);
   $is_positive = $_lotStep > 0;
 
-  if (empty($_lotStep)) {
-    return 'Введите шаг ставки';
-  }
   if (!$is_integer) {
-    return 'Введите целое число';
+    return 'integer';
 
   } elseif (!$is_positive) {
-    return 'Введите число больше нуля';
+    return 'positive';
   }
   return '';
 }
@@ -132,9 +126,9 @@ function validateUpload($array, $fileType, $fileSize){
   }, ARRAY_FILTER_USE_KEY);
 
   if (empty($_result)) {
-    return 'Пожалуйста, выберите файл правильного формата';
+    return 'format';
   } elseif ($fileSize > 200000) {
-    return 'Максимальный размер файла: 200Кб';
+    return 'size';
   }
   return '';
 }
@@ -143,7 +137,7 @@ function validateEmail($email)
 {
   $_result = null;
   if (empty($_result = filter_var($email, FILTER_VALIDATE_EMAIL))) {
-    $_result = 'Пожалуйста, укажите правильный формат email';
+    $_result = 'format';
 
   } else {
     $_result = '';
@@ -159,11 +153,11 @@ function searchUserByEmail($email, $users, $register = false)
       $_result = $user;
 
       if ($register === true) {
-        $_result = 'Указанный вами email уже зарегистрирован';
+        $_result = 'clone';
       }
       break;
     }
-    $_result = 'Вы указали неверный пароль или email';
+    $_result = 'match';
 
     if ($register === true) {
       $_result = '';
@@ -183,7 +177,7 @@ function validateUser($email, $users, $password){
     $is_user = $user;
 
   } elseif (is_array($user) && empty($is_user = password_verify($password, $user['password']))) {
-    $is_user = 'Пароль неверный';
+    $is_user = 'invalid';
   }
   return $is_user;
 }
@@ -192,7 +186,7 @@ function validatePassword($password){
   $_result = [];
 
   if(strlen($password) < 11) {
-    return 'Пожалуйста, укажите не меньше 11 символов в вашем пароле';
+    return 'length_short';
 
   }
   elseif(strlen($password) >= 11 && strlen($password) <= 72) {
@@ -201,7 +195,7 @@ function validatePassword($password){
 
   }
 
-  return 'Длина пароля должна быть не больше 72 символов';
+  return 'length_long';
 }
 
 // Combines associated array
