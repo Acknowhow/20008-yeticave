@@ -210,36 +210,16 @@ if (isset($_POST['bet_add'])) {
   $form_data[$check_key]['bet_id'] = $id;
 }
 
-if(!empty($errors_lot) || !empty($errors_register)) {
+if(!empty($errors['lot_add']) || !empty($errors['register'])) {
   $errors['all'] = $form_errors['all'];
 }
 
 $_SESSION['form_data'] = $form_data;
 $_SESSION['errors'] = $errors;
 
-
-if (isset($form_data['lot_add'])) {
-  $result = count($errors['lot_add']) || isset($errors['file']) ?
-    'false' : 'true';
-  $url_param = 'lot_added=' . $result;
-
-}
-if (isset($form_data['login'])) {
-  $result = count($errors['login']) ? 'false' : 'true';
-  $url_param = 'is_login=' . $result;
-
-}
-if (isset($form_data['bet_add'])) {
-  $result = count($errors['bet_add']) ? 'false' : 'true';
-  $url_param = 'bet_added=' . $result;
-
-}
-if (isset($form_data['register'])) {
-  $result = count($errors['register']) || isset($errors['file']) ?
-    'false' : 'true';
-  $url_param = 'is_register=' . $result;
-
-}
+$result = count($errors[$check_key]) || isset($errors['file']) ?
+  'false' : 'true';
+$url_param = "is_$check_key=" . $result;
 
 header('Location: index.php?' . $url_param);
 
