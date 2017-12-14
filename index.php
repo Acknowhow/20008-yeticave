@@ -49,17 +49,18 @@ $my_bets = [];
 // Lots
 $lots = [];
 
-
-
 // Form
 $check_key = '';
 $form_data = isset($_SESSION['form_data']) ?
   $_SESSION['form_data'] : [];
 
-
 $error = '';
 $errors = isset($_SESSION['errors']) ?
   $_SESSION['errors'] : [];
+$errors_upload = isset($_SESSION['errors_upload']) ?
+  $_SESSION['errors_upload'] : [];
+
+var_dump($errors_upload);
 
 $is_login = '';
 $is_register = '';
@@ -245,6 +246,7 @@ if (isset($_GET['is_bet_add'])) {
 
 if (!empty($check_key)) {
 
+  $errors = $errors[$check_key];
   // Can use foreach function here
   foreach ($form_data[$check_key] as $key => $value) {
     $form_defaults[$check_key][$key]['input'] = $value ? $value : '';
@@ -381,6 +383,7 @@ if (isset($_GET['login']) || $is_login === false) {
   ]);
 }
 
+// Must select index beforehand
 if (isset($_GET['register']) || $is_register === false) {
   $index = false;
 
@@ -391,7 +394,8 @@ if (isset($_GET['register']) || $is_register === false) {
     'password' => $defaults['password'],
 
     'name' => $defaults['name'], 'url' => $defaults['url'],
-    'contacts' => $defaults['contacts'], 'errors' => $errors['register']
+    'contacts' => $defaults['contacts'], 'errors' => $errors,
+    'errors_upload' => $errors_upload['register']
 
   ]);
 }
@@ -410,7 +414,8 @@ if (isset($_GET['lot_add']) || $is_lot_add === false) {
     'rate' => $defaults['rate'], 'step' => $defaults['step'],
 
     'date_end' => $defaults['date_end'],
-    'description' => $defaults['description'], 'errors' => $errors['lot_add']
+    'description' => $defaults['description'], 'errors' => $errors,
+    'errors_upload' => $errors_upload['lot_add']
 
   ]);
 }
@@ -422,10 +427,14 @@ if (!empty($index)) {
   ]);
 }
 
+$form_data = [];
+$errors = [];
+
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
   'url' => $url, 'name' => $name, 'categories' => $categories, 'year_now' => $year_now
 ]);
+
 
 
 

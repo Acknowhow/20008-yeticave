@@ -49,7 +49,7 @@
       <label for="photo2">
         <span>+ Добавить</span>
       </label>
-      <span class="form_error"><?if (isset($errors['file'])) : ?><?=$errors['file']; ?><? endif; ?></span>
+      <span class="form_error"><?if (!empty($errors_upload)) : ?><?=$errors_upload; ?><? endif; ?></span>
     </div>
   </div>
   <input type="hidden" name="register" value="">

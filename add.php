@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user']
 $form_data = [];
 $users = [];
 $errors = [];
+$errors_upload = [];
 
 $name = isset($_POST['name']) ? $_POST['name'] : '';
 
@@ -29,6 +30,8 @@ $bet_id = isset($_POST['bet_id']) ? $_POST['bet_id'] : '';
 $date_end = isset($_POST['date_end']) ? $_POST['date_end'] : '';
 
 $url_param = '';
+$check_key = '';
+$key = '';
 
 $users_sql = 'SELECT * FROM users ORDER BY user_id ASC;';
 if (!empty(select_data($link, $users_sql, []))) {
@@ -54,7 +57,7 @@ if(isset($_POST['category'])) {
     $_POST['category'] = '' : $_POST['category'];
 }
 
-$check_key = '';
+
 
 $login_keys = [
   'email', 'password'
@@ -78,45 +81,55 @@ $rules_lot = [
   'step' => 'validateLotStep', 'date_end' => 'validateDate'
 ];
 
+if (isset($_POST['lot_add'])) {
+  $check_key = 'lot_add';
+}
+
+if (isset($_POST['register'])) {
+  $check_key = 'register';
+}
+
+if (isset($_POST['login'])) {
+  $check_key = 'login';
+}
+
 // Photo and avatar validates separately
-if (!isset($_FILES)) {
+if (isset($_FILES)) {
   $file = $_FILES['url'];
 
-    if (isset($_POST['lot_add']) && $file['error'] !== 0) {
-      $errors['file'] = $form_errors['lot_add']['url']['empty'];
+  if (isset($_POST['lot_add']) && $file['error'] !== 0) {
+      $errors_upload[$check_key] = $form_errors[$check_key]['url']['empty'];
 
+  } elseif ($file['error'] == 0) {
+    $allowed = [
+      'jpeg' => 'image/jpeg',
+      'png' => 'image/png'
+    ];
+    $file_name = $file['name'];
+    $file_name_tmp = $file['tmp_name'];
+
+    $file_type = $file['type'];
+    $file_size = $file['size'];
+
+    $file_path = __DIR__ . '/img/';
+    $file_url = 'img/' . $file_name;
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $file_type = finfo_file($finfo, $file_name);
+    $result = validateUpload($allowed, $file_type, $file_size);
+
+    if (!empty($result)) {
+      $errors_upload[$check_key] = $form_errors[$check_key]['url'][$result];
     }
-    elseif ($file['error'] == 0) {
-      $allowed = [
-        'jpeg' => 'image/jpeg',
-        'png' => 'image/png'
-      ];
-      $file_name = $file['name'];
-      $file_name_tmp = $file['tmp_name'];
+    $destination_path = $file_path . $file_name;
+    move_uploaded_file($file_name_tmp, $destination_path);
 
-      $file_type = $file['type'];
-      $file_size = $file['size'];
+    $form_data['file']['url'] = $file_url;
+    $form_data['file']['alt'] = 'uploaded';
 
-      $file_path = __DIR__ . '/img/';
-      $file_url = 'img/' . $file_name;
-      $finfo = finfo_open(FILEINFO_MIME_TYPE);
-      $file_type = finfo_file($finfo, $file_name);
-      $result = validateUpload($allowed, $file_type, $file_size);
-
-      if (!empty($result)) {
-        $errors['file'] = $result;
-      }
-      $destination_path = $file_path . $file_name;
-      move_uploaded_file($file_name_tmp, $destination_path);
-
-      $form_data['file']['url'] = $file_url;
-      $form_data['file']['alt'] = 'uploaded';
-
-    }
+  }
 }
 
 if (isset($_POST['lot_add'])) {
-  $check_key = 'lot_add';
 
   foreach ($_POST as $key => $value) {
 
@@ -133,10 +146,10 @@ if (isset($_POST['lot_add'])) {
     }
     $form_data[$check_key][$key] = $value;
   }
+
 }
 
 if (isset($_POST['login'])) {
-  $check_key = 'login';
 
   foreach ($_POST as $key => $value) {
 
@@ -165,7 +178,6 @@ if (isset($_POST['login'])) {
 }
 
 if (isset($_POST['register'])) {
-  $check_key = 'register';
 
   foreach ($_POST as $key => $value) {
     if (in_array($key, $register_keys) && $value == '') {
@@ -213,6 +225,7 @@ if (isset($_POST['bet_add'])) {
 
 $_SESSION['form_data'] = $form_data;
 $_SESSION['errors'] = $errors;
+$_SESSION['errors_upload'] = $errors_upload;
 
 $result = count($errors[$check_key]) || isset($errors['file']) ?
   'false' : 'true';
