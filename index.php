@@ -19,7 +19,7 @@ $cookie_value = isset($_COOKIE['cookie_bet']) ?
 $expire = time() + 60 * 60 * 24 * 30;
 $path = '/';
 
-$is_auth = isset($_SESSION['form_data']['user']) ?
+$is_auth = isset($_SESSION['user']) ?
   true : false;
 
 // id
@@ -28,12 +28,16 @@ $lot_id = null;
 $bet_id = null;
 $category_id = null;
 
+$defaults = [];
+
 // Templates
 $index = true;
 $is_nav = null;
 $nav = [];
+$content = [];
 
 // Helper vars
+$name = '';
 $url = '';
 $date_add = '';
 
@@ -44,7 +48,7 @@ $my_bets = [];
 
 // Lots
 $lots = [];
-$lot_name = '';
+
 
 // Form
 $check_key = '';
@@ -52,6 +56,7 @@ $form_data = [];
 
 $error = '';
 $errors = [];
+$errors_all =
 
 $is_login = '';
 $is_register = '';
@@ -62,11 +67,11 @@ $bet_added = '';
 $user = [];
 $user_name = '';
 
-$user_avatar = '';
+$avatar = '';
 
-$user_email = '';
-$user_password = '';
-$user_contacts = '';
+$email = '';
+$password = '';
+$contacts = '';
 
 // MySQL vars
 $categories_sql = '';
@@ -134,16 +139,14 @@ if (!empty(select_data($link, $lots_sql, []))) {
 }
 
 if (!empty($is_auth)) {
-  $user = $_SESSION['form_data']['user'];
+  $user = $_SESSION['user'];
   $user_id = $user['id'];
 
   $user_name = $user['name'];
-
   $user_avatar = $user['url'];
 
   // Unset open password for security reasons
-  unset($_SESSION['form_data']['email']);
-  unset($_SESSION['form_data']['password']);
+  unset($_SESSION['form_data']['login']);
 }
 
 if (isset($_GET['is_register'])) {
@@ -152,18 +155,20 @@ if (isset($_GET['is_register'])) {
     $is_auth = true;
 
     $user = $_SESSION['form_data']['register'];
+    $_SESSION['user'] = $user;
+
     // Add current timestamp in MySQL format
     $date_add = convertTimeStampMySQL(
       strtotime('now'));
 
-    $user_name = $user['name'];
-    $user_email = $user['email'];
+    $name = $user['name'];
+    $email = $user['email'];
 
-    $user_password = $user['password'];
-    $user_contacts = $user['contacts'];
+    $password = $user['password'];
+    $contacts = $user['contacts'];
 
     $date_add = $user['date_add'];
-    $user_avatar = $user['url'];
+    $url = $user['url'];
 
     $user_id = insert_data($link, 'users', [
         'name' => $user_name, 'email' => $user_email, 'password' => $user_password,
@@ -180,11 +185,12 @@ if (isset($_GET['is_register'])) {
         'error' => $error
       ]);
       exit();
-
     }
 
     // Assign id into SESSION
     $user['id'] = $user_id;
+
+    $_SESSION['form_data']['register'] = [];
 
 
   } elseif ($_GET['is_register'] === 'false') {
@@ -286,6 +292,8 @@ if (isset($_SESSION['form_data'])) {
 
     }
   }
+
+  $_SESSION['form_data'] = [];
 }
 
 if (isset($_GET['bet_added'])) {
@@ -424,20 +432,22 @@ if (isset($_GET['register']) || $is_register === false) {
   ]);
 }
 
-if (isset($_GET['add']) || $lot_added === false) {
+if (isset($_GET['lot_add']) || $lot_added === false) {
   $index = false;
   $title = $add_lot_title;
 
-  $form_defaults['category']['input'] = 'Выберите категорию';
+  $defaults = $form_defaults['lot_add'];
+
+
   $content = include_template('templates/add-lot.php', [
     'nav' => $nav,
-    'categories' => $categories, 'lot' => $form_defaults['lot'],
+    'categories' => $categories, 'name' => $defaults['name'],
 
-    'category' => $form_defaults['category'], 'photo' => $form_defaults['photo'],
-    'rate' => $form_defaults['rate'], 'step' => $form_defaults['step'],
+    'category' => $defaults['category'], 'photo' => $defaults['photo'],
+    'rate' => $defaults['rate'], 'step' => $defaults['step'],
 
-    'date_end' => $form_defaults['date_end'], 'all' => $form_defaults['all'],
-    'description' => $form_defaults['description'], 'errors' => $errors
+    'date_end' => $defaults['date_end'], 'all' => $defaults['all'],
+    'description' => $defaults['description'], 'errors' => $errors
 
   ]);
 }
@@ -451,7 +461,7 @@ if (!empty($index)) {
 
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
-  'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
+  'url' => $url, 'name' => $name, 'categories' => $categories, 'year_now' => $year_now
 ]);
 
 

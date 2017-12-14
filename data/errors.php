@@ -3,12 +3,12 @@
 $form_errors = [
   // Login
   'login' => [
-    'user_email' => [
+    'email' => [
 
       'empty' => 'Введите email',
       'format' => 'Пожалуйста, укажите правильный формат email'
     ],
-    'user_password' => [
+    'password' => [
 
       'error_empty' => 'Введите пароль',
       'match' => 'Вы указали неверный пароль или email',
@@ -17,24 +17,24 @@ $form_errors = [
   ],
   // Register
   'register' => [
-    'user_email' => [
+    'email' => [
 
       'empty' => 'Введите email',
       'format' => 'Пожалуйста, укажите правильный формат email',
       'clone' => 'Указанный вами email уже зарегистрирован'
     ],
-    'user_password' => [
+    'password' => [
 
       'empty' => 'Введите пароль',
       'length_short' =>
         'Пожалуйста, укажите не меньше 11 символов в вашем пароле',
       'length_long' => 'Длина пароля должна быть не больше 72 символов'
     ],
-    'user_name' => [
+    'name' => [
 
       'empty' => 'Введите ваше имя'
     ],
-    'user_contacts' => [
+    'contacts' => [
 
       'empty' => 'Напишите как с вами связаться'
     ]
@@ -42,7 +42,7 @@ $form_errors = [
   ],
   // Add lot
   'lot_add' => [
-    'lot_name' => [
+    'name' => [
 
       'error_empty' => 'Введите наименование лота'
     ],
@@ -50,7 +50,7 @@ $form_errors = [
 
       'error_empty' => 'Добавьте описание лота'
     ],
-    'lot_photo' => [
+    'url' => [
       'empty' => 'Добавьте изображение лота',
       'format' => 'Пожалуйста, выберите файл правильного формата',
       'size' => 'Максимальный размер файла: 200Кб'
@@ -82,7 +82,8 @@ $form_errors = [
   'bet_add' => [
     'bet' => [
 
-      'error_empty' => ''
+      'error_empty' => 'Пожалуйста, введите минимальное значение ставки'
     ]
-  ]
+  ],
+  'all' => 'Пожалуйста, исправьте ошибки в форме'
 ];

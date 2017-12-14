@@ -11,13 +11,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user']
   http_response_code(403);
   die();
 }
+
 $users = [];
 
 $users_sql = 'SELECT * FROM users ORDER BY user_id ASC;';
 if (!empty(select_data($link, $users_sql, []))) {
 
-  $users_fetched = select_data($link, $users_sql, []);
-  $users = $users_fetched;
+  $users = select_data($link, $users_sql, []);
 
   if (empty($users)) {
     mysqli_close($link);
@@ -33,13 +33,14 @@ if (!empty(select_data($link, $users_sql, []))) {
   }
 }
 
+$form_data = [];
 
 // Login + Register
-$user_name = isset($_POST['name']) ? $_POST['name'] : '';
-$user_password = isset($_POST['password']) ? $_POST['password'] : '';
+$name = isset($_POST['name']) ? $_POST['name'] : '';
+$password = isset($_POST['password']) ? $_POST['password'] : '';
 
-$user_contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
-$user_email = isset($_POST['email']) ? $_POST['email'] : '';
+$contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
+$email = isset($_POST['email']) ? $_POST['email'] : '';
 
 
 // Lot
@@ -53,7 +54,7 @@ $end = isset($_POST['date_end']) ? $_POST['date_end'] : '';
 $bet = isset($_POST['bet']) ? $_POST['bet'] : '';
 $bet_id = isset($_POST['bet_add']) ? $_POST['bet_add'] : '';
 
-$form_data = isset($_SESSION['form_data']) ? $_SESSION['form_data'] : [];
+
 
 // Files
 $file = [];
@@ -70,22 +71,24 @@ $errors_bet = [];
 
 $url_param = '';
 
+// Photo and avatar validate separately
 $login_keys = [
   'email', 'password'
 ];
 
+$lot_keys = [
+  'name', 'description', 'category',
+  'rate', 'step', 'date_end'
+];
+
 $register_keys = [
-  'email', 'password', 'name', 'contacts'
+  'name', 'email', 'password', 'contacts'
 ];
 
 $rules_register = [
   'email' => 'validateEmail', 'password' => 'validatePassword'
 ];
 
-$lot_keys = [
-  'lot', 'category',
-  'description', 'rate', 'step', 'date_end'
-];
 
 $rules_lot = [
   'rate' => 'validateLotRate',
@@ -95,7 +98,7 @@ $rules_lot = [
 
 if (isset($_FILES)) {
   if (isset($_FILES['lot_photo'])) {
-    $file['tag'] = 'lot_photo';
+    $file['tag'] = 'photo';
     $file_params = $_FILES['lot_photo'];
   }
   if (isset($_FILES['user_avatar'])) {
@@ -105,9 +108,9 @@ if (isset($_FILES)) {
 }
 
 // Also use this array for register form
-if (isset($file_params['name'])) {
+if (isset($_FILES)) {
 
-    if ($file_params['error'] == 0) {
+    if ($_FILES['error'] == 0) {
       $allowed = [
         'jpeg' => 'image/jpeg',
         'png' => 'image/png'
@@ -133,7 +136,7 @@ if (isset($file_params['name'])) {
       $form_data['file']['url'] = $file_url;
       $form_data['file']['alt'] = 'uploaded';
 
-    } elseif ($file['tag'] === 'lot_photo' && $file_params['error'] !== 0) {
+    } elseif (isset($_POST['lot_add']) && $_FILES['error'] !== 0) {
 
       $errors_file['error_message'] = $form_errors['lot_photo']['error_empty'];
 
@@ -210,31 +213,41 @@ if (isset($_POST['register'])) {
 
   if (!empty($_POST['password'])) {
     if (is_string($result = call_user_func('validatePassword', $password))){
-      $errors_register['password']['error_message'] = $result;
+      $errors_register['user_password']['error_message'] = $result;
 
     }
     elseif (is_array($password = call_user_func('validatePassword', $password))){
-      $form_data['register']['password'] = $password;
+      $form_data['register']['user_password'] = $user_password;
     }
   }
-  $form_data['register']['name'] = $name;
-  $form_data['register']['contacts'] = $contacts;
+  $form_data['register']['user_name'] = $user_name;
+  $form_data['register']['user_contacts'] = $user_contacts;
 }
 
 if (isset($_POST['bet_add'])) {
   if (empty($bet)) {
-    $errors_bet['error_message'] = 'Пожалуйста, введите минимальное значение ставки';
+    $errors_bet['error_message'] = $form_errors['bet_add']['bet']['error_empty'];
 
   }
   $form_data['bet_add']['bet_value'] = $bet;
   $form_data['bet_add']['bet_id'] = $bet_id;
 }
 
-$_SESSION['form_data'] = $form_data;
+// Must include $_SESSION['errors']['errors_form']
+
+if(!empty($errors_lot) || !empty($errors_register)) {
+  $errors_all = $form_errors['all'];
+}
+
+$_SESSION['input'] = $input;
+$_SESSION['errors'] = $errors;
+
+$errors['all'] = $errors_all;
 
 if (isset($form_data['lot_add'])) {
-  $_SESSION['errors_lot'] = $errors_lot;
-  $_SESSION['errors_file'] = $errors_file;
+  $errors['lot_add'] = $errors_lot;
+  $errors['file'] = $errors_file;
+
 
   $result = count($errors_lot) || count($errors_file) ? 'false' : 'true';
   $url_param = 'lot_added=' . $result;

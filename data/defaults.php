@@ -8,51 +8,51 @@ $container = 'main';
 $form_defaults = [
   // Login
   'login' => [
-    'user_email' => ['title' => 'E-mail*',
+    'email' => ['title' => 'E-mail*',
       'placeholder' => 'Введите e-mail', 'input' => ''
     ],
-    'user_password' => ['title' => 'Пароль*',
+    'password' => ['title' => 'Пароль*',
       'placeholder' => 'Введите пароль', 'input' =>''
     ],
   ],
   // Register
   'register' => [
-    'user_email' => ['title' => 'E-mail*',
-      'placeholder' => 'Введите e-mail', 'input' => ''
-    ],
-    'user_password' => ['title' => 'Пароль*',
-      'placeholder' => 'Введите пароль', 'input' =>''
-    ],
-    'user_name' => ['title' => 'Имя*',
+    'name' => ['title' => 'Имя*',
       'placeholder' => 'Введите имя', 'input' => ''
     ],
-    'user_contacts' => [
+    'email' => ['title' => 'E-mail*',
+      'placeholder' => 'Введите e-mail', 'input' => ''
+    ],
+    'password' => ['title' => 'Пароль*',
+      'placeholder' => 'Введите пароль', 'input' =>''
+    ],
+    'contacts' => [
       'title' => 'Контактные данные*',
       'placeholder' => 'Напишите как с вами связаться', 'input' => ''
     ],
-    'user_avatar' => [
+    'avatar' => [
       'title' => 'Аватар', 'alt' => 'Ваш аватар'
     ],
   ],
   // Add lot
   'lot_add' => [
-    'lot_name' => ['title' => 'Наименование',
+    'name' => ['title' => 'Наименование',
       'input' => '', 'placeholder' => 'Введите наименование лота'
     ],
-    'lot_description' => ['title' => 'Описание',
+    'description' => ['title' => 'Описание',
       'input' => '', 'placeholder' => 'Добавьте описание лота'
     ],
-    'lot_photo' => ['title' => 'Изображение',
+    'photo' => ['title' => 'Изображение',
       'alt' => 'Изображение лота', 'input' => ''
     ],
-    'lot_category' => [
+    'category' => [
       'title' => 'Категория', 'input' => 'Выберите категорию'
     ],
-    'lot_rate' => ['title' => 'Начальная цена', 'input' => ''
+    'rate' => ['title' => 'Начальная цена', 'input' => ''
     ],
-    'lot_step' => ['title' => 'Шаг ставки', 'input' => ''
+    'step' => ['title' => 'Шаг ставки', 'input' => ''
     ],
-    'lot_date' => ['title' => 'Дата завершения торгов',
+    'date_end' => ['title' => 'Дата завершения торгов',
       'input' => '']
   ],
   // Add bet

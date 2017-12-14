@@ -2,19 +2,19 @@
 <form class="form container <?if (!empty($errors)) : ?>form__invalid<?endif; ?>" action="/add.php" method="post">
     <h2>Вход</h2>
     <div class="form__item <?if (!empty($errors['email'])) : ?>form__item--invalid<?endif; ?>">
-      <label for="<?=$email['name']; ?>"><?=$email['title']; ?></label>
-      <input id="<?=$email['name']; ?>"
+      <label for="<?=$email; ?>"><?=$email['title']; ?></label>
+      <input id="<?=$email; ?>"
              type="text"
-             name="<?=$email['name']; ?>"
+             name="<?=$email; ?>"
              placeholder="<?=$email['placeholder']; ?>"
              value="<?=htmlspecialchars($email['input']); ?>">
       <span class="form__error"><?if (isset($errors['email']['error_message'])) : ?><?=$errors['email']['error_message']; ?><?endif; ?></span>
     </div>
     <div class="form__item form__item--last <?if (!empty($errors['password'])) : ?>form__item--invalid<?endif; ?>">
-      <label for="<?=$password['name']; ?>"><?=$password['title']; ?></label>
-      <input id="<?=$password['name']; ?>"
+      <label for="<?=$password; ?>"><?=$password['title']; ?></label>
+      <input id="<?=$password; ?>"
              type="text"
-             name="<?=$password['name']; ?>"
+             name="<?=$password; ?>"
              placeholder="<?=$password['placeholder']; ?>"
              value="<?=htmlspecialchars($password['input']); ?>">
       <span class="form__error"><?if (isset($errors['password']['error_message'])) : ?><?=$errors['password']['error_message']; ?><?endif; ?></span>
