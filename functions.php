@@ -62,7 +62,6 @@ function validateDate($date){
   $_date = getDateFormat($date);
   if (empty($_date)) {
     $end = strtotime($date);
-
     $min = round(($end - $now) / 3600, 2);
 
     $is_day = $min > 24 ? '' :
@@ -84,7 +83,6 @@ function get_integer($val){
 function get_numeric($val){
   if (is_numeric($val)) {
     return $val + 0;
-
   }
   return 0;
 }
