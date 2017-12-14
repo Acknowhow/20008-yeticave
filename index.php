@@ -47,6 +47,7 @@ $lots = [];
 $lot_name = '';
 
 // Form
+$check_key = '';
 $form_data = [];
 
 $error = '';
@@ -265,56 +266,28 @@ if (isset($_SESSION['form_data'])) {
   $form_data = $_SESSION['form_data'];
 
   if ($lot_added === false) {
-    $form_defaults['lot']['input'] =
-      $form_data['lot'] ? $form_data['lot'] : '';
+    $check_key = 'lot_add';
 
-    $form_defaults['category']['input'] =
-      $form_data['category'] ? $form_data['category'] : '';
-
-    $form_defaults['description']['input'] =
-      $form_data['description'] ? $form_data['description'] : '';
-
-    $form_defaults['rate']['input'] =
-      $form_data['rate'] ? $form_data['rate'] : '';
-
-    $form_defaults['step']['input'] =
-      $form_data['step'] ? $form_data['step'] : '';
-
-    $form_defaults['date_end']['input'] =
-      $form_data['date_end'] ? $form_data['date_end'] : '';
-
-    // If is_auth is NOT empty, all data stored
-    // in $_SESSION['form_data']['user']
   } elseif ($is_login === false) {
-
-    $form_defaults['email']['input'] =
-      $form_data['email'] ? $form_data['email'] : '';
-
-    $form_defaults['password']['input'] =
-      $form_data['password'] ? $form_data['password'] : '';
+    $check_key = 'login';
 
   } elseif ($is_register === false) {
+    $check_key = 'register';
 
-    $form_defaults['email']['input'] =
-      $form_data['email'] ? $form_data['email'] : '';
-
-    $form_defaults['password']['input'] =
-      $form_data['password'] ? $form_data['password'] : '';
-
-    $form_defaults['name']['input'] =
-      $form_data['name'] ? $form_data['name'] : '';
-
-    $form_defaults['contacts']['input'] =
-      $form_data['contacts'] ? $form_data['contacts'] : '';
-
+  } elseif ($bet_added === false) {
+    $check_key = 'bet_add';
   }
 
-  elseif (is_bool($bet_added)) {
-    $form_defaults['bet']['input'] =
-      $form_data['bet'] ? $form_data['bet'] : '';
+  // Can use foreach function here
+  foreach ($form_data as $key => $value) {
+    if ($key === $check_key) {
+      $form_defaults[$key]['input'] =
+        $form_data[$key] ? $form_data[$key] : '';
 
+    }
   }
 }
+
 if (isset($_GET['bet_added'])) {
   $bet_id = $form_data['bet_add']['bet_id'];
 

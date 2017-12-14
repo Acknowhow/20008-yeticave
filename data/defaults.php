@@ -6,6 +6,7 @@ $add_lot_title = 'Добавление лота';
 $container = 'main';
 
 $form_defaults = [
+  // Login
   'login' => [
     'user_email' => ['title' => 'E-mail*',
       'placeholder' => 'Введите e-mail', 'input' => ''
@@ -14,6 +15,7 @@ $form_defaults = [
       'placeholder' => 'Введите пароль', 'input' =>''
     ],
   ],
+  // Register
   'register' => [
     'user_email' => ['title' => 'E-mail*',
       'placeholder' => 'Введите e-mail', 'input' => ''
@@ -32,6 +34,7 @@ $form_defaults = [
       'title' => 'Аватар', 'alt' => 'Ваш аватар'
     ],
   ],
+  // Add lot
   'lot_add' => [
     'lot_name' => ['title' => 'Наименование',
       'input' => '', 'placeholder' => 'Введите наименование лота'
@@ -50,31 +53,9 @@ $form_defaults = [
     'lot_step' => ['title' => 'Шаг ставки', 'input' => ''
     ]
   ],
-
-
-
-  'bet' => ['name' => 'bet', 'input' => ''
-  ],
-  'lot' => ['name' => 'lot', 'title' => 'Наименование',
-    'input' => '', 'placeholder' => 'Введите наименование лота'
-  ],
-  'category' => ['name' => 'category',
-    'title' => 'Категория', 'input' => 'Выберите категорию'
-  ],
-  'lot_description' => ['name' => 'lot_description', 'title' => 'Описание',
-    'input' => '', 'placeholder' => 'Добавьте описание лота'
-  ],
-  'lot_rate' => ['name' => 'lot_rate',
-    'title' => 'Начальная цена', 'input' => ''
-  ],
-  'lot_step' => ['name' => 'lot_step',
-    'title' => 'Шаг ставки', 'input' => ''
-  ],
-  'lot_date_end' => ['name' => 'lot_date_end',
-    'title' => 'Дата окончания торгов', 'input' => ''
-  ],
-  'all' => ['name' => 'all',
-    'error_message' => 'Пожалуйста, исправьте ошибки в форме', 'input' => ''
+  // Add bet
+  'bet_add' => [
+    'bet' => ['input' => '']
   ]
 ];
 
