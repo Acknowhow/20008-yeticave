@@ -7,7 +7,7 @@ ob_start();
 require 'init.php';
 require 'functions.php';
 require 'config.php';
-require 'data/data.php';
+require 'data/defaults.php';
 require 'data/lot.php';
 
 error_reporting(-1);
@@ -60,8 +60,8 @@ $errors_all =
 
 $is_login = '';
 $is_register = '';
-$lot_added = '';
-$bet_added = '';
+$is_lot_add = '';
+$is_bet_add = '';
 
 // Form data user
 $user = [];
@@ -85,7 +85,7 @@ $category_id_sql = '';
 // All keys for $_GET array
 $get_keys = [
   'id', 'add', 'login', 'register',
-  'lot_added', 'is_login', 'bet_added', 'is_register'
+  'is_lot_add', 'is_login', 'is_bet_add', 'is_register'
 ];
 
 $categories_eng = [
@@ -140,13 +140,11 @@ if (!empty(select_data($link, $lots_sql, []))) {
 
 if (!empty($is_auth)) {
   $user = $_SESSION['user'];
-  $user_id = $user['id'];
+  $user_id = $user['user_id'];
 
-  $user_name = $user['name'];
-  $user_avatar = $user['url'];
+  $name = $user['name'];
+  $url = $user['url'];
 
-  // Unset open password for security reasons
-  unset($_SESSION['form_data']['login']);
 }
 
 if (isset($_GET['is_register'])) {
@@ -154,7 +152,7 @@ if (isset($_GET['is_register'])) {
     $is_register = true;
     $is_auth = true;
 
-    $user = $_SESSION['form_data']['register'];
+    $user = $form_data['register'];
     $_SESSION['user'] = $user;
 
     // Add current timestamp in MySQL format
@@ -171,8 +169,8 @@ if (isset($_GET['is_register'])) {
     $url = $user['url'];
 
     $user_id = insert_data($link, 'users', [
-        'name' => $user_name, 'email' => $user_email, 'password' => $user_password,
-        'contacts' => $user_contacts, 'date_add' => $date_add, 'url' => $url
+        'name' => $name, 'email' => $email, 'password' => $password,
+        'contacts' => $contacts, 'date_add' => $date_add, 'url' => $url
       ]);
 
     if (!is_int($user_id)) {
@@ -188,9 +186,9 @@ if (isset($_GET['is_register'])) {
     }
 
     // Assign id into SESSION
-    $user['id'] = $user_id;
+    $user['user_id'] = $user_id;
 
-    $_SESSION['form_data']['register'] = [];
+    $form_data['register'] = [];
 
 
   } elseif ($_GET['is_register'] === 'false') {
@@ -199,18 +197,18 @@ if (isset($_GET['is_register'])) {
 }
 
 // Add to database
-if (isset($_GET['lot_added'])) {
+if (isset($_GET['is_lot_add'])) {
 
-  if ($_GET['lot_added'] === 'true') {
-    $lot_added = true;
+  if ($_GET['is_lot_add'] === 'true') {
+    $is_lot_add = true;
 
-    $lot_name = $_SESSION['form_data']['lot'];
+    $name = $form_data['lot'];
     // Add current timestamp in MySQL format
     $date_add = convertTimeStampMySQL(
       strtotime('now'));
-    $date_end = $_SESSION['form_data']['date_end'];
+    $date_end = $form_data['date_end'];
 
-    $description = $_SESSION['form_data']['description'];
+    $description = $form_data['description'];
     $url = $_SESSION['form_data']['url'];
 
     $rate = $_SESSION['form_data']['rate'];
@@ -255,23 +253,43 @@ if (isset($_GET['lot_added'])) {
     }
 
   } elseif ($_GET['lot_added'] === 'false') {
-    $lot_added = false;
+    $is_lot_add = false;
   }
 }
 
 if (isset($_GET['is_login'])) {
   if ($_GET['is_login'] === 'true') {
     $is_login = true;
+    $_SESSION['login'] = [];
+
 
   } elseif ($_GET['is_login'] === 'false') {
     $is_login = false;
   }
 }
 
-if (isset($_SESSION['form_data'])) {
-  $form_data = $_SESSION['form_data'];
+if (isset($_GET['is_bet_add'])) {
 
-  if ($lot_added === false) {
+  if ($_GET['is_bet_add'] === 'true') {
+    $is_bet_add = true;
+    $bet_id = $form_data['bet_add']['bet_id'];
+
+    $cookie_value = json_decode($cookie_value, true);
+
+    $cookie_value[$bet_id]['bet'] = $form_data['bet_add']['bet'];
+    $cookie_value[$bet_id]['date_add'] = strtotime('now');
+
+    $cookie_value = json_encode($cookie_value);
+    setcookie($cookie_name, $cookie_value, $expire, $path);
+
+  } elseif ($_GET['is_bet_add'] === 'false') {
+    $is_bet_add = false;
+  }
+}
+
+if (isset($_SESSION['form_data'])) {
+
+  if ($is_lot_add === false) {
     $check_key = 'lot_add';
 
   } elseif ($is_login === false) {
@@ -280,9 +298,10 @@ if (isset($_SESSION['form_data'])) {
   } elseif ($is_register === false) {
     $check_key = 'register';
 
-  } elseif ($bet_added === false) {
+  } elseif ($is_bet_add === false) {
     $check_key = 'bet_add';
   }
+  $errors = $form_data['errors'];
 
   // Can use foreach function here
   foreach ($form_data as $key => $value) {
@@ -292,47 +311,6 @@ if (isset($_SESSION['form_data'])) {
 
     }
   }
-
-  $_SESSION['form_data'] = [];
-}
-
-if (isset($_GET['bet_added'])) {
-  $bet_id = $form_data['bet_add']['bet_id'];
-
-  if ($_GET['bet_added'] === 'true') {
-    $bet_added = true;
-    $cookie_value = json_decode($cookie_value, true);
-
-    $cookie_value[$bet_id]['bet_value'] = $form_data['bet_add']['bet_value'];
-    $cookie_value[$bet_id]['date_add'] = strtotime('now');
-
-    $cookie_value = json_encode($cookie_value);
-    setcookie($cookie_name, $cookie_value, $expire, $path);
-  } elseif ($_GET['bet_added'] === 'false') {
-    $bet_added = false;
-
-  }
-}
-// Set errors
-
-if ($is_login === false) {
-  $errors = $_SESSION['errors_login'];
-}
-
-if ($is_register === false) {
-  $errors = $_SESSION['errors_register'];
-  $errors['file'] = $_SESSION['errors_file'];
-
-}
-
-if ($lot_added === false) {
-  $errors = $_SESSION['errors_lot'];
-  $errors['file'] = $_SESSION['errors_file'];
-
-}
-
-if ($bet_added === false) {
-  $errors = $_SESSION['errors_bet'];
 }
 
 if (!empty($is_nav)) {
@@ -342,7 +320,7 @@ if (!empty($is_nav)) {
   ]);
 }
 
-if ($lot_added === true) {
+if ($is_lot_add === true) {
   $index = false;
 
   // Here must add all data from the current session
@@ -356,13 +334,12 @@ if ($lot_added === true) {
   ];
 }
 
-if (isset($_GET['id']) || $bet_added === false) {
+if (isset($_GET['lot_id'])) {
   $index = false;
 
-  $id = isset($_GET['id']) ? $_GET['id'] : $_SESSION['form_data']['bet_id'];
-  $bet = $form_defaults['bet'];
+  $lot_id = $_GET['lot_id'];
 
-  if (!isset($lots[$id])) {
+  if (!isset($lots[$lot_id])) {
     $title = $error_title;
 
     http_response_code(404);
@@ -376,8 +353,9 @@ if (isset($_GET['id']) || $bet_added === false) {
   }
 }
 
-if ($bet_added === true || !empty($lot)) {
+if ($is_bet_add === true || !empty($lot)) {
   $cookie_value = json_decode($cookie_value, true);
+
 
   $my_bets = $cookie_value;
   $cookie_value = json_encode($cookie_value);
@@ -385,7 +363,7 @@ if ($bet_added === true || !empty($lot)) {
 
 ob_end_flush();
 
-if ($bet_added === true) {
+if ($is_bet_add === true) {
   $index = false;
 
   $content = include_template('templates/my-lots.php', [
@@ -411,6 +389,7 @@ if (!empty($lot)) {
 
 if (isset($_GET['login']) || $is_login === false) {
   $index = false;
+  $defaults = $form_defaults['login'];
 
   $content = include_template('templates/login.php', [
     'nav' => $nav, 'email' => $form_defaults['email'],
@@ -422,17 +401,19 @@ if (isset($_GET['login']) || $is_login === false) {
 if (isset($_GET['register']) || $is_register === false) {
   $index = false;
 
-  $content = include_template('templates/register.php', [
-    'nav' => $nav, 'email' => $form_defaults['email'],
-    'password' => $form_defaults['password'], 'all' => $form_defaults['all'],
+  $defaults = $form_defaults['register'];
 
-    'name' => $form_defaults['name'], 'avatar' => $form_defaults['avatar'],
-    'contacts' => $form_defaults['contacts'], 'errors' => $errors
+  $content = include_template('templates/register.php', [
+    'nav' => $nav, 'email' => $defaults['email'],
+    'password' => $defaults['password'], 'all' => $defaults['all'],
+
+    'name' => $defaults['name'], 'url' => $defaults['url'],
+    'contacts' => $defaults['contacts'], 'errors' => $errors
 
   ]);
 }
 
-if (isset($_GET['lot_add']) || $lot_added === false) {
+if (isset($_GET['lot_add']) || $is_lot_add === false) {
   $index = false;
   $title = $add_lot_title;
 
@@ -443,7 +424,7 @@ if (isset($_GET['lot_add']) || $lot_added === false) {
     'nav' => $nav,
     'categories' => $categories, 'name' => $defaults['name'],
 
-    'category' => $defaults['category'], 'photo' => $defaults['photo'],
+    'category' => $defaults['category'], 'url' => $defaults['url'],
     'rate' => $defaults['rate'], 'step' => $defaults['step'],
 
     'date_end' => $defaults['date_end'], 'all' => $defaults['all'],

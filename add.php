@@ -25,7 +25,7 @@ $category = isset($_POST['category']) ? $_POST['category'] : '';
 $step = isset($_POST['step']) ? $_POST['step'] : '';
 $bet = isset($_POST['bet']) ? $_POST['bet'] : '';
 
-$id = isset($_POST['id']) ? $_POST['id'] : '';
+$bet_id = isset($_POST['id']) ? $_POST['id'] : '';
 $date_end = isset($_POST['date_end']) ? $_POST['date_end'] : '';
 
 $url_param = '';
@@ -207,7 +207,7 @@ if (isset($_POST['bet_add'])) {
 
   }
   $form_data[$check_key]['bet'] = $bet;
-  $form_data[$check_key]['bet_id'] = $id;
+  $form_data[$check_key]['bet_id'] = $bet_id;
 }
 
 if(!empty($errors['lot_add']) || !empty($errors['register'])) {
