@@ -60,8 +60,6 @@ $errors = isset($_SESSION['errors']) ?
 $errors_upload = isset($_SESSION['errors_upload']) ?
   $_SESSION['errors_upload'] : [];
 
-var_dump($errors_upload);
-
 $is_login = '';
 $is_register = '';
 $is_lot_add = '';
@@ -165,9 +163,6 @@ if (isset($_GET['is_register'])) {
 
     $password = $user['password'];
     $contacts = $user['contacts'];
-
-    $date_add = $user['date_add'];
-    $url = $user['url'];
 
     $user_id = insert_data($link, 'users', [
         'name' => $name, 'email' => $email, 'password' => $password,
@@ -387,6 +382,7 @@ if (isset($_GET['login']) || $is_login === false) {
 if (isset($_GET['register']) || $is_register === false) {
   $index = false;
 
+
   $defaults = $form_defaults['register'];
 
   $content = include_template('templates/register.php', [
@@ -395,7 +391,7 @@ if (isset($_GET['register']) || $is_register === false) {
 
     'name' => $defaults['name'], 'url' => $defaults['url'],
     'contacts' => $defaults['contacts'], 'errors' => $errors,
-    'errors_upload' => $errors_upload['register']
+    'errors_upload' => $errors_upload
 
   ]);
 }
