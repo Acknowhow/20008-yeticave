@@ -168,10 +168,7 @@ function validateUser($email, $users, $password){
   $is_user = null;
   $user = searchUserByEmail($email, $users);
 
-  if (is_string($user)) {
-    $is_user = $user;
-
-  } elseif (is_array($user) && ($is_user = password_verify($password, $user['password']))) {
+  if (is_string($user) || (is_array($user) && $is_user = password_verify($password, $user['password']))) {
     $is_user = $user;
 
   } elseif (is_array($user) && empty($is_user = password_verify($password, $user['password']))) {

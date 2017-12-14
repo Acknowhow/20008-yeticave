@@ -4,15 +4,32 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 session_start();
 require 'functions.php';
-require 'data/form.php';
+require 'data/errors.php';
 require 'init.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user'])) {
   http_response_code(403);
   die();
 }
-
+$form_data = [];
 $users = [];
+$errors = [];
+$check_key = '';
+
+$name = isset($_POST['name']) ? $_POST['name'] : '';
+
+$email = isset($_POST['email']) ? $_POST['email'] : '';
+$password = isset($_POST['password']) ? $_POST['password'] : '';
+$contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
+
+$category = isset($_POST['category']) ? $_POST['category'] : '';
+$step = isset($_POST['step']) ? $_POST['step'] : '';
+$bet = isset($_POST['bet']) ? $_POST['bet'] : '';
+
+$id = isset($_POST['id']) ? $_POST['id'] : '';
+$date_end = isset($_POST['date_end']) ? $_POST['date_end'] : '';
+
+$url_param = '';
 
 $users_sql = 'SELECT * FROM users ORDER BY user_id ASC;';
 if (!empty(select_data($link, $users_sql, []))) {
@@ -33,52 +50,20 @@ if (!empty(select_data($link, $users_sql, []))) {
   }
 }
 
-$form_data = [];
+if(isset($_POST['category'])) {
+  $_POST['category'] === 'Выберите категорию' ?
+    $_POST['category'] = '' : $_POST['category'];
 
-// Login + Register
-$name = isset($_POST['name']) ? $_POST['name'] : '';
-$password = isset($_POST['password']) ? $_POST['password'] : '';
+}
 
-$contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
-$email = isset($_POST['email']) ? $_POST['email'] : '';
-
-
-// Lot
-$_POST['category'] === 'Выберите категорию' ?
-  $_POST['category'] = '' : $_POST['category'];
-
-$step = isset($_POST['step']) ? $_POST['step'] : '';
-$end = isset($_POST['date_end']) ? $_POST['date_end'] : '';
-
-// Bet
-$bet = isset($_POST['bet']) ? $_POST['bet'] : '';
-$bet_id = isset($_POST['bet_add']) ? $_POST['bet_add'] : '';
-
-
-
-// Files
-$file = [];
-$file_params = isset($file['params']) ? $file['params'] : '';
-
-// Form errors
-
-$errors_file = [];
-$errors_login = [];
-$errors_register = [];
-
-$errors_lot = [];
-$errors_bet = [];
-
-$url_param = '';
-
-// Photo and avatar validate separately
+// Photo and avatar validates separately
 $login_keys = [
   'email', 'password'
 ];
 
 $lot_keys = [
-  'name', 'description', 'category',
-  'rate', 'step', 'date_end'
+  'name', 'description',
+  'category', 'rate', 'step', 'date_end'
 ];
 
 $register_keys = [
@@ -96,29 +81,23 @@ $rules_lot = [
 ];
 
 
-if (isset($_FILES)) {
-  if (isset($_FILES['lot_photo'])) {
-    $file['tag'] = 'photo';
-    $file_params = $_FILES['lot_photo'];
-  }
-  if (isset($_FILES['user_avatar'])) {
-    $file['tag'] = 'user_avatar';
-    $file_params = $_FILES['user_avatar'];
-  }
-}
-
 // Also use this array for register form
-if (isset($_FILES)) {
+if (!isset($_FILES)) {
+  $file = $_FILES['url'];
 
-    if ($_FILES['error'] == 0) {
+    if (isset($_POST['lot_add']) && $file['error'] !== 0) {
+      $errors['file'] = $form_errors['lot_add']['url']['empty'];
+
+    }
+    elseif ($file['error'] == 0) {
       $allowed = [
         'jpeg' => 'image/jpeg',
         'png' => 'image/png'
       ];
-      $file_name = $file_params['name'];
-      $file_name_tmp = $file_params['tmp_name'];
+      $file_name = $file['name'];
+      $file_name_tmp = $file['tmp_name'];
 
-      $file_type = $file_params['type'];
+      $file_type = $file['type'];
       $file_size = $file_params['size'];
 
       $file_path = __DIR__ . '/img/';
@@ -128,7 +107,7 @@ if (isset($_FILES)) {
       $result = validateUpload($allowed, $file_type, $file_size);
 
       if (!empty($result)) {
-        $errors_file['error_message'] = $result;
+        $errors_file = $result;
       }
       $destination_path = $file_path . $file_name;
       move_uploaded_file($file_name_tmp, $destination_path);
@@ -136,25 +115,23 @@ if (isset($_FILES)) {
       $form_data['file']['url'] = $file_url;
       $form_data['file']['alt'] = 'uploaded';
 
-    } elseif (isset($_POST['lot_add']) && $_FILES['error'] !== 0) {
-
-      $errors_file['error_message'] = $form_errors['lot_photo']['error_empty'];
-
     }
 }
 
 if (isset($_POST['lot_add'])) {
+  $check_key = 'lot_add';
+
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $lot_keys) && $value == '') {
-      $errors_lot[$key]['error_message'] = $form_errors[$key]['error_empty'];
+      $errors_lot[$key] = $form_errors[$check_key][$key]['empty'];
     }
 
     if (array_key_exists($key, $rules_lot)) {
       $result = call_user_func($rules_lot[$key], $value);
 
       if (!empty($result)) {
-        $errors_lot[$key]['error_message'] = $result;
+        $errors_lot[$key] = $form_errors[$check_key][$key][$result];
       }
     }
     $form_data['lot_add'][$key] = $value;
@@ -162,22 +139,23 @@ if (isset($_POST['lot_add'])) {
 }
 
 if (isset($_POST['login'])) {
+  $check_key = 'login';
 
   foreach ($_POST as $key => $value) {
 
     if (in_array($key, $login_keys) && $value == '') {
-      $errors_login[$key]['error_message'] = $form_errors[$key]['error_empty'];
+      $errors_login[$key] = $form_errors[$check_key][$key]['empty'];
     }
   }
 
   if (!empty($_POST['email']) && !empty($result = call_user_func(
       'validateEmail', $email))) {
-    $errors_login['email']['error_message'] = $result;
+    $errors_login['email'] = $form_errors[$check_key]['email'][$result];
 
   }
   if (!empty($_POST['password']) && is_string($validate = call_user_func(
       'validateUser', $email, $users, $password))) {
-    $errors_login['password']['error_message'] = $validate;
+    $errors_login['password'] = $form_errors[$check_key]['password'][$validate];
 
   }
 
@@ -191,6 +169,7 @@ if (isset($_POST['login'])) {
 }
 
 if (isset($_POST['register'])) {
+  $check_key = 'register';
 
   foreach ($_POST as $key => $value) {
 
@@ -201,14 +180,12 @@ if (isset($_POST['register'])) {
 
   if (!empty($_POST['email'])) {
     if (!empty($result = call_user_func('validateEmail', $email))) {
-      $errors_register['email']['error_message'] = $result;
+      $errors_register['email'] = $result;
 
     } elseif (!empty($result = call_user_func(
       'searchUserByEmail', $email, $users, true))) {
-      $errors_register['email']['error_message'] = $result;
+      $errors_register['email'] = $result;
     }
-
-    $form_data['register']['email'] = $email;
   }
 
   if (!empty($_POST['password'])) {
@@ -217,11 +194,14 @@ if (isset($_POST['register'])) {
 
     }
     elseif (is_array($password = call_user_func('validatePassword', $password))){
-      $form_data['register']['user_password'] = $user_password;
+      $form_data['register']['password'] = $password[0];
     }
   }
-  $form_data['register']['user_name'] = $user_name;
-  $form_data['register']['user_contacts'] = $user_contacts;
+  $form_data['register']['email'] = $email;
+  $form_data['register']['name'] = $name;
+
+  $form_data['register']['date_end'] = $date_end;
+  $form_data['register']['contacts'] = $contacts;
 }
 
 if (isset($_POST['bet_add'])) {
@@ -229,8 +209,8 @@ if (isset($_POST['bet_add'])) {
     $errors_bet['error_message'] = $form_errors['bet_add']['bet']['error_empty'];
 
   }
-  $form_data['bet_add']['bet_value'] = $bet;
-  $form_data['bet_add']['bet_id'] = $bet_id;
+  $form_data['bet_add']['bet'] = $bet;
+  $form_data['bet_add']['bet_id'] = $id;
 }
 
 // Must include $_SESSION['errors']['errors_form']
