@@ -54,9 +54,7 @@ if(isset($_POST['category'])) {
     $_POST['category'] = '' : $_POST['category'];
 }
 
-$check_empty = [
-  'lot_add', 'login', 'register'
-];
+$check_key = '';
 // Photo and avatar validates separately
 $login_keys = [
   'email', 'password'
@@ -117,10 +115,6 @@ if (!isset($_FILES)) {
     }
 }
 
-if (isset($_POST['lot_add']) || isset($_POST['login']) || isset($_POST['register'])) {
-//  $check_key = array_filter()
-}
-
 if (isset($_POST['lot_add'])) {
   $check_key = 'lot_add';
 
@@ -149,16 +143,17 @@ if (isset($_POST['login'])) {
     if (in_array($key, $login_keys) && $value == '') {
       $errors[$check_key] = $form_errors[$check_key][$key]['empty'];
     }
+    $form_data[$check_key][$key] = $value;
   }
 
   if (!empty($_POST['email']) && !empty($result = call_user_func(
       'validateEmail', $email))) {
-    $errors_login['email'] = $form_errors[$check_key]['email'][$result];
+    $errors['email'] = $form_errors[$check_key]['email'][$result];
 
   }
   if (!empty($_POST['password']) && is_string($validate = call_user_func(
       'validateUser', $email, $users, $password))) {
-    $errors_login['password'] = $form_errors[$check_key]['password'][$validate];
+    $errors['password'] = $form_errors[$check_key]['password'][$validate];
 
   }
 
@@ -167,44 +162,40 @@ if (isset($_POST['login'])) {
     $form_data['user'] = $validate;
 
   }
-  $form_data['login']['email'] = $email;
-  $form_data['login']['password'] = $password;
 }
 
 if (isset($_POST['register'])) {
   $check_key = 'register';
 
   foreach ($_POST as $key => $value) {
-
     if (in_array($key, $register_keys) && $value == '') {
-      $errors[$check_key][$key] = $form_errors[$check_key][$key]['error_empty'];
+      $errors[$check_key][$key] = $form_errors[$check_key][$key]['error'];
     }
+
+    $form_data[$check_key][$key] = $value;
   }
 
   if (!empty($_POST['email'])) {
-    if (!empty($result = call_user_func('validateEmail', $email))) {
-      $errors_register['email'] = $result;
+    $key = 'email';
 
-    } elseif (!empty($result = call_user_func(
-      'searchUserByEmail', $email, $users, true))) {
-      $errors_register['email'] = $result;
+    if (!empty($result = call_user_func('validateEmail', $email)) ||
+      !empty($result = call_user_func('searchUserByEmail', $email, $users, true))) {
+
+      $errors[$check_key][$key] = $form_errors[$check_key][$key][$result];
     }
   }
 
   if (!empty($_POST['password'])) {
+    $key = 'password';
+
     if (is_string($result = call_user_func('validatePassword', $password))){
-      $errors_register['user_password']['error_message'] = $result;
+      $errors[$check_key][$key] = $form_errors[$check_key][$key][$result];
 
     }
     elseif (is_array($password = call_user_func('validatePassword', $password))){
-      $form_data['register']['password'] = $password[0];
+      $form_data[$check_key][$key] = $password[0];
     }
   }
-  $form_data['register']['email'] = $email;
-  $form_data['register']['name'] = $name;
-
-  $form_data['register']['date_end'] = $date_end;
-  $form_data['register']['contacts'] = $contacts;
 }
 
 if (isset($_POST['bet_add'])) {
@@ -216,46 +207,36 @@ if (isset($_POST['bet_add'])) {
   $form_data['bet_add']['bet_id'] = $id;
 }
 
-// Must include $_SESSION['errors']['errors_form']
-
 if(!empty($errors_lot) || !empty($errors_register)) {
   $errors_all = $form_errors['all'];
 }
 
-$_SESSION['input'] = $input;
+$_SESSION['form_data'] = $form_data;
 $_SESSION['errors'] = $errors;
 
 $errors['all'] = $errors_all;
 
 if (isset($form_data['lot_add'])) {
-  $errors['lot_add'] = $errors_lot;
-  $errors['file'] = $errors_file;
-
-
-  $result = count($errors_lot) || count($errors_file) ? 'false' : 'true';
+  $result = count($errors['lot_add']) ||
+  count($errors['file']) ? 'false' : 'true';
   $url_param = 'lot_added=' . $result;
-}
 
+}
 if (isset($form_data['login'])) {
-  $_SESSION['errors_login'] = $errors_login;
-
-  $result = count($errors_login) ? 'false' : 'true';
+  $result = count($errors['login']) ? 'false' : 'true';
   $url_param = 'is_login=' . $result;
-}
 
+}
 if (isset($form_data['bet_add'])) {
-  $_SESSION['errors_bet'] = $errors_bet;
-
-  $result = count($errors_bet) ? 'false' : 'true';
+  $result = count($errors['bet_add']) ? 'false' : 'true';
   $url_param = 'bet_added=' . $result;
+
 }
-
 if (isset($form_data['register'])) {
-  $_SESSION['errors_register'] = $errors_register;
-  $_SESSION['errors_file'] = $errors_file;
-
-  $result = count($errors_register) ? 'false' : 'true';
+  $result = count($errors['register']) ||
+  count($errors['file'])? 'false' : 'true';
   $url_param = 'is_register=' . $result;
+
 }
 
 header('Location: index.php?' . $url_param);
