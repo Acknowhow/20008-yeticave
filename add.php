@@ -104,7 +104,7 @@ if (!isset($_FILES)) {
       $result = validateUpload($allowed, $file_type, $file_size);
 
       if (!empty($result)) {
-        $errors_file = $result;
+        $errors['file'] = $result;
       }
       $destination_path = $file_path . $file_name;
       move_uploaded_file($file_name_tmp, $destination_path);
@@ -219,8 +219,8 @@ $_SESSION['errors'] = $errors;
 
 
 if (isset($form_data['lot_add'])) {
-  $result = count($errors['lot_add']) ||
-  count($errors['file']) ? 'false' : 'true';
+  $result = count($errors['lot_add']) || isset($errors['file']) ?
+    'false' : 'true';
   $url_param = 'lot_added=' . $result;
 
 }
@@ -235,8 +235,8 @@ if (isset($form_data['bet_add'])) {
 
 }
 if (isset($form_data['register'])) {
-  $result = count($errors['register']) ||
-  count($errors['file'])? 'false' : 'true';
+  $result = count($errors['register']) || isset($errors['file']) ?
+    'false' : 'true';
   $url_param = 'is_register=' . $result;
 
 }
