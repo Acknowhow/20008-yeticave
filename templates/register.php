@@ -8,7 +8,7 @@
            name="<?=$email['name']; ?>"
            placeholder="<?=$email['placeholder']; ?>"
            value="<?=htmlspecialchars($email['input']); ?>">
-    <span class="form__error"><?if (isset($errors['email']['error_message'])) : ?><?=$errors['email']['error_message']; ?><?endif; ?></span>
+    <span class="form__error"><?if (isset($errors['email'])) : ?><?=$errors['email']; ?><?endif; ?></span>
   </div>
 
   <div class="form__item <?if (!empty($errors['password'])) : ?>form__item--invalid<?endif; ?>">
@@ -18,7 +18,7 @@
            name="<?=$password['name']; ?>"
            placeholder="<?=$password['placeholder']; ?>"
            value="<?=htmlspecialchars($password['input']); ?>">
-    <span class="form__error"><?if (isset($errors['password']['error_message'])) : ?><?=$errors['password']['error_message']; ?><?endif; ?></span>
+    <span class="form__error"><?if (isset($errors['password'])) : ?><?=$errors['password']; ?><?endif; ?></span>
   </div>
   <div class="form__item <?if (!empty($errors['name'])) : ?>form__item--invalid<?endif; ?>">
     <label for="<?=$name['name']; ?>"><?=$name['title']; ?></label>
@@ -27,14 +27,14 @@
            name="<?=$name['name']; ?>"
            placeholder="<?=$name['placeholder']; ?>"
            value="<?=htmlspecialchars($name['input']); ?>">
-    <span class="form__error"><?if (isset($errors['name']['error_message'])) : ?><?=$errors['name']['error_message']; ?><?endif; ?></span>
+    <span class="form__error"><?if (isset($errors['name'])) : ?><?=$errors['name']; ?><?endif; ?></span>
   </div>
   <div class="form__item <?if (!empty($errors['contacts'])) : ?>form__item--invalid<?endif; ?>">
     <label for="<?=$contacts['name']; ?>"><?=$contacts['title']; ?></label>
     <textarea id="<?=$contacts['name']; ?>"
               name="<?=$contacts['name']; ?>"
               placeholder="<?=$contacts['placeholder']?>"><?=htmlspecialchars($contacts['input']); ?></textarea>
-    <span class="form__error"><?if (isset($errors['contacts']['error_message'])) : ?><?=$errors['contacts']['error_message']; ?><?endif; ?></span>
+    <span class="form__error"><?if (isset($errors['contacts'])) : ?><?=$errors['contacts']; ?><?endif; ?></span>
   </div>
   <div class="form__item form__item--file form__item--last">
     <label><?=$url['title']; ?></label>
@@ -49,11 +49,11 @@
       <label for="photo2">
         <span>+ Добавить</span>
       </label>
-      <?if (isset($errors['file']['error_message'])) : ?><span class="form_error"><?=$errors['file']['error_message']; ?><? endif; ?></span>
+      <span class="form_error"><?if (isset($errors['file'])) : ?><?=$errors['file']; ?><? endif; ?></span>
     </div>
   </div>
   <input type="hidden" name="register" value="">
-  <span class="form__error form__error--bottom"><?if (!empty($errors)) : ?><?=$all['error_message']; ?><? endif; ?></span>
+  <span class="form__error form__error--bottom"></span>
   <button type="submit" class="button">Зарегистрироваться</button>
   <a class="text-link" href="#">Уже есть аккаунт</a>
 </form>

@@ -11,7 +11,7 @@
              name="<?=$lot['name']; ?>"
              placeholder="<?=$lot['placeholder']; ?>"
              value="<?=htmlspecialchars($lot['input']); ?>">
-      <span class="form__error"><?if (isset($errors['lot']['error_message'])) : ?><?=$errors['lot']['error_message']; ?><? endif; ?></span>
+      <span class="form__error"><?if (isset($errors['lot'])) : ?><?=$errors['lot']; ?><? endif; ?></span>
     </div>
 
     <div class="form__item <?if (!empty($errors['category'])) : ?>form__item--invalid<? endif; ?>">
@@ -24,7 +24,7 @@
         <? endforeach; ?>
       </select>
 
-      <span class="form__error"><?if (isset($errors['category']['error_message'])) : ?><?=$errors['category']['error_message']; ?><? endif; ?></span>
+      <span class="form__error"><?if (isset($errors['category'])) : ?><?=$errors['category']; ?><? endif; ?></span>
     </div>
   </div>
 
@@ -35,20 +35,20 @@
               name="<?=$description['name']; ?>"
               placeholder="<?=$description['placeholder']; ?>"
     ><?=htmlspecialchars($description['input']); ?></textarea>
-    <span class="form__error"><?if (isset($errors['description']['error_message'])) : ?><?=$errors['description']['error_message']; ?><? endif; ?></span>
+    <span class="form__error"><?if (isset($errors['description'])) : ?><?=$errors['description']; ?><? endif; ?></span>
   </div>
 
   <div class="form__item form__item--file <?if (!empty($errors['file'])) : ?>form__item--invalid<? endif; ?>"> <!-- form__item--uploaded -->
-    <label><?=$photo['title']; ?></label>
+    <label><?=$url['title']; ?></label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
       <div class="preview__img">
-        <img src="" width="113" height="113" alt="<?=$photo['alt']; ?>">
+        <img src="" width="113" height="113" alt="<?=$url['alt']; ?>">
       </div>
     </div>
     <div class="form__input-file">
-      <input class="visually-hidden" type="file" id="photo2" name="<?=$lot_photo; ?>">
-      <span class="form_error"><?if (isset($errors['file']['error_message'])) : ?><?=$errors['file']['error_message']; ?><? endif; ?></span>
+      <input class="visually-hidden" type="file" id="photo2" name="<?=$url; ?>">
+      <span class="form_error"><?if (isset($errors['file'])) : ?><?=$errors['file']; ?><? endif; ?></span>
       <label for="photo2">
         <span>+ Добавить</span>
       </label>
@@ -64,7 +64,7 @@
              placeholder="0"
              step="0.00001"
              value="<?=htmlspecialchars($rate['input']); ?>">
-      <span class="form__error"><? if(isset($errors['rate']['error_message'])) : ?><?=$errors['rate']['error_message']; ?><? endif; ?></span>
+      <span class="form__error"><? if(isset($errors['rate'])) : ?><?=$errors['rate']; ?><? endif; ?></span>
     </div>
 
     <div class="form__item form__item--small <?if (!empty($errors['step'])) : ?>form__item--invalid<? endif; ?>">
@@ -75,7 +75,7 @@
              placeholder="0"
              step="0.00001"
              value="<?=htmlspecialchars($step['input']); ?>">
-      <span class="form__error"><?if (isset($errors['step']['error_message'])) : ?><?=$errors['step']['error_message']; ?><? endif; ?></span>
+      <span class="form__error"><?if (isset($errors['step'])) : ?><?=$errors['step']; ?><? endif; ?></span>
     </div>
 
     <div class="form__item <?if (!empty($errors['date_end'])) : ?>form__item--invalid<? endif; ?>">
@@ -85,10 +85,10 @@
              type="date"
              name="<?=$date_end['name']; ?>"
              value="<?=$date_end['input']; ?>">
-      <span class="form__error"><?if (isset($errors['date_end']['error_message'])) : ?><?=$errors['date_end']['error_message']; ?><? endif; ?></span>
+      <span class="form__error"><?if (isset($errors['date_end'])) : ?><?=$errors['date_end']; ?><? endif; ?></span>
     </div>
   </div>
     <input type="hidden" name="lot_add" value="">
-  <span class="form__error form__error--bottom"><?if (!empty($errors)) : ?><?=$all['error_message']; ?><? endif; ?></span>
+  <span class="form__error form__error--bottom"><?if (!empty($errors)) : ?><?=print 'Пожалуйста, исправьте ошибки в форме'; ?><? endif; ?></span>
   <button type="submit" class="button">Добавить лот</button>
 </form>

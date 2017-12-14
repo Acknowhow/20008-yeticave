@@ -49,13 +49,17 @@ $my_bets = [];
 // Lots
 $lots = [];
 
+
+
 // Form
 $check_key = '';
 $form_data = isset($_SESSION['form_data']) ?
   $_SESSION['form_data'] : [];
 
+
 $error = '';
-$errors = [];
+$errors = isset($_SESSION['errors']) ?
+  $_SESSION['errors'] : [];
 
 $is_login = '';
 $is_register = '';
@@ -88,6 +92,7 @@ $categories_eng = [
   'boards', 'attachment', 'boots', 'clothing', 'tools', 'other'
 ];
 
+
 if (!empty($_GET)) {
   $get_keys = array_flip($get_keys);
   $is_nav = array_intersect($_GET, $get_keys) ? 'true' : 'false';
@@ -118,7 +123,6 @@ l.category_id,c.name as category from lots l JOIN
 if (!empty(select_data($link, $lots_sql, []))) {
 
   $lots = select_data($link, $lots_sql, []);
-
 
   if (empty($lots)) {
     mysqli_close($link);
@@ -239,18 +243,14 @@ if (isset($_GET['is_bet_add'])) {
   }
 }
 
-if (isset($_SESSION['form_data'])) {
-  $errors = $form_data['errors'];
+if (!empty($check_key)) {
 
   // Can use foreach function here
-  foreach ($form_data as $key => $value) {
-    if ($key === $check_key) {
-      $form_defaults[$key]['input'] =
-        $form_data[$key] ? $form_data[$key] : '';
-
-    }
+  foreach ($form_data[$check_key] as $key => $value) {
+    $form_defaults[$check_key][$key]['input'] = $value ? $value : '';
   }
 }
+
 
 if (!empty($is_nav)) {
 
@@ -316,7 +316,6 @@ if ($is_lot_add === true) {
   }
 
   $form_data['lot_add'] = [];
-
 }
 
 if (isset($_GET['lot_id'])) {
@@ -392,7 +391,7 @@ if (isset($_GET['register']) || $is_register === false) {
     'password' => $defaults['password'],
 
     'name' => $defaults['name'], 'url' => $defaults['url'],
-    'contacts' => $defaults['contacts'], 'errors' => $errors
+    'contacts' => $defaults['contacts'], 'errors' => $errors['register']
 
   ]);
 }
@@ -403,16 +402,15 @@ if (isset($_GET['lot_add']) || $is_lot_add === false) {
 
   $defaults = $form_defaults['lot_add'];
 
-
   $content = include_template('templates/add-lot.php', [
     'nav' => $nav,
-    'categories' => $categories, 'name' => $defaults['name'],
+    'categories' => $categories, 'lot' => $defaults['lot'],
 
     'category' => $defaults['category'], 'url' => $defaults['url'],
     'rate' => $defaults['rate'], 'step' => $defaults['step'],
 
-    'date_end' => $defaults['date_end'], 'all' => $defaults['all'],
-    'description' => $defaults['description'], 'errors' => $errors
+    'date_end' => $defaults['date_end'],
+    'description' => $defaults['description'], 'errors' => $errors['lot_add']
 
   ]);
 }

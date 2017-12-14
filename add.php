@@ -210,9 +210,6 @@ if (isset($_POST['bet_add'])) {
   $form_data[$check_key]['bet_id'] = $bet_id;
 }
 
-if(!empty($errors['lot_add']) || !empty($errors['register'])) {
-  $errors['all'] = $form_errors['all'];
-}
 
 $_SESSION['form_data'] = $form_data;
 $_SESSION['errors'] = $errors;
