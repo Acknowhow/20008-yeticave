@@ -51,7 +51,9 @@ $form_defaults = [
     'lot_rate' => ['title' => 'Начальная цена', 'input' => ''
     ],
     'lot_step' => ['title' => 'Шаг ставки', 'input' => ''
-    ]
+    ],
+    'lot_date' => ['title' => 'Дата завершения торгов',
+      'input' => '']
   ],
   // Add bet
   'bet_add' => [

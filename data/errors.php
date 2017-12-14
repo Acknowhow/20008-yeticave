@@ -34,55 +34,41 @@ $form_errors = [
   ],
   // Add lot
   'lot_add' => [
-    'lot_name' => ['title' => 'Наименование',
-      'input' => '', 'placeholder' => 'Введите наименование лота'
+    'lot_name' => [
+
+      'error_empty' => 'Введите наименование лота'
     ],
-    'lot_description' => ['title' => 'Описание',
-      'input' => '', 'placeholder' => 'Добавьте описание лота'
+    'lot_description' => [
+
+      'error_empty' => 'Добавьте описание лота'
     ],
-    'lot_photo' => ['title' => 'Изображение',
-      'alt' => 'Изображение лота', 'input' => ''
+    'lot_photo' => [
+
+      'error_empty' => 'Добавьте изображение лота'
     ],
     'lot_category' => [
-      'title' => 'Категория', 'input' => 'Выберите категорию'
+
+      'error_empty' => 'Выберите категорию'
     ],
-    'lot_rate' => ['title' => 'Начальная цена', 'input' => ''
+    'lot_rate' => [
+
+      'error_empty' => ''
     ],
-    'lot_step' => ['title' => 'Шаг ставки', 'input' => ''
+    'lot_step' => [
+
+      'error_empty' => ''
+    ],
+    'lot_date' => [
+
+      'error_empty' => 'Введите дату завершения торгов',
+      'error_format' => 'Неправильный формат даты', 'error_date' => 'Дата меньше текущего значения'
     ]
   ],
   // Add bet
   'bet_add' => [
-    'bet' => ['input' => '']
-  ]
-];
-$form_errors = [
+    'bet' => [
 
-
-  'user_contacts' => [
-    'name' => 'user_contacts',
-  ],
-
-  'lot_photo' => [
-    'name' => 'lot_photo', 'error_empty' => 'Добавьте изображение лота'
-  ],
-  'lot' => [
-    'name' => 'lot_name', 'error_empty' => 'Введите наименование лота'
-  ],
-  'category' => [
-    'name' => 'category', 'error_empty' => 'Выберите категорию'
-  ],
-  'lot_description' => [
-    'name' => 'lot_description', 'error_empty' => 'Добавьте описание лота'
-  ],
-  'lot_rate' => [
-    'name' => 'lot_rate', 'error_empty' => ''
-  ],
-  'lot_step' => [
-    'name' => 'lot_step', 'error_empty' => ''
-  ],
-  'lot_date_end' => [
-    'name' => 'lot_date_end', 'error_empty' => 'Введите дату завершения торгов',
-    'error_format' => 'Неправильный формат даты', 'error_date' => 'Дата меньше текущего значения'
+      'error_empty' => ''
+    ]
   ]
 ];
