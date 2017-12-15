@@ -55,8 +55,6 @@ $bet_made = false;
 $my_bets = [];
 
 // Lots
-$lot = isset($_SESSION['lot']) ?
-  $_SESSION['lot'] : [];
 $lots = [];
 $lot_name = '';
 
@@ -273,6 +271,8 @@ if (!empty($check_key)) {
   }
 }
 
+print '$content is:';
+var_dump($content);
 
 if (!empty($is_nav)) {
 
@@ -282,9 +282,13 @@ if (!empty($is_nav)) {
 }
 
 if ($is_lot_add === true) {
-  $index = false;
-
   $lot = $form_data;
+
+  print 'Lot is :';
+  var_dump($lot);
+
+  print '$content is:';
+  var_dump($content);
 
   $lot_name = $lot['name'];
   // Add current timestamp in MySQL format
@@ -338,8 +342,6 @@ if ($is_lot_add === true) {
   }
   $lot['lot_id'] = $lot_id;
   $_SESSION['lot'] = $lot;
-
-  header("Location: index.php?lot_id=$lot_id");
 
 }
 
