@@ -132,10 +132,6 @@ $count = $lots_count[0]['count'];
 $count = $count + 0;
 $page_items = $page_items + 0;
 
-print 'count is ';
-var_dump($count);
-print 'page items are ';
-var_dump($page_items);
 $pages_count = ceil($count / $page_items);
 $offset = ($curr_page - 1) * $page_items;
 
@@ -289,8 +285,6 @@ if (!empty($check_key)) {
   }
 }
 
-print '$content is:';
-var_dump($content);
 
 if (!empty($is_nav)) {
 
@@ -301,12 +295,6 @@ if (!empty($is_nav)) {
 
 if ($is_lot_add === true) {
   $lot = $form_data;
-
-  print 'Lot is :';
-  var_dump($lot);
-
-  print '$content is:';
-  var_dump($content);
 
   $lot_name = $lot['name'];
   // Add current timestamp in MySQL format
