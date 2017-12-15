@@ -30,11 +30,14 @@ $category_id = null;
 $form_data = isset($_SESSION['form_data']) ?
   $_SESSION['form_data'] : '';
 
+$result = '';
 $defaults = [];
 
-//$cur_page = $_GET['page'] ?
-//  $_GET['page'] : 1;
+
+$curr_page = isset($_GET['page']) ?
+  $_GET['page'] : 1;
 $page_items = 3;
+$pages_count = null;
 
 // Templates
 $index = true;
@@ -89,7 +92,6 @@ $result = '';
 $categories = [];
 $category_id_sql = '';
 
-
 // All keys for $_GET array
 $get_keys = [
   'id', 'add', 'login', 'register',
@@ -122,11 +124,29 @@ if (empty($categories)) {
 
 }
 
+$lots_count_sql = 'SELECT COUNT(*) as count FROM lots';
+
+$lots_count = select_data($link, $lots_count_sql, []);
+$count = $lots_count[0]['count'];
+
+$count = $count + 0;
+$page_items = $page_items + 0;
+
+print 'count is ';
+var_dump($count);
+print 'page items are ';
+var_dump($page_items);
+$pages_count = ceil($count / $page_items);
+$offset = ($curr_page - 1) * $page_items;
+
+$pages = range(1, $pages_count);
+
 $lots_sql = 'SELECT l.lot_id,l.name,l.date_add,
 l.date_end,l.description,l.url,l.rate,l.step,l.author_id,
 l.category_id,c.name as category from lots l JOIN
  categories c ON l.category_id=c.category_id
-  WHERE l.date_add < l.date_end ORDER BY l.date_add DESC;';
+  WHERE l.date_add < l.date_end ORDER BY l.date_add DESC
+  LIMIT ' . $page_items . ' OFFSET ' . $offset;
 
 if (!empty(select_data($link, $lots_sql, []))) {
 
@@ -137,18 +157,16 @@ if (!empty(select_data($link, $lots_sql, []))) {
 
     $error = 'Can\'t resolve lots list';
 
-    print include_template('templates/404.php',[
+    print include_template('templates/404.php', [
       'container' => $container,
       'error' => $error
     ]);
     exit();
 
   }
-
-//  print_r($lots_count);
-//  $lots_count = select_data($link, 'SELECT COUNT(*) as ? FROM lots', ['count']);
-
 }
+
+
 
 if (!empty($user)) {
   $is_auth = true;
@@ -453,9 +471,14 @@ if (isset($_GET['lot_add']) || $is_lot_add === false) {
 }
 
 if (!empty($index)) {
+  $pagination = include_template('templates/pagination.php', [
+    'page_items' => $page_items, 'pages' => $pages,
+    'pages_count' => $pages_count, 'curr_page' => $curr_page,
+    ]);
   $content = include_template('templates/index.php', [
 
-    'categories' => $categories, 'lots' => $lots
+    'categories' => $categories,
+    'lots' => $lots, 'pagination' => $pagination
   ]);
 }
 ob_end_flush();

@@ -35,3 +35,4 @@
       </li><? endforeach; ?><? endif; ?>
   </ul>
 </section>
+<?=$pagination; ?>
