@@ -54,8 +54,6 @@ $lots = [];
 
 // Form
 $check_key = '';
-$user_auth = isset($_SESSION['form_data']['user']) ?
-  $_SESSION['form_data']['user'] : '';
 
 $error = '';
 $errors = isset($_SESSION['errors']) ?
@@ -69,7 +67,8 @@ $is_lot_add = '';
 $is_bet_add = '';
 
 // Form data user
-$user = [];
+$user = isset($_SESSION['user']) ?
+  $_SESSION['user'] : [];
 
 $email = '';
 $password = '';
@@ -83,8 +82,6 @@ $result = '';
 // Categories
 $categories = [];
 $category_id_sql = '';
-
-var_dump($_SESSION);
 
 
 // All keys for $_GET array
@@ -145,7 +142,6 @@ if (!empty(select_data($link, $lots_sql, []))) {
 
 if (!empty($user)) {
   $is_auth = true;
-  $user = $form_data['user'];
 
   $user_id = $user['user_id'];
 
@@ -190,8 +186,8 @@ if (isset($_GET['is_register'])) {
       exit();
     }
 
-    $_SESSION['user'] = $user;
 
+    $_SESSION['user'] = $user;
 
 
   } elseif ($_GET['is_register'] === 'false') {
@@ -217,8 +213,14 @@ if (isset($_GET['is_login'])) {
     $is_login = true;
     $is_auth = true;
 
+    $user = $form_data;
 
-    var_dump($user);
+    $name = $user['name'];
+    $email = $user['email'];
+    $url = $user['url'];
+
+    $_SESSION['user'] = $user;
+
 
 
   } elseif ($_GET['is_login'] === 'false') {
