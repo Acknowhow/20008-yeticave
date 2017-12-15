@@ -51,7 +51,10 @@ $bet_made = false;
 $my_bets = [];
 
 // Lots
+$lot = isset($_SESSION['lot']) ?
+  $_SESSION['lot'] : [];
 $lots = [];
+$lot_name = '';
 
 // Form
 $check_key = '';
@@ -127,6 +130,7 @@ if (!empty(select_data($link, $lots_sql, []))) {
 
   $lots = select_data($link, $lots_sql, []);
 
+
   if (empty($lots)) {
     mysqli_close($link);
 
@@ -187,8 +191,9 @@ if (isset($_GET['is_register'])) {
       exit();
     }
 
-
+    $user['user_id'] = $user_id;
     $_SESSION['user'] = $user;
+
 
 
   } elseif ($_GET['is_register'] === 'false') {
@@ -324,8 +329,11 @@ if ($is_lot_add === true) {
     exit();
 
   }
+  $lot['lot_id'] = $lot_id;
+  $_SESSION['lot'] = $lot;
 
-  $form_data['lot_add'] = [];
+  header("Location: index.php?lot_id=$lot_id");
+
 }
 
 if (isset($_GET['lot_id'])) {
@@ -438,7 +446,6 @@ if (!empty($index)) {
     'categories' => $categories, 'lots' => $lots
   ]);
 }
-var_dump($_SESSION);
 
 
 print include_template('templates/layout.php', [

@@ -61,7 +61,7 @@ $login_keys = [
 ];
 
 $lot_keys = [
-  'lot', 'description',
+  'lot', 'description', 'url',
   'category', 'rate', 'step', 'date_end'
 ];
 
