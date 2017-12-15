@@ -32,12 +32,14 @@ $form_data = isset($_SESSION['form_data']) ?
 
 $defaults = [];
 
-
+//$cur_page = $_GET['page'] ?
+//  $_GET['page'] : 1;
+$page_items = 3;
 
 // Templates
 $index = true;
 $is_nav = null;
-$nav = [];
+$nav = null;
 $content = [];
 
 // Helper vars
@@ -132,7 +134,6 @@ if (!empty(select_data($link, $lots_sql, []))) {
 
   $lots = select_data($link, $lots_sql, []);
 
-
   if (empty($lots)) {
     mysqli_close($link);
 
@@ -145,6 +146,10 @@ if (!empty(select_data($link, $lots_sql, []))) {
     exit();
 
   }
+
+//  print_r($lots_count);
+//  $lots_count = select_data($link, 'SELECT COUNT(*) as ? FROM lots', ['count']);
+
 }
 
 if (!empty($user)) {
@@ -364,7 +369,7 @@ if ($is_bet_add === true || !empty($lot)) {
   $cookie_value = json_encode($cookie_value);
 }
 
-ob_end_flush();
+
 
 if ($is_bet_add === true) {
   $index = false;
@@ -393,6 +398,7 @@ if (!empty($lot)) {
     'bet' => $bet, 'bets' => $bets, 'errors' => $errors, 'bet_made' => $bet_made
   ]);
 }
+
 
 if (isset($_GET['login']) || $is_login === false) {
   $index = false;
@@ -450,7 +456,7 @@ if (!empty($index)) {
     'categories' => $categories, 'lots' => $lots
   ]);
 }
-
+ob_end_flush();
 
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
