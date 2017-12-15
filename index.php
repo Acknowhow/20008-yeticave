@@ -19,14 +19,17 @@ $cookie_value = isset($_COOKIE['cookie_bet']) ?
 $expire = time() + 60 * 60 * 24 * 30;
 $path = '/';
 
-$is_auth = isset($_SESSION['user']) ?
-  true : false;
+$is_auth = '';
+
 
 // id
 $user_id = null;
 $lot_id = null;
 $bet_id = null;
 $category_id = null;
+
+$form_data = isset($_SESSION['form_data']) ?
+  $_SESSION['form_data'] : '';
 
 $defaults = [];
 
@@ -51,8 +54,8 @@ $lots = [];
 
 // Form
 $check_key = '';
-$form_data = isset($_SESSION['form_data']) ?
-  $_SESSION['form_data'] : [];
+$user_auth = isset($_SESSION['form_data']['user']) ?
+  $_SESSION['form_data']['user'] : '';
 
 $error = '';
 $errors = isset($_SESSION['errors']) ?
@@ -80,6 +83,9 @@ $result = '';
 // Categories
 $categories = [];
 $category_id_sql = '';
+
+var_dump($_SESSION);
+
 
 // All keys for $_GET array
 $get_keys = [
@@ -137,16 +143,14 @@ if (!empty(select_data($link, $lots_sql, []))) {
   }
 }
 
-if (!empty($is_auth)) {
-  $user = $_SESSION['user'];
+if (!empty($user)) {
+  $is_auth = true;
+  $user = $form_data['user'];
+
   $user_id = $user['user_id'];
-
-
 
   $name = $user['name'];
   $url = $user['url'];
-
-  var_dump($user);
 
 }
 
@@ -155,8 +159,7 @@ if (isset($_GET['is_register'])) {
     $is_register = true;
     $is_auth = true;
 
-    $user = $form_data['register'];
-    $_SESSION['user'] = $user;
+    $user = $form_data;
 
     // Add current timestamp in MySQL format
     $date_add = convertTimeStampMySQL(
@@ -187,11 +190,8 @@ if (isset($_GET['is_register'])) {
       exit();
     }
 
-    // Assign id into SESSION
-    $_SESSION['user']['user_id'] = $user_id;
-    $_SESSION['user']['url'] = $url;
+    $_SESSION['user'] = $user;
 
-    $form_data['register'] = [];
 
 
   } elseif ($_GET['is_register'] === 'false') {
@@ -215,8 +215,11 @@ if (isset($_GET['is_lot_add'])) {
 if (isset($_GET['is_login'])) {
   if ($_GET['is_login'] === 'true') {
     $is_login = true;
+    $is_auth = true;
 
-    $form_data['login'] = [];
+
+    var_dump($user);
+
 
   } elseif ($_GET['is_login'] === 'false') {
     $is_login = false;

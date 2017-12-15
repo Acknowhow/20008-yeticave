@@ -172,7 +172,7 @@ if (isset($_POST['login'])) {
 
   if (!empty($_POST['password']) && is_array($validate = call_user_func(
       'validateUser', $email, $users, $password))) {
-    $form_data['user'] = $validate;
+    $form_data[$check_key] = $validate;
 
   }
 }
@@ -223,7 +223,7 @@ if (isset($_POST['bet_add'])) {
 }
 
 
-$_SESSION['form_data'] = $form_data;
+$_SESSION['form_data'] = $form_data[$check_key];
 $_SESSION['errors'] = $errors;
 $_SESSION['errors_upload'] = $errors_upload;
 
