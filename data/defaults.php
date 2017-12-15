@@ -37,7 +37,7 @@ $form_defaults = [
   ],
   // Add lot
   'lot_add' => [
-    'lot' => ['name' => 'lot', 'title' => 'Наименование',
+    'lot' => ['name' => 'name', 'title' => 'Наименование',
       'input' => '', 'placeholder' => 'Введите наименование лота'
     ],
     'description' => ['name' => 'description', 'title' => 'Описание',

@@ -279,7 +279,7 @@ if ($is_lot_add === true) {
 
   $lot = $form_data;
 
-  $lot_name = $lot['lot'];
+  $lot_name = $lot['name'];
   // Add current timestamp in MySQL format
   $date_add = convertTimeStampMySQL(
     strtotime('now'));
@@ -374,8 +374,12 @@ if ($is_bet_add === true) {
 
 if (!empty($lot)) {
   $index = false;
+  $check_key = 'lot_add';
 
-  $title = $form_defaults[$check_key]['title'];
+  var_dump($lot);
+
+  var_dump($nav);
+  $title = $form_defaults[$check_key]['lot']['title'];
 
   if (!empty($my_bets)) {
     $bet_made = array_key_exists($lot_id, $my_bets) ? true : false;
