@@ -16,7 +16,6 @@ $users = [];
 $errors = [];
 $errors_upload = [];
 
-$name = isset($_POST['name']) ? $_POST['name'] : '';
 
 $email = isset($_POST['email']) ? $_POST['email'] : '';
 $password = isset($_POST['password']) ? $_POST['password'] : '';
@@ -57,14 +56,12 @@ if(isset($_POST['category'])) {
     $_POST['category'] = '' : $_POST['category'];
 }
 
-
-
 $login_keys = [
   'email', 'password'
 ];
 
 $lot_keys = [
-  'name', 'description',
+  'lot', 'description',
   'category', 'rate', 'step', 'date_end'
 ];
 
@@ -123,8 +120,8 @@ if (isset($_FILES)) {
     $destination_path = $file_path . $file_name;
     move_uploaded_file($file_name_tmp, $destination_path);
 
-    $form_data['file']['url'] = $file_url;
-    $form_data['file']['alt'] = 'uploaded';
+    $form_data[$check_key]['url'] = $file_url;
+    $form_data[$check_key]['alt'] = 'uploaded';
 
   }
 }
@@ -224,8 +221,9 @@ if (isset($_POST['bet_add'])) {
 
 
 $_SESSION['form_data'] = $form_data[$check_key];
-$_SESSION['errors'] = $errors;
-$_SESSION['errors_upload'] = $errors_upload;
+$_SESSION['errors'] = $errors[$check_key];
+$_SESSION['errors_upload'] = $errors_upload[$check_key];
+
 
 $result = count($errors[$check_key]) || isset($errors['file']) ?
   'false' : 'true';

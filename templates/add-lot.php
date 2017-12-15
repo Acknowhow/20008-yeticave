@@ -47,8 +47,8 @@
       </div>
     </div>
     <div class="form__input-file">
-      <input class="visually-hidden" type="file" id="photo2" name="<?=$url; ?>">
-      <span class="form_error"><?if (isset($errors_upload)) : ?><?=$errors_upload['add_lot']; ?><? endif; ?></span>
+      <input class="visually-hidden" type="file" id="photo2" name="<?=$url['name']; ?>">
+      <span class="form_error"><?if (!empty($errors_upload)) : ?><?=$errors_upload; ?><? endif; ?></span>
       <label for="photo2">
         <span>+ Добавить</span>
       </label>
@@ -89,6 +89,6 @@
     </div>
   </div>
     <input type="hidden" name="lot_add" value="">
-  <span class="form__error form__error--bottom"><?if (!empty($errors)) : ?><?=print 'Пожалуйста, исправьте ошибки в форме'; ?><? endif; ?></span>
+  <span class="form__error form__error--bottom"><?if (!empty($errors)) : ?><?print "Пожалуйста, исправьте ошибки в форме";?><? endif; ?></span>
   <button type="submit" class="button">Добавить лот</button>
 </form>

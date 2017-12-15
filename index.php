@@ -21,7 +21,6 @@ $path = '/';
 
 $is_auth = '';
 
-
 // id
 $user_id = null;
 $lot_id = null;
@@ -40,8 +39,10 @@ $nav = [];
 $content = [];
 
 // Helper vars
-$name = '';
-$url = '';
+$user_name = '';
+$lot_name = '';
+$user_url = '';
+$lot_url = '';
 $date_add = '';
 
 // Bets
@@ -145,8 +146,8 @@ if (!empty($user)) {
 
   $user_id = $user['user_id'];
 
-  $name = $user['name'];
-  $url = $user['url'];
+  $user_name = $user['name'];
+  $user_url = $user['url'];
 
 }
 
@@ -161,17 +162,17 @@ if (isset($_GET['is_register'])) {
     $date_add = convertTimeStampMySQL(
       strtotime('now'));
 
-    $name = $user['name'];
+    $user_name = $user['name'];
     $email = $user['email'];
 
     $password = $user['password'];
     $contacts = $user['contacts'];
 
-    $url = isset($user['url']) ? $user['url'] : $url_default;
+    $user_url = isset($user['url']) ? $user['url'] : $url_default;
 
     $user_id = insert_data($link, 'users', [
-        'name' => $name, 'email' => $email, 'password' => $password,
-        'contacts' => $contacts, 'date_add' => $date_add, 'url' => $url
+        'name' => $user_name, 'email' => $email, 'password' => $password,
+        'contacts' => $contacts, 'date_add' => $date_add, 'url' => $user_url
       ]);
 
     if (!is_int($user_id)) {
@@ -205,6 +206,7 @@ if (isset($_GET['is_lot_add'])) {
   } elseif ($_GET['is_lot_add'] === 'false') {
     $is_lot_add = false;
     $check_key = 'lot_add';
+
   }
 }
 
@@ -215,9 +217,9 @@ if (isset($_GET['is_login'])) {
 
     $user = $form_data;
 
-    $name = $user['name'];
+    $user_name = $user['name'];
     $email = $user['email'];
-    $url = $user['url'];
+    $user_url = $user['url'];
 
     $_SESSION['user'] = $user;
 
@@ -253,9 +255,8 @@ if (isset($_GET['is_bet_add'])) {
 
 if (!empty($check_key)) {
 
-  $errors = $errors[$check_key];
   // Can use foreach function here
-  foreach ($form_data[$check_key] as $key => $value) {
+  foreach ($form_data as $key => $value) {
     $form_defaults[$check_key][$key]['input'] = $value ? $value : '';
   }
 }
@@ -271,9 +272,9 @@ if (!empty($is_nav)) {
 if ($is_lot_add === true) {
   $index = false;
 
-  $lot = $form_data['lot_add'];
+  $lot = $form_data;
 
-  $name = $lot['name'];
+  $lot_name = $lot['lot'];
   // Add current timestamp in MySQL format
   $date_add = convertTimeStampMySQL(
     strtotime('now'));
@@ -281,7 +282,7 @@ if ($is_lot_add === true) {
   $date_end = $lot['date_end'];
 
   $description = $lot['description'];
-  $url = $lot['url'];
+  $lot_url = $lot['url'];
 
   $rate = $lot['rate'];
   $step = $lot['step'];
@@ -306,8 +307,8 @@ if ($is_lot_add === true) {
   $category_id = $category_id[0]['category_id'];
 
   $lot_id = insert_data($link, 'lots', [
-    'name' => $name, 'date_add' => $date_add, 'date_end' => $date_end,
-    'description' => $description, 'url' => $url, 'rate' => $rate,
+    'name' => $lot_name, 'date_add' => $date_add, 'date_end' => $date_end,
+    'description' => $description, 'url' => $lot_url, 'rate' => $rate,
     'step' => $step, 'author_id' => $user_id, 'category_id' => $category_id
   ]);
 
@@ -365,7 +366,8 @@ if ($is_bet_add === true) {
 
 if (!empty($lot)) {
   $index = false;
-  $title = $lot['name'];
+
+  $title = $form_defaults[$check_key]['title'];
 
   if (!empty($my_bets)) {
     $bet_made = array_key_exists($lot_id, $my_bets) ? true : false;
@@ -426,6 +428,8 @@ if (isset($_GET['lot_add']) || $is_lot_add === false) {
     'errors_upload' => $errors_upload
 
   ]);
+  $errors = [];
+  $form_data = [];
 }
 
 if (!empty($index)) {
@@ -434,14 +438,15 @@ if (!empty($index)) {
     'categories' => $categories, 'lots' => $lots
   ]);
 }
+var_dump($_SESSION);
 
-$form_data = [];
-$errors = [];
 
 print include_template('templates/layout.php', [
   'index' => $index, 'title' => $title, 'content' => $content, 'is_auth' => $is_auth,
-  'url' => $url, 'name' => $name, 'categories' => $categories, 'year_now' => $year_now
+  'url' => $user_url, 'name' => $user_name, 'categories' => $categories, 'year_now' => $year_now
 ]);
+
+
 
 
 
