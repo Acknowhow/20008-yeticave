@@ -47,7 +47,7 @@ $form_errors = [
   ],
   // Add lot
   'lot_add' => [
-    'lot' => [
+    'name' => [
 
       'empty' => 'Введите наименование лота'
     ],

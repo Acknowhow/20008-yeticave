@@ -61,7 +61,7 @@ $login_keys = [
 ];
 
 $lot_keys = [
-  'lot', 'description', 'url',
+  'name', 'description', 'url',
   'category', 'rate', 'step', 'date_end'
 ];
 
@@ -223,6 +223,8 @@ if (isset($_POST['bet_add'])) {
 $_SESSION['form_data'] = $form_data[$check_key];
 $_SESSION['errors'] = $errors[$check_key];
 $_SESSION['errors_upload'] = $errors_upload[$check_key];
+
+
 
 
 $result = count($errors[$check_key]) || isset($errors['file']) ?

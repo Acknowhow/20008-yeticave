@@ -4,14 +4,14 @@
   <h2>Добавление лота</h2>
 
   <div class="form__container-two">
-    <div class="form__item <?if (!empty($errors['lot'])) : ?>form__item--invalid<? endif; ?>">
+    <div class="form__item <?if (!empty($errors['name'])) : ?>form__item--invalid<? endif; ?>">
       <label for="<?=$lot['name']; ?>"><?=$lot['title']; ?></label>
       <input id="<?=$lot['name']; ?>"
              type="text"
              name="<?=$lot['name']; ?>"
              placeholder="<?=$lot['placeholder']; ?>"
              value="<?=htmlspecialchars($lot['input']); ?>">
-      <span class="form__error"><?if (isset($errors['lot'])) : ?><?=$errors['lot']; ?><? endif; ?></span>
+      <span class="form__error"><?if (!empty($errors['name'])) : ?><?=$errors['name']; ?><? endif; ?></span>
     </div>
 
     <div class="form__item <?if (!empty($errors['category'])) : ?>form__item--invalid<? endif; ?>">

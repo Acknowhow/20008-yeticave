@@ -32,6 +32,8 @@ $form_data = isset($_SESSION['form_data']) ?
 
 $defaults = [];
 
+
+
 // Templates
 $index = true;
 $is_nav = null;
@@ -376,14 +378,13 @@ if (!empty($lot)) {
   $index = false;
   $check_key = 'lot_add';
 
-  var_dump($lot);
-
-  var_dump($nav);
   $title = $form_defaults[$check_key]['lot']['title'];
 
   if (!empty($my_bets)) {
     $bet_made = array_key_exists($lot_id, $my_bets) ? true : false;
   }
+
+
   // Here must set current bet value instead of id
   $content = include_template('templates/lot.php', [
     'nav' => $nav, 'is_auth' => $is_auth,
@@ -440,8 +441,7 @@ if (isset($_GET['lot_add']) || $is_lot_add === false) {
     'errors_upload' => $errors_upload
 
   ]);
-  $errors = [];
-  $form_data = [];
+
 }
 
 if (!empty($index)) {
